@@ -4,11 +4,11 @@
 
 int main() {
 	
-	Tela * jogo = new Tela();
+	Tela * fase = new Tela();
 
-	jogo->imprimir();
+	fase->imprimir();
 
-	delete jogo;
+	delete fase;
 
 	return 0;
 }
