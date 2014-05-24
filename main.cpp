@@ -1,14 +1,14 @@
-#include <iostream>
+#include <iostream> // biblioteca padrão I/O do C++
 
 #include "Tela.h" // Inclusão da Biblioteca da Classe
 
 int main() {
 	
-	Tela * fase = new Tela();
+	Tela * jogo = new Tela();
 
-	fase->imprimir();
+	jogo->imprimir();
 
-	delete fase;
+	delete jogo;
 
 	return 0;
 }
