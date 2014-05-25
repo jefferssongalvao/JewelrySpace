@@ -85,30 +85,30 @@ using std::cout; // inclusão do metódo cout do namespace std
 
 // Verifica se tem combinações (3 ou mais peças) possíveis
 	// Verifica Linha
-		bool Tela::checkLine(int x) const {
-			int elemento = matriz[x][0], cont = 0;
+		bool Tela::checkLine(int x) {
+			int elemento = getElement(x, 0), cont = 0;
 			for (int i = 1; i < eixoX; ++i) {
-				if(elemento == matriz[x][i])
+				if(elemento == matriz[x][i]) {
 					cont++;
-				else {
-					if(cont > 1) return true;
-					else
-						elemento = matriz[x][i];
+				} else {
+					if(cont > 1)
+						return true;
+					elemento = matriz[x][i];
 					cont = 0;
 				}
 			}
 			return false;
 		}
 	// Verifica Coluna
-		bool Tela::checkColumn(int y) const {
-			int elemento = matriz[0][y], cont = 0;
+		bool Tela::checkColumn(int y) {
+			int elemento = getElement(0, y), cont = 0;
 			for (int i = 1; i < eixoY; ++i) {
-				if(elemento == matriz[i][y])
+				if(elemento == getElement(i, y))
 					cont++;
 				else {
-					if(cont > 1) return true;
-					else
-						elemento = matriz[i][y];
+					if(cont > 1)
+						return true;
+					elemento = matriz[i][y];
 					cont = 0;
 				}
 			}
@@ -116,13 +116,20 @@ using std::cout; // inclusão do metódo cout do namespace std
 		}
 	// Verifica a troca
 		bool Tela::checkSwitch(int x1, int y1, int x2, int y2) {
+			bool flag;
+			
 			switchElements(x1, y1, x2, y2);
-			if(checkLine(x1) || checkColumn(y1) || checkLine(x2) || checkColumn(y2))
+
+			if(checkLine(x1)) flag = true;
+			if(checkColumn(y1)) flag = true;
+			if(checkLine(x2)) flag = true;
+			if(checkColumn(y2)) flag = true;
+			
+			if(flag)
 				return true;
-			else {
-				switchElements(x2, y2, x1, y1);
-				return false;
-			}
+
+			switchElements(x2, y2, x1, y1);
+			return false;
 		}
 
 

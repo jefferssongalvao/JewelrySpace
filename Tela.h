@@ -1,12 +1,15 @@
 #ifndef _TELA_H_
 	#define _TELA_H_
 
+		#include "Pilha.h" // Inclusão da Biblioteca da Classe Pilha
+
 		//Tamanho da Tela
 			#define eixoX 8
 			#define eixoY 8
 
 		class Tela {
 			int matriz[eixoX][eixoY];
+			Pilha * pilha;
 			public:
 				Tela(); // Construtor Padrão
 				Tela(int qtdElementos); // Construtor com Parâmetros (serve para construir novas fases)
@@ -20,9 +23,9 @@
 
 				// Verifica se tem combinações (3 ou mais peças) possíveis
 					// Verifica Linha
-						bool checkLine(int x) const;
+						bool checkLine(int x);
 					// Verifica Coluna
-						bool checkColumn(int y) const;
+						bool checkColumn(int y);
 					// Verifica a troca
 						bool checkSwitch(int x1, int y1, int x2, int y2);
 
