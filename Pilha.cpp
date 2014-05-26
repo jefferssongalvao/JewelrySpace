@@ -24,3 +24,10 @@ void Pilha::push(Ponto element) {
 		cout << "Pilha esta cheia!\n";
 }
 void Pilha::clearStack() { size = 0; }
+
+void Pilha::setSize(int n) { 
+	if(size >= n)
+		 size -= n; 
+}
+
+int Pilha::getSize() { return size; }

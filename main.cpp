@@ -2,11 +2,13 @@
 #include <cstdlib> // para uso do system clear
 
 #include "Tela.h" // Inclusão da Biblioteca da Classe
+#include "Pilha.h"
+#include "Ponto.h"
 
 using namespace std;
 
 int main() {
-	
+
 	Tela * jogo = new Tela();
 	int x1, y1, x2, y2;
 

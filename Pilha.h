@@ -9,9 +9,14 @@
 			public:
 				Pilha();
 				~Pilha();
+
 				Ponto pop();
 				void push(Ponto element);
 				void clearStack();
+
+				void setSize(int n);
+				int getSize();
+				
 		};
 		
 #endif

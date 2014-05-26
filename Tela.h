@@ -1,6 +1,7 @@
 #ifndef _TELA_H_
 	#define _TELA_H_
 
+		#include <iostream>
 		#include "Pilha.h" // Inclusão da Biblioteca da Classe Pilha
 
 		//Tamanho da Tela
