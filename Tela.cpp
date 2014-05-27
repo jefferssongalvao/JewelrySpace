@@ -1,5 +1,6 @@
 #include <iostream> // biblioteca padrão i/o do c++
 #include <cstdlib> // para uso da função rand()
+#include <ctime> // para uso da função rand()
 
 #include "Tela.h" // Inclusão da Biblioteca da Classe
 #include "Pilha.h" // Inclusão da Biblioteca da Classe
@@ -10,11 +11,9 @@ using std::cout; // inclusão do metódo cout do namespace std
 // Construtro Padrão
 	Tela::Tela() {
 
-		srand(time(NULL));
-
 		int elemento, rep;
 
-		qtdElementos = 3;
+		qtdElementos = 5;
 
 		pontos = new Pilha();
 		for(int i = 0; i < eixoX; i++) {
@@ -44,8 +43,6 @@ using std::cout; // inclusão do metódo cout do namespace std
 
 // Construtor com Parâmetros
 	Tela::Tela(int qtd) {
-
-		srand(time(NULL));
 
 		int elemento, rep;
 
@@ -115,6 +112,31 @@ using std::cout; // inclusão do metódo cout do namespace std
 		moveElement(ponto);
 	}
 
+// Sistema de pontuação
+	int Tela::point() {
+		int maiorX = 0, v[8], i = 0, pontuacao = 0;
+		bool dif, check = true;
+		Ponto ponto;
+
+		while(check){
+			while(pontos->getSize()) {
+				pontuacao++;
+				ponto = pontos->pop();
+				if(ponto.x > maiorX) maiorX = ponto.x;
+				dif = true;
+				for(int j = 0; j < i; j++) {
+					if(v[j] == ponto.y) dif = false;
+				}
+				if(dif) v[i++] = ponto.y;
+				moveElement(ponto);
+			}
+			check = checkAfter(maiorX, v, i);
+		}
+
+		return pontuacao;
+
+	}
+
 // Verifica se tem combinações (3 ou mais peças) possíveis
 	// Verifica Linha
 		bool Tela::checkLine(int x) {
@@ -170,8 +192,8 @@ using std::cout; // inclusão do metódo cout do namespace std
 			ponto.y = y;
 			pontos->push(ponto);
 
-			for (int i = eixoX-2; i >= 0; --i) {
-				if(i == 0){
+			for (int i = eixoX-2; i >= -1; --i) {
+				if(i < 0){
 					if(cont > 2)
 						flag = true;
 					else {
@@ -204,12 +226,11 @@ using std::cout; // inclusão do metódo cout do namespace std
 		}
 	// Verifica a troca
 		bool Tela::checkSwitch(int x1, int y1, int x2, int y2) {
-			bool flag;
+			bool flag = false;
 			int maxLin, maxCol;
 			
 			switchElements(x1, y1, x2, y2);
 
-			Ponto ponto;
 
 			if(checkLine(x1)) flag = true;
 			if(checkColumn(y1)) flag = true;
@@ -217,16 +238,19 @@ using std::cout; // inclusão do metódo cout do namespace std
 			if(y1 != y2 && checkColumn(y2)) flag = true;
 			
 			if(flag) {
-				cout << "\n";
-				print();
-				pontos->imprimir();
-				while(pontos->getSize()) {
-					ponto = pontos->pop();
-					moveElement(ponto);
-				}
+				cout << "Marcou " << point() << " pontos.\n"; // Monta a pontuação
 				return true;
 			}
 
 			switchElements(x2, y2, x1, y1);
 			return false;
+		}
+	// Verifica após a troca
+		bool Tela::checkAfter(int maxX, int * v, int n) {
+			bool flag = false;
+			for (int i = 0; i <= maxX; ++i)
+				if(checkLine(i)) flag = true;
+			for (int i = 0; i < n; ++i)
+				if(checkColumn(v[i])) flag = true;
+			return flag;
 		}

@@ -23,8 +23,8 @@
 					void setElement(int x, int y, int element);
 
 				void switchElements(int x1, int y1, int x2, int y2); // troca elementos de posição
-
 				void moveElement(Ponto ponto); // Movimento de elementos após pontuar
+				int point(); // Sistema de pontuação
 
 				// Verifica se tem combinações (3 ou mais peças) possíveis
 					// Verifica Linha
@@ -34,7 +34,7 @@
 					// Verifica a troca
 						bool checkSwitch(int x1, int y1, int x2, int y2);
 					// Verifica após a troca
-						void checkAfter();
+						bool checkAfter(int maxX, int * v, int n);
 
 
 				void print() const; // Função para imprimir a matriz
