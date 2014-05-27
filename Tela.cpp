@@ -14,9 +14,9 @@ using std::cout; // inclusão do metódo cout do namespace std
 
 		int elemento, rep;
 
-		int qtdElementos = 3;
+		qtdElementos = 3;
 
-		pilha = new Pilha();
+		pontos = new Pilha();
 		
 		for(int i = 0; i < eixoX; i++) {
 			rep = 0;
@@ -44,13 +44,15 @@ using std::cout; // inclusão do metódo cout do namespace std
 	}
 
 // Construtor com Parâmetros
-	Tela::Tela(int qtdElementos) {
+	Tela::Tela(int qtd) {
 
 		srand(time(NULL));
 
 		int elemento, rep;
+
+		qtdElementos = qtd;
 		
-		pilha = new Pilha();
+		pontos = new Pilha();
 
 		for(int i = 0; i < eixoX; i++) {
 			rep = 0;
@@ -89,6 +91,21 @@ using std::cout; // inclusão do metódo cout do namespace std
 		setElement(x2, y2, aux);
 	}
 
+// Movimento de elementos após pontuar
+	void Tela::moveElement(Ponto ponto) {
+		int elemento;
+
+		if(ponto.x == 0) {
+			elemento = (rand() % qtdElementos) + 1;
+			setElement(ponto.x, ponto.y, elemento);	
+			return;
+		}
+
+		elemento = getElement(ponto.x-1, ponto.y);
+		setElement(ponto.x--, ponto.y, elemento);
+		moveElement(ponto);
+	}
+
 // Verifica se tem combinações (3 ou mais peças) possíveis
 	// Verifica Linha
 		bool Tela::checkLine(int x) {
@@ -100,32 +117,32 @@ using std::cout; // inclusão do metódo cout do namespace std
 			ponto.x = x;
 			ponto.y = 0;
 
-			pilha->push(ponto);
+			pontos->push(ponto);
 
 			for (int i = 1; i <= eixoX; ++i) {
 				if(i == eixoX){
 					if(cont > 2)
 						flag = true;
 					else {
-						pilha->setSize(cont);
+						pontos->setSize(cont);
 					}
 				} else {
 					if(elemento == getElement(x, i)) {
 						ponto.x = x;
 						ponto.y = i;
 
-						pilha->push(ponto);
+						pontos->push(ponto);
 
 						cont++;
 					} else {
 						if(cont > 2)
 							flag = true;
 						else {
-							pilha->setSize(cont);
+							pontos->setSize(cont);
 						}
 						ponto.x = x;
 						ponto.y = i;
-						pilha->push(ponto);
+						pontos->push(ponto);
 
 						elemento = getElement(x, i);
 						cont = 1;
@@ -142,32 +159,32 @@ using std::cout; // inclusão do metódo cout do namespace std
 
 			ponto.x = 0;
 			ponto.y = y;
-			pilha->push(ponto);
+			pontos->push(ponto);
 
-			for (int i = 1; i < eixoY; ++i) {
+			for (int i = 1; i <= eixoY; ++i) {
 				if(i == eixoY){
 					if(cont > 2)
 						flag = true;
 					else {
-						pilha->setSize(cont);
+						pontos->setSize(cont);
 					}
 				} else {
 					if(elemento == getElement(i, y)) {
 						ponto.x = i;
 						ponto.y = y;
 
-						pilha->push(ponto);
+						pontos->push(ponto);
 
 						cont++;
 					} else {
 						if(cont > 2)
 							flag = true;
 						else {
-							pilha->setSize(cont);
+							pontos->setSize(cont);
 						}
 						ponto.x = i;
 						ponto.y = y;
-						pilha->push(ponto);
+						pontos->push(ponto);
 
 						elemento = getElement(i, y);
 						cont = 1;
@@ -190,9 +207,9 @@ using std::cout; // inclusão do metódo cout do namespace std
 			if(checkColumn(y2)) flag = true;
 			
 			if(flag) {
-				while(pilha->getSize()) {
-					ponto = pilha->pop();
-					setElement(ponto.x, ponto.y, 0);
+				while(pontos->getSize()) {
+					ponto = pontos->pop();
+					moveElement(ponto);
 				}
 				return true;
 			}
@@ -200,7 +217,6 @@ using std::cout; // inclusão do metódo cout do namespace std
 			switchElements(x2, y2, x1, y1);
 			return false;
 		}
-
 
  // Função para imprimir a matriz
 	void Tela::print() const {
