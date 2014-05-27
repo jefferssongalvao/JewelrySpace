@@ -16,6 +16,8 @@
 
 				void setSize(int n);
 				int getSize();
+
+				void imprimir();
 				
 		};
 		

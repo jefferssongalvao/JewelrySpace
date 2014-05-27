@@ -33,6 +33,8 @@
 						bool checkColumn(int y);
 					// Verifica a troca
 						bool checkSwitch(int x1, int y1, int x2, int y2);
+					// Verifica após a troca
+						void checkAfter();
 
 
 				void print() const; // Função para imprimir a matriz

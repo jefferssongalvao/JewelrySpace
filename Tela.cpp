@@ -17,7 +17,6 @@ using std::cout; // inclusão do metódo cout do namespace std
 		qtdElementos = 3;
 
 		pontos = new Pilha();
-		
 		for(int i = 0; i < eixoX; i++) {
 			rep = 0;
 			for(int j = 0; j < eixoY; j++) {
@@ -83,6 +82,16 @@ using std::cout; // inclusão do metódo cout do namespace std
 	int Tela::getElement(int x, int y) const { return matriz[x][y]; }
 // metódo SET
 	void Tela::setElement(int x, int y, int element) { matriz[x][y] = element; }
+
+// Função para imprimir a matriz
+	void Tela::print() const {
+		for(int i = 0; i < eixoX; i++) {
+			for(int j = 0; j < eixoY; j++) {
+				cout << getElement(i, j) << " ";
+			}
+			cout << "\n";		
+		}
+	}		
 
  // troca elementos de posição
 	void Tela::switchElements(int x1, int y1, int x2, int y2) {
@@ -153,16 +162,16 @@ using std::cout; // inclusão do metódo cout do namespace std
 		}
 	// Verifica Coluna
 		bool Tela::checkColumn(int y) {
-			int elemento = getElement(0, y), cont = 1;
+			int elemento = getElement(eixoX-1, y), cont = 1;
 			bool flag = false;
 			Ponto ponto;
 
-			ponto.x = 0;
+			ponto.x = eixoX-1;
 			ponto.y = y;
 			pontos->push(ponto);
 
-			for (int i = 1; i <= eixoY; ++i) {
-				if(i == eixoY){
+			for (int i = eixoX-2; i >= 0; --i) {
+				if(i == 0){
 					if(cont > 2)
 						flag = true;
 					else {
@@ -196,6 +205,7 @@ using std::cout; // inclusão do metódo cout do namespace std
 	// Verifica a troca
 		bool Tela::checkSwitch(int x1, int y1, int x2, int y2) {
 			bool flag;
+			int maxLin, maxCol;
 			
 			switchElements(x1, y1, x2, y2);
 
@@ -203,10 +213,13 @@ using std::cout; // inclusão do metódo cout do namespace std
 
 			if(checkLine(x1)) flag = true;
 			if(checkColumn(y1)) flag = true;
-			if(checkLine(x2)) flag = true;
-			if(checkColumn(y2)) flag = true;
+			if(x1 != x2 && checkLine(x2)) flag = true;
+			if(y1 != y2 && checkColumn(y2)) flag = true;
 			
 			if(flag) {
+				cout << "\n";
+				print();
+				pontos->imprimir();
 				while(pontos->getSize()) {
 					ponto = pontos->pop();
 					moveElement(ponto);
@@ -217,13 +230,3 @@ using std::cout; // inclusão do metódo cout do namespace std
 			switchElements(x2, y2, x1, y1);
 			return false;
 		}
-
- // Função para imprimir a matriz
-	void Tela::print() const {
-		for(int i = 0; i < eixoX; i++) {
-			for(int j = 0; j < eixoY; j++) {
-				cout << matriz[i][j] << " ";
-			}
-			cout << "\n";		
-		}
-	}
