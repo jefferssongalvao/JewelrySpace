@@ -123,15 +123,12 @@ using std::cout; // inclusão do metódo cout do namespace std
 						else {
 							pilha->setSize(cont);
 						}
-						if(i < eixoX-1) {
+						ponto.x = x;
+						ponto.y = i;
+						pilha->push(ponto);
 
-							ponto.x = x;
-							ponto.y = i;
-							pilha->push(ponto);
-
-							elemento = getElement(x, i);
-							cont = 1;
-						}
+						elemento = getElement(x, i);
+						cont = 1;
 					}
 				}
 			}
@@ -168,15 +165,12 @@ using std::cout; // inclusão do metódo cout do namespace std
 						else {
 							pilha->setSize(cont);
 						}
-						if(i < eixoY-1) {
+						ponto.x = i;
+						ponto.y = y;
+						pilha->push(ponto);
 
-							ponto.x = i;
-							ponto.y = y;
-							pilha->push(ponto);
-
-							elemento = getElement(i, y);
-							cont = 1;
-						}
+						elemento = getElement(i, y);
+						cont = 1;
 					}
 				}
 			}
