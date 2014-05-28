@@ -1,18 +1,30 @@
 #include <iostream> // biblioteca padrão I/O do C++
 #include <cstdlib> // para uso do system clear
+#include <string> // para o nome do usuário do jogo
 
+#include "Usuario.h"
 #include "Tela.h" // Inclusão da Biblioteca da Classe
 #include "Pilha.h"
 #include "Ponto.h"
 
-using namespace std;
+using std::cout;
+using std::cin;
+using std::string;
 
 int main() {
 
-	Tela * jogo = new Tela();
 	int x1, y1, x2, y2;
+	Tela * jogo = new Tela();
+
+	string str; // para o nome do usuario
+	cout << "Digite o seu nome: ";
+	getline(cin, str);
+
+	jogo->setUsuario(str);
+
 
 	system("clear");
+
 	jogo->print();
 	
 	while(cin >> x1 >> y1) {

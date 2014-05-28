@@ -1,12 +1,4 @@
-#include <iostream> // biblioteca padrão i/o do c++
-#include <cstdlib> // para uso da função rand()
-#include <ctime> // para uso da função rand()
-
 #include "Tela.h" // Inclusão da Biblioteca da Classe
-#include "Pilha.h" // Inclusão da Biblioteca da Classe
-#include "Ponto.h" // Inclusão da Biblioteca da Classe
-
-using std::cout; // inclusão do metódo cout do namespace std
 
 // Construtro Padrão
 	Tela::Tela() {
@@ -14,6 +6,8 @@ using std::cout; // inclusão do metódo cout do namespace std
 		int elemento, rep;
 
 		qtdElementos = 5;
+
+		srand(time(NULL));
 
 		pontos = new Pilha();
 		for(int i = 0; i < eixoX; i++) {
@@ -50,6 +44,8 @@ using std::cout; // inclusão do metódo cout do namespace std
 		
 		pontos = new Pilha();
 
+		srand(time(NULL));
+
 		for(int i = 0; i < eixoX; i++) {
 			rep = 0;
 			for(int j = 0; j < eixoY; j++) {
@@ -79,9 +75,11 @@ using std::cout; // inclusão do metódo cout do namespace std
 	int Tela::getElement(int x, int y) const { return matriz[x][y]; }
 // metódo SET
 	void Tela::setElement(int x, int y, int element) { matriz[x][y] = element; }
+	void Tela::setUsuario(string str) { user = new Usuario(str); }
 
 // Função para imprimir a matriz
 	void Tela::print() const {
+		cout << "Usuario: " << user->getNome() << " | Pontos: " << user->getPontuacao() << "\n";
 		for(int i = 0; i < eixoX; i++) {
 			for(int j = 0; j < eixoY; j++) {
 				cout << getElement(i, j) << " ";
@@ -114,23 +112,25 @@ using std::cout; // inclusão do metódo cout do namespace std
 
 // Sistema de pontuação
 	int Tela::point() {
-		int maiorX = 0, v[8], i = 0, pontuacao = 0;
+		int maiorX = 0, cols[8], i = 0, pontuacao = 0;
 		bool dif, check = true;
 		Ponto ponto;
 
 		while(check){
+			// cout << "\nAntes de pontuar: \n"; print();
 			while(pontos->getSize()) {
-				pontuacao++;
+				pontuacao += 5;
 				ponto = pontos->pop();
 				if(ponto.x > maiorX) maiorX = ponto.x;
 				dif = true;
 				for(int j = 0; j < i; j++) {
-					if(v[j] == ponto.y) dif = false;
+					if(cols[j] == ponto.y) dif = false;
 				}
-				if(dif) v[i++] = ponto.y;
+				if(dif) cols[i++] = ponto.y;
 				moveElement(ponto);
 			}
-			check = checkAfter(maiorX, v, i);
+			// cout << "\nDepois de pontuar: \n"; print();
+			check = checkAfter(maiorX, cols, i);
 		}
 
 		return pontuacao;
@@ -227,7 +227,6 @@ using std::cout; // inclusão do metódo cout do namespace std
 	// Verifica a troca
 		bool Tela::checkSwitch(int x1, int y1, int x2, int y2) {
 			bool flag = false;
-			int maxLin, maxCol;
 			
 			switchElements(x1, y1, x2, y2);
 
@@ -238,7 +237,12 @@ using std::cout; // inclusão do metódo cout do namespace std
 			if(y1 != y2 && checkColumn(y2)) flag = true;
 			
 			if(flag) {
-				cout << "Marcou " << point() << " pontos.\n"; // Monta a pontuação
+				int novosPontos = point();
+				
+				cout << "Marcou " << novosPontos << " pontos.\n"; // Monta a pontuação
+
+				user->setPontuacao(novosPontos);
+
 				return true;
 			}
 
