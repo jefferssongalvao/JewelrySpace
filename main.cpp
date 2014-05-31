@@ -1,6 +1,8 @@
 #include <iostream> // biblioteca padrão I/O do C++
 #include <cstdlib> // para uso do system clear
 #include <string> // para o nome do usuário do jogo
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 
 #include "Usuario.h"
 #include "Tela.h" // Inclusão da Biblioteca da Classe
@@ -13,34 +15,40 @@ using std::string;
 
 int main() {
 
-	int x1, y1, x2, y2;
-	Tela * jogo = new Tela();
+    Tela * jogo = new Tela();
 
-	string str; // para o nome do usuario
-	cout << "Digite o seu nome: ";
-	getline(cin, str);
+    string str; // para o nome do usuario
+    cout << "Digite o seu nome: ";
+    getline(cin, str);
 
-	jogo->setUsuario(str);
+    jogo->setUsuario(str);
 
+    system("clear");
 
-	system("clear");
+    //Quit flag
+    bool quit = false;
 
-	jogo->print();
-	
-	while(cin >> x1 >> y1) {
-		if(x1 < 0 || y1 < 0) break;
+    //Initialize
+    if( jogo->init() == false )
+    {
+        return 1;
+    }
 
-		cin >> x2 >> y2;
+    //Load the files
+    if( jogo->load_files() == false )
+    {
+        return 1;
+    }
 
-		system("clear");
+    //Inicia o jogo
+    jogo->handle_events();
+    
+    //Clean up
+    jogo->clean_up();
 
-		jogo->print();
-		if(jogo->checkSwitch(x1, y1, x2, y2)) cout << "Pontos marcados!\n"; else cout << "Movimento inválido\n";
-		jogo->print();
+    std::cout << "Sua pontuacao foi: " << jogo->getPontuacao() << std::endl;
 
-	}
-
-	delete jogo;
+    delete jogo;
 
 	return 0;
 }
