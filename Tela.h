@@ -59,7 +59,7 @@
             SDL_Event event;
 
 				Tela(); // Construtor Padrão
-				Tela(int qtdElementos); // Construtor com Parâmetros (serve para construir novas fases)
+				void fillMatriz(int n);
 
 				// metódo GET
 					int getElement(int x, int y) const;

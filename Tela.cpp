@@ -2,16 +2,16 @@
 
 // Construtor Padrão
 	Tela::Tela() {
-
-		int elemento, rep;
-
-		qtdElementos = 5;
-
-		srand(time(NULL));
-
         set_clips();
-
 		pontos = new Pilha();
+		fillMatriz(5);
+	}
+
+	void Tela::fillMatriz(int n) {
+		int elemento, rep;
+		srand(time(NULL));
+		
+		qtdElementos = n;
 		for(int i = 0; i < linhasMatriz; i++) {
 			rep = 0;
 			for(int j = 0; j < colunasMatriz; j++) {
@@ -19,44 +19,6 @@
 				if(rep == 0) {
 					if(i > 1) {
                         while((matriz[i-1][j].elemento == elemento) && (matriz[i-2][j].elemento == elemento))
-							elemento = (rand() % qtdElementos) + 1;
-					}
-                    if(j > 0 && matriz[i][j-1].elemento == elemento) rep++;
-				} else {
-					if(i > 1) {
-                        while(matriz[i-1][j].elemento == elemento && matriz[i-2][j].elemento == elemento || matriz[i][j-1].elemento == elemento)
-							elemento = (rand() % qtdElementos) + 1;
-					} else {
-                        while(matriz[i][j-1].elemento == elemento)
-							elemento = (rand() % qtdElementos) + 1;
-					}
-					rep = 0;
-				}
-                initializeGem(i, j, elemento);
-			}
-		}
-	}
-
-// Construtor com Parâmetros
-	Tela::Tela(int qtd) {
-
-		int elemento, rep;
-
-		qtdElementos = qtd;
-		
-		pontos = new Pilha();
-
-		srand(time(NULL));
-
-        set_clips();
-
-		for(int i = 0; i < linhasMatriz; i++) {
-			rep = 0;
-			for(int j = 0; j < colunasMatriz; j++) {
-				elemento = (rand() % qtdElementos) + 1;
-				if(rep == 0) {
-					if(i > 1) {
-                        while(matriz[i-1][j].elemento == elemento && matriz[i-2][j].elemento == elemento)
 							elemento = (rand() % qtdElementos) + 1;
 					}
                     if(j > 0 && matriz[i][j-1].elemento == elemento) rep++;
