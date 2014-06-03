@@ -32,7 +32,7 @@
         const int MAT_INITIAL_POINT_Y = 120;
 
         //Enumeração para representar joias
-        enum { RED, WHITE, GREEN, BLUE, GRAY, PURPLE, YELLOW, ORANGE };
+        enum { RED = 1, WHITE, GREEN, BLUE, GRAY, PURPLE, YELLOW, ORANGE };
 
 		using std::cout; // inclusão do metódo cout do namespace std
 		using std::string; // inclusão da classe string da STL
@@ -41,6 +41,7 @@
 
             Gems matriz[linhasMatriz][colunasMatriz]; //Matriz de joias
 			int qtdElementos;
+			int bonus; // peça que será considerada ponto dobrado.
 
 			Pilha * pontos; // pontos que foram marcados após um movimento
 			Pilha * possibilidades; // possibilidades de pontuação
@@ -67,6 +68,7 @@
 					int getElement(int x, int y) const;
 					int getPontuacao() const;
 					Ponto getDica() const;
+					void getBonus() const;
 				// metódo SET
 					void setElement(int x, int y, int element);
 					void setUsuario(string str);

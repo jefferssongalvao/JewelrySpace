@@ -4,13 +4,14 @@
 	Tela::Tela() {
         set_clips();
 		pontos = new Pilha();
-		fillMatriz(8);
+		fillMatriz(5);
 	}
 
 	void Tela::fillMatriz(int n) {
 		int elemento, rep;
 		srand(time(NULL));
 		qtdElementos = n;
+		bonus = (rand() % qtdElementos) + 1;
 		for(int i = 0; i < linhasMatriz; i++) {
 			rep = 0;
 			for(int j = 0; j < colunasMatriz; j++) {
@@ -40,6 +41,34 @@
     int Tela::getElement(int x, int y) const { return matriz[x][y].elemento; }
     int Tela::getPontuacao() const { return user->getPontuacao(); }
     Ponto Tela::getDica() const { return dica; }
+    void Tela::getBonus() const {
+    	switch(bonus) {
+    		case RED:
+	            cout << "O bonus é a peça Vermelha.\n";
+    			break;
+    		case WHITE:
+	            cout << "O bonus é a peça Branca.\n";
+    			break;
+    		case GREEN:
+	            cout << "O bonus é a peça Verde.\n";
+    			break;
+    		case BLUE:
+	            cout << "O bonus é a peça Azul.\n";
+    			break;
+    		case GRAY:
+	            cout << "O bonus é a peça Cinza.\n";
+    			break;
+    		case PURPLE:
+	            cout << "O bonus é a peça Roxa.\n";
+    			break;
+    		case YELLOW:
+	            cout << "O bonus é a peça Amarela.\n";
+    			break;
+    		case ORANGE:
+	            cout << "O bonus é a peça Laranja.\n";
+    			break;
+    	}
+    }
 // metódo SET
     void Tela::setElement(int x, int y, int element) { setClip(x, y, element); }
 	void Tela::setUsuario(string str) { user = new Usuario(str); }
@@ -68,14 +97,18 @@
 
 // Sistema de pontuação
 	int Tela::point() {
-		int maiorX = 0, cols[8], i = 0, pontuacao = 0;
+		int maiorX = 0, cols[8], i = 0, pontuacao = 0, elemento;
 		bool dif, check = true;
 		Ponto ponto;
 
 		while(check){
 			while(pontos->getSize()) {
-				pontuacao += 5;
 				ponto = pontos->pop();
+				elemento = getElement(ponto.x, ponto.y);
+				if(elemento == bonus) 
+					pontuacao += 10;
+				else
+					pontuacao += 5;
 				if(ponto.x > maiorX) maiorX = ponto.x;
 				dif = true;
 				for(int j = 0; j < i; j++) {
@@ -394,6 +427,7 @@
         void Tela::handle_events() {
 		    Ponto p1 = {-1, -1}, p2 = {-1, -1};
 		    bool quit = false;
+            getBonus();
 		    showGame();
             if(testMove() == false) quit = true;
 		    while( (quit == false) ) {
