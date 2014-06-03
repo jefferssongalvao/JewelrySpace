@@ -435,32 +435,29 @@
 
 		            Ponto tmp;
 
-		            //If a mouse button was pressed
-		            if( event.type == SDL_MOUSEBUTTONDOWN ) {
-		                //If the left mouse button was pressed
-		                if( event.button.button == SDL_BUTTON_LEFT ) {
-		                    //Get the mouse offsets
-		                    tmp.x = event.button.x;
-		                    tmp.y = event.button.y;
-		                    if((tmp.x >= MAT_INITIAL_POINT_X && tmp.x <= MAT_INITIAL_POINT_X + 480) && (tmp.y >= MAT_INITIAL_POINT_Y && tmp.y <= MAT_INITIAL_POINT_Y + 480)) {
-			                    tmp.x = (tmp.x - MAT_INITIAL_POINT_X) / 60;
-			                    tmp.y = (tmp.y - MAT_INITIAL_POINT_Y) / 60;
-				                if(p1.x < 0) {
-				                    p1.x = tmp.y; //Precisa ser invertido
-				                    p1.y = tmp.x;
-				                } else if(p2.x < 0) {
-				                	if(saoAdjacentes(p1.x, p1.y, tmp.y, tmp.x)) {
-					                    p2.x = tmp.y; //Precisa ser invertido
-					                    p2.y = tmp.x;
-				                	} else {
-				                		//Ignora selecao
-				                		p1.x = tmp.y;
-						                p1.y = tmp.x;
-				                	}
-				                }
-		                    }
-		                }
-		            } else if( event.type == SDL_QUIT) {
+		            //If the left mouse button was pressed
+		            if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+	                    //Get the mouse offsets
+	                    tmp.x = event.button.x;
+	                    tmp.y = event.button.y;
+	                    if((tmp.x >= MAT_INITIAL_POINT_X && tmp.x <= MAT_INITIAL_POINT_X + 480) && (tmp.y >= MAT_INITIAL_POINT_Y && tmp.y <= MAT_INITIAL_POINT_Y + 480)) {
+		                    tmp.x = (tmp.x - MAT_INITIAL_POINT_X) / 60;
+		                    tmp.y = (tmp.y - MAT_INITIAL_POINT_Y) / 60;
+			                if(p1.x < 0) {
+			                    p1.x = tmp.y; //Precisa ser invertido
+			                    p1.y = tmp.x;
+			                } else if(p2.x < 0) {
+			                	if(saoAdjacentes(p1.x, p1.y, tmp.y, tmp.x)) {
+				                    p2.x = tmp.y; //Precisa ser invertido
+				                    p2.y = tmp.x;
+			                	} else {
+			                		//Ignora selecao
+			                		p1.x = tmp.y;
+					                p1.y = tmp.x;
+			                	}
+			                }
+	                    }
+		            } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
 		                //Quit the program
 		                quit = true;
 	            	}
