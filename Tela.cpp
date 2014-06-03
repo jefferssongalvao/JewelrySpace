@@ -4,6 +4,8 @@
 	Tela::Tela() {
         set_clips();
 		pontos = new Pilha();
+		level = 1;
+		changedLevel = true;
 		fillMatriz(5);
 	}
 
@@ -69,6 +71,7 @@
     			break;
     	}
     }
+    int Tela::getLevel() const { return level; }
 // metódo SET
     void Tela::setElement(int x, int y, int element) { setClip(x, y, element); }
 	void Tela::setUsuario(string str) { user = new Usuario(str); }
@@ -427,10 +430,11 @@
         void Tela::handle_events() {
 		    Ponto p1 = {-1, -1}, p2 = {-1, -1};
 		    bool quit = false;
-            getBonus();
 		    showGame();
             if(testMove() == false) quit = true;
 		    while( (quit == false) ) {
+		    	if(changeLevel())
+		    		cout << "Você acabou de mudar para a fase " << getLevel() << ".\n";
 		        if( SDL_PollEvent( &event ) ) {
 
 		            Ponto tmp;
@@ -504,6 +508,7 @@
                             return;
                         SDL_Delay(25);
                     }
+	            getBonus();
             }
 
             void Tela::showScreen() {
@@ -579,4 +584,27 @@
 				}
 			}
 			return false;
+		}
+		bool Tela::changeLevel() {
+			if(changedLevel && user->getPontuacao() > 5000 && user->getPontuacao() < 15000) {
+				level = 2;
+				fillMatriz(6);
+				showGame();
+				changedLevel = false;
+			} else if(!changedLevel && user->getPontuacao() >= 15000 && user->getPontuacao() < 30000) {
+				level = 3;
+				fillMatriz(7);
+				showGame();
+				changedLevel = true;
+			} else if(changedLevel && user->getPontuacao() >= 30000 && user->getPontuacao() < 50000) {
+				level = 4;
+				fillMatriz(8);
+				showGame();
+				changedLevel = false;
+			} else if(!changedLevel && user->getPontuacao() >= 50000) {
+				level = 5;
+				fillMatriz(8);
+				showGame();
+				changedLevel = true;
+			}
 		}

@@ -42,9 +42,10 @@
             Gems matriz[linhasMatriz][colunasMatriz]; //Matriz de joias
 			int qtdElementos;
 			int bonus; // peça que será considerada ponto dobrado.
+			int level; // qual a fase o jogador está no momento
+			bool changedLevel; // variavel que determinará que uma fase foi alterada
 
 			Pilha * pontos; // pontos que foram marcados após um movimento
-			Pilha * possibilidades; // possibilidades de pontuação
 
             Usuario * user;
 
@@ -69,6 +70,7 @@
 					int getPontuacao() const;
 					Ponto getDica() const;
 					void getBonus() const;
+					int getLevel() const;
 				// metódo SET
 					void setElement(int x, int y, int element);
 					void setUsuario(string str);
@@ -112,6 +114,7 @@
                 void showScreen();
 
                 bool testMove(); // Algoritmos que buscará as possível jogadas
+                bool changeLevel(); //  para mudança das fases
 		};
 
 #endif
