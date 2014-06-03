@@ -461,6 +461,7 @@
 			                	}
 			                }
 	                    }
+	                //Se o usuario fechar a janela ou apertar a tecla ESC
 		            } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
 		                //Quit the program
 		                quit = true;
