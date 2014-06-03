@@ -584,22 +584,22 @@
 			return false;
 		}
 		bool Tela::changeLevel() {
-			if(changedLevel && user->getPontuacao() > 500 && user->getPontuacao() < 1000) {
+			if(changedLevel && user->getPontuacao() > 5000 && user->getPontuacao() < 15000) {
 				level = 2;
 				fillMatriz(6);
 				showGame();
 				changedLevel = false;
-			} else if(!changedLevel && user->getPontuacao() >= 1000 && user->getPontuacao() < 1500) {
+			} else if(!changedLevel && user->getPontuacao() >= 15000 && user->getPontuacao() < 30000) {
 				level = 3;
 				fillMatriz(7);
 				showGame();
 				changedLevel = true;
-			} else if(changedLevel && user->getPontuacao() >= 1500 && user->getPontuacao() < 2000) {
+			} else if(changedLevel && user->getPontuacao() >= 30000 && user->getPontuacao() < 50000) {
 				level = 4;
 				fillMatriz(8);
 				showGame();
 				changedLevel = false;
-			} else if(!changedLevel && user->getPontuacao() >= 2000) {
+			} else if(!changedLevel && user->getPontuacao() >= 50000) { // esse é o zerar do jogo
 				level = 5;
 				fillMatriz(8);
 				showGame();
