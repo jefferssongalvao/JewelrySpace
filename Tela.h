@@ -47,6 +47,8 @@
 
             Usuario * user;
 
+            Ponto dica;
+
 			public:
 
             //Superficies
@@ -64,6 +66,7 @@
 				// metódo GET
 					int getElement(int x, int y) const;
 					int getPontuacao() const;
+					Ponto getDica() const;
 				// metódo SET
 					void setElement(int x, int y, int element);
 					void setUsuario(string str);
@@ -105,6 +108,8 @@
                 void showGame(); // Função para começar o jogo
 
                 void showScreen();
+
+                bool testMove(); // Algoritmos que buscará as possível jogadas
 		};
 
 #endif

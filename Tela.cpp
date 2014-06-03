@@ -4,13 +4,12 @@
 	Tela::Tela() {
         set_clips();
 		pontos = new Pilha();
-		fillMatriz(5);
+		fillMatriz(8);
 	}
 
 	void Tela::fillMatriz(int n) {
 		int elemento, rep;
 		srand(time(NULL));
-		
 		qtdElementos = n;
 		for(int i = 0; i < linhasMatriz; i++) {
 			rep = 0;
@@ -40,6 +39,7 @@
 // metódo GET
     int Tela::getElement(int x, int y) const { return matriz[x][y].elemento; }
     int Tela::getPontuacao() const { return user->getPontuacao(); }
+    Ponto Tela::getDica() const { return dica; }
 // metódo SET
     void Tela::setElement(int x, int y, int element) { setClip(x, y, element); }
 	void Tela::setUsuario(string str) { user = new Usuario(str); }
@@ -73,7 +73,6 @@
 		Ponto ponto;
 
 		while(check){
-			// cout << "\nAntes de pontuar: \n"; print();
 			while(pontos->getSize()) {
 				pontuacao += 5;
 				ponto = pontos->pop();
@@ -87,10 +86,8 @@
 			}
 			showScreen();
 			SDL_Delay(1000);
-			// cout << "\nDepois de pontuar: \n"; print();
 			check = checkAfter(maiorX, cols, i);
 		}
-
 		return pontuacao;
 
 	}
@@ -398,6 +395,7 @@
 		    Ponto p1 = {-1, -1}, p2 = {-1, -1};
 		    bool quit = false;
 		    showGame();
+            if(testMove() == false) quit = true;
 		    while( (quit == false) ) {
 		        if( SDL_PollEvent( &event ) ) {
 
@@ -428,7 +426,7 @@
 				                }
 		                    }
 		                }
-		            } else if( event.type == SDL_QUIT ) {
+		            } else if( event.type == SDL_QUIT) {
 		                //Quit the program
 		                quit = true;
 	            	}
@@ -436,16 +434,19 @@
             	if((p1.x >= 0) && (p2.x >= 0)) {
 		            if(checkSwitch(p1.x, p1.y, p2.x, p2.y)) {
 		                cout << "Pontos marcados!\n";
-		                p1.x = -1;
-		                p1.y = -1;
-		                p2.x = -1;
-		                p2.y = -1;
 		            } else {
 		            	cout << "Movimento inválido\n";
-		            	p1.x = -1;
-		                p1.y = -1;
-		                p2.x = -1;
-		                p2.y = -1;
+		            }
+	                p1.x = -1;
+	                p1.y = -1;
+	                p2.x = -1;
+	                p2.y = -1;
+		            if(testMove() == false) 
+		            	cout << "Sem mais movimentos possíveis!\n";
+		            else {
+		            	Ponto p = getDica();
+		            	// mostra uma dica temporário no código, será acionado ao apertar um botão
+		            		cout << "Dica: (" << p.x << "," << p.y << ")\n";
 		            }
 		        }
 			}
@@ -481,3 +482,67 @@
                             return;
                     }
             }
+    // Algoritmos que buscará as possível jogadas, ele também guarda uma coordenada de dica de ponto.
+		bool Tela::testMove() {
+			for(int i = 0; i < linhasMatriz; i++) {
+				for(int j = 0; j < colunasMatriz; j++) {
+					for(int k = 1; k <= 4; k++) {
+						switch(k) {
+							case 1:
+								if(i > 0) {
+									switchElements(i, j, i-1, j);
+									if(checkLine(i) || checkLine(i-1) || checkColumn(j)) {
+										switchElements(i-1, j, i, j);
+										dica.x = i;
+										dica.y = j;
+										pontos->clearStack();
+										return true;
+									}
+									switchElements(i-1, j, i, j);
+								}
+								break;
+							case 2:
+								if(i < linhasMatriz-1) {
+									switchElements(i, j, i+1, j);
+									if(checkLine(i) || checkLine(i+1) || checkColumn(j)) {
+										switchElements(i+1, j, i, j);
+										dica.x = i;
+										dica.y = j;
+										pontos->clearStack();
+										return true;
+									}
+									switchElements(i+1, j, i, j);
+								}
+								break;
+							case 3:
+								if(j > 0) {
+									switchElements(i, j, i, j-1);
+									if(checkLine(i) || checkColumn(j) || checkColumn(j-1)) {
+										switchElements(i, j-1, i, j);
+										dica.x = i;
+										dica.y = j;
+										pontos->clearStack();
+										return true;
+									}
+									switchElements(i, j-1, i, j);
+								}
+								break;
+							case 4:
+								if(j < colunasMatriz-1) {
+									switchElements(i, j, i, j+1);
+									if(checkLine(i) || checkColumn(j) || checkColumn(j+1)) {
+										switchElements(i, j+1, i, j);
+										dica.x = i;
+										dica.y = j;
+										pontos->clearStack();
+										return true;
+									}
+									switchElements(i, j+1, i, j);
+								}
+								break;
+						}
+					}
+				}
+			}
+			return false;
+		}
