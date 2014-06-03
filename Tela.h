@@ -32,7 +32,7 @@
         const int MAT_INITIAL_POINT_Y = 120;
 
         //Enumeração para representar joias
-        enum { RED = 1, WHITE, GREEN, BLUE, GRAY, PURPLE, YELLOW, ORANGE };
+        enum { RED, WHITE, GREEN, BLUE, GRAY, PURPLE, YELLOW, ORANGE };
 
 		using std::cout; // inclusão do metódo cout do namespace std
 		using std::string; // inclusão da classe string da STL
