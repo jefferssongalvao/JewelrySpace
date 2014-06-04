@@ -1,8 +1,6 @@
 #include <iostream> // biblioteca padrão I/O do C++
 #include <cstdlib> // para uso do system clear
 #include <string> // para o nome do usuário do jogo
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
 
 #include "Usuario.h"
 #include "Tela.h" // Inclusão da Biblioteca da Classe

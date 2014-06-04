@@ -8,6 +8,7 @@
 		#include <cmath> //para calcular módulo
         #include <SDL/SDL.h> //para manipulação de eventos e interface
         #include <SDL/SDL_image.h> //para manipulação de imagens
+		#include <SDL/SDL_mixer.h> //para manipulação de audio
 
 		#include "Usuario.h" // Inclusão da Biblioteca da Classe
 		#include "Pilha.h" // Inclusão da Biblioteca da Classe
@@ -31,8 +32,13 @@
         const int MAT_INITIAL_POINT_X = 300;
         const int MAT_INITIAL_POINT_Y = 120;
 
+        //Constantes para mixagem do audio
+        const int AUDIO_RATE = 44100;
+  		const int AUDIO_CHANNELS = 2;
+  		const int AUDIO_BUFFERS = 1024;
+
         //Enumeração para representar joias
-        enum { RED, WHITE, GREEN, BLUE, GRAY, PURPLE, YELLOW, ORANGE };
+        enum { RED, WHITE, GREEN, BLUE, GRAY, PURPLE, YELLOW, ORANGE, BLANK };
 
 		using std::cout; // inclusão do metódo cout do namespace std
 		using std::string; // inclusão da classe string da STL
@@ -44,6 +50,7 @@
 			int bonus; // peça que será considerada ponto dobrado.
 			int level; // qual a fase o jogador está no momento
 			bool changedLevel; // variavel que determinará que uma fase foi alterada
+			bool audio; //variavel para desligar/ligar a music
 
 			Pilha * pontos; // pontos que foram marcados após um movimento
 
@@ -55,10 +62,15 @@
 
             //Superficies
             SDL_Surface *gems;
+            SDL_Surface *gems_on;
             SDL_Surface *screen;
 
             //Cortes da figura (teremos oito joias)
-            SDL_Rect clips[8];
+            SDL_Rect clipsGems[9];
+            SDL_Rect clipsGems_on[9];
+
+			/* Mix_Music actually holds the music information.  */
+			Mix_Music *music;
 
             SDL_Event event;
 
@@ -95,13 +107,15 @@
 
                 void setClip(int x, int y, int cod);
 
+                void contrastItem(int x, int y, int cod);
+
                 SDL_Surface* load_image(string filename);
 
                 bool load_files();
 
                 void clean_up();
 
-                void set_clips();
+                void set_clips(SDL_Rect *clips);
 
                 bool init();
 
