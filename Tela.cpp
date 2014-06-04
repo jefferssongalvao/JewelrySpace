@@ -86,29 +86,19 @@
 	}
 
 // Movimento de elementos após pontuar
-	void Tela::moveElement(Ponto ponto) {
+	void Tela::moveElement(int maxX, int * v, int n) {
 		int elemento;
-
-		if(ponto.x == 0) {
-			elemento = (rand() % qtdElementos) + 1;
-			setElement(ponto.x, ponto.y, elemento);	
-			return;
+		for(int i = maxX; i >= 0; i--) {
+			for(int j = 0; j < n; j++){
+				if(i == 0)
+					elemento = (rand() % qtdElementos) + 1;
+				else
+					elemento = getElement(i-1, v[j]);
+				setElement(i, v[j], elemento);
+                apply_surface(i, v[j], gems, screen);
+                SDL_UpdateRect(screen, matriz[i][v[j]].celula.x, matriz[i][v[j]].celula.y, matriz[i][v[j]].celula.w, matriz[i][v[j]].celula.h);
+			}
 		}
-
-		/*setElement(ponto.x, ponto.y, 9);
-		apply_surface(ponto.x, ponto.y, gems, screen);
-        SDL_UpdateRect(screen, matriz[ponto.x][ponto.y].celula.x, matriz[ponto.x][ponto.y].celula.y, matriz[ponto.x][ponto.y].celula.w, matriz[ponto.x][ponto.y].celula.h);
-		switchElements(ponto.x-1, ponto.y, ponto.x, ponto.y);
-
-		apply_surface(ponto.x, ponto.y, gems, screen);
-        SDL_UpdateRect(screen, matriz[ponto.x][ponto.y].celula.x, matriz[ponto.x][ponto.y].celula.y, matriz[ponto.x][ponto.y].celula.w, matriz[ponto.x][ponto.y].celula.h);
-		apply_surface(ponto.x-1, ponto.y, gems, screen);
-        SDL_UpdateRect(screen, matriz[ponto.x-1][ponto.y].celula.x, matriz[ponto.x-1][ponto.y].celula.y, matriz[ponto.x-1][ponto.y].celula.w, matriz[ponto.x-1][ponto.y].celula.h);
-        
-        SDL_Delay(1000);*/
-
-        ponto.x--;
-		moveElement(ponto);
 	}
 
 // Sistema de pontuação
@@ -135,7 +125,7 @@
                 apply_surface(ponto.x, ponto.y, gems, screen);
                 SDL_UpdateRect(screen, matriz[ponto.x][ponto.y].celula.x, matriz[ponto.x][ponto.y].celula.y, matriz[ponto.x][ponto.y].celula.w, matriz[ponto.x][ponto.y].celula.h);
             }
-//				moveElement(ponto);
+			moveElement(maiorX, cols, i);
 			// showScreen();
 			// SDL_Delay(1000);
 			//check = checkAfter(maiorX, cols, i);
