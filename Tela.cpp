@@ -418,17 +418,17 @@
         void Tela::set_clips(SDL_Rect *clips) {
 
             //Clip the sprite sheet
-            clips[ RED ].x = 0;
+            clips[ RED ].x = 2;
             clips[ RED ].y = 0;
             clips[ RED ].w = CELULA_WIDHT;
             clips[ RED ].h = CELULA_HEIGHT;
 
-            clips[ WHITE ].x = 65;
+            clips[ WHITE ].x = 70;
             clips[ WHITE ].y = 0;
             clips[ WHITE ].w = CELULA_WIDHT;
             clips[ WHITE ].h = CELULA_HEIGHT;
 
-            clips[ GREEN ].x = 130;
+            clips[ GREEN ].x = 135;
             clips[ GREEN ].y = 0;
             clips[ GREEN ].w = CELULA_WIDHT;
             clips[ GREEN ].h = CELULA_HEIGHT;
@@ -438,22 +438,22 @@
             clips[ BLUE ].w = CELULA_WIDHT;
             clips[ BLUE ].h = CELULA_HEIGHT;
 
-            clips[ GRAY ].x = 65;
+            clips[ GRAY ].x = 67;
             clips[ GRAY ].y = 60;
             clips[ GRAY ].w = CELULA_WIDHT;
             clips[ GRAY ].h = CELULA_HEIGHT;
 
-            clips[ PURPLE ].x = 130;
+            clips[ PURPLE ].x = 135;
             clips[ PURPLE ].y = 60;
             clips[ PURPLE ].w = CELULA_WIDHT;
             clips[ PURPLE ].h = CELULA_HEIGHT;
 
-            clips[ YELLOW ].x = 0;
+            clips[ YELLOW ].x = 2;
             clips[ YELLOW ].y = 120;
             clips[ YELLOW ].w = CELULA_WIDHT;
             clips[ YELLOW ].h = CELULA_HEIGHT;
 
-            clips[ ORANGE ].x = 65;
+            clips[ ORANGE ].x = 67;
             clips[ ORANGE ].y = 120;
             clips[ ORANGE ].w = CELULA_WIDHT;
             clips[ ORANGE ].h = CELULA_HEIGHT;
