@@ -2,7 +2,7 @@
 
 // Construtor Padrão
 	Tela::Tela() {
-        //load_files();
+        audio = true;
         set_clips(clipsGems);
         set_clips(clipsGems_on);
 		pontos = new Pilha();
@@ -376,9 +376,9 @@
 
         bool Tela::load_files() {
             //Load the button sprite sheet
-            gems = load_image( "gems.png" );
+            gems = load_image( "Images/gems.png" );
 
-            gems_on = load_image( "gems_on.png" );
+            gems_on = load_image( "Images/gems_on.png" );
 
             //If there was a problem in loading the button sprite sheet
             if( (gems == NULL) || (gems_on == NULL))
@@ -393,6 +393,9 @@
         void Tela::clean_up() {
             //Free the surface
             SDL_FreeSurface( gems );
+
+            //Libera ficheiro de audio da memoria
+            Mix_FreeMusic(music);
 
             //Quit SDL
             SDL_Quit();
@@ -410,6 +413,13 @@
 
             //Set the window caption
             SDL_WM_SetCaption( "Bejeweled", NULL );
+
+            //Inicializa musica
+            if( Mix_OpenAudio(AUDIO_RATE, MIX_DEFAULT_FORMAT, AUDIO_CHANNELS, AUDIO_BUFFERS) == -1 ) return false;
+            music = Mix_LoadMUS("Sounds/music.mp3");
+            if( music == NULL )	return false;
+			//Toca musica (-1 para indefinidamente)
+            Mix_PlayMusic(music, -1);
 
             //If everything initialized fine
             return true;
@@ -509,6 +519,16 @@
 		            } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
 		                //Quit the program
 		                quit = true;
+	            	} else if( (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) ) {
+	            		if(audio == true) {
+							// pause music playback
+							Mix_PauseMusic();
+	            			audio = false;
+	            		} else {
+							// resume music playback
+							Mix_ResumeMusic();
+	            			audio = true;
+	            		}
 	            	}
 		    	}
             	if((p1.x >= 0) && (p2.x >= 0)) {
