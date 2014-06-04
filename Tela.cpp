@@ -15,7 +15,7 @@
 		int elemento, rep;
 		srand(time(NULL));
 		qtdElementos = n;
-		bonus = (rand() % qtdElementos) + 1;
+		bonus = (rand() % qtdElementos);
 		for(int i = 0; i < linhasMatriz; i++) {
 			rep = 0;
 			for(int j = 0; j < colunasMatriz; j++) {
@@ -110,7 +110,7 @@
 			while(pontos->getSize()) {
 				ponto = pontos->pop();
 				elemento = getElement(ponto.x, ponto.y);
-				if(elemento == bonus) 
+				if(elemento-1 == bonus) 
 					pontuacao += 10;
 				else
 					pontuacao += 5;
@@ -643,7 +643,7 @@
 				fillMatriz(8);
 				showGame();
 				changedLevel = false;
-			} else if(!changedLevel && user->getPontuacao() >= 50000) {
+			} else if(!changedLevel && user->getPontuacao() >= 50000) { // esse é o zerar do jogo
 				level = 5;
 				fillMatriz(8);
 				showGame();
