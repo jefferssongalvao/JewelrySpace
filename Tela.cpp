@@ -2,7 +2,9 @@
 
 // Construtor Padrão
 	Tela::Tela() {
-        set_clips();
+        //load_files();
+        set_clips(clipsGems);
+        set_clips(clipsGems_on);
 		pontos = new Pilha();
 		level = 1;
 		changedLevel = true;
@@ -280,36 +282,64 @@
         void Tela::setClip(int x, int y, int cod) {
             switch(cod) {
                 case 1:
-                    matriz[x][y].clip = &clips[ RED ];
+                    matriz[x][y].clip = &clipsGems[ RED ];
                     matriz[x][y].elemento = cod;
                     break;
                 case 2:
-                    matriz[x][y].clip = &clips[ WHITE ];
+                    matriz[x][y].clip = &clipsGems[ WHITE ];
                     matriz[x][y].elemento = cod;
                     break;
                 case 3:
-                    matriz[x][y].clip = &clips[ GREEN ];
+                    matriz[x][y].clip = &clipsGems[ GREEN ];
                     matriz[x][y].elemento = cod;
                     break;
                 case 4:
-                    matriz[x][y].clip = &clips[ BLUE ];
+                    matriz[x][y].clip = &clipsGems[ BLUE ];
                     matriz[x][y].elemento = cod;
                     break;
                 case 5:
-                    matriz[x][y].clip = &clips[ GRAY ];
+                    matriz[x][y].clip = &clipsGems[ GRAY ];
                     matriz[x][y].elemento = cod;
                     break;
                 case 6:
-                    matriz[x][y].clip = &clips[ PURPLE ];
+                    matriz[x][y].clip = &clipsGems[ PURPLE ];
                     matriz[x][y].elemento = cod;
                     break;
                 case 7:
-                    matriz[x][y].clip = &clips[ YELLOW ];
+                    matriz[x][y].clip = &clipsGems[ YELLOW ];
                     matriz[x][y].elemento = cod;
                     break;
                 case 8:
-                    matriz[x][y].clip = &clips[ ORANGE ];
+                    matriz[x][y].clip = &clipsGems[ ORANGE ];
                     matriz[x][y].elemento = cod;
+            }
+        }
+
+        void Tela::contrastItem(int x, int y, int cod) {
+            switch(cod) {
+                case 1:
+                    matriz[x][y].clip = &clipsGems_on[ RED ];
+                    break;
+                case 2:
+                    matriz[x][y].clip = &clipsGems_on[ WHITE ];
+                    break;
+                case 3:
+                    matriz[x][y].clip = &clipsGems_on[ GREEN ];
+                    break;
+                case 4:
+                    matriz[x][y].clip = &clipsGems_on[ BLUE ];
+                    break;
+                case 5:
+                    matriz[x][y].clip = &clipsGems_on[ GRAY ];
+                    break;
+                case 6:
+                    matriz[x][y].clip = &clipsGems_on[ PURPLE ];
+                    break;
+                case 7:
+                    matriz[x][y].clip = &clipsGems_on[ YELLOW ];
+                    break;
+                case 8:
+                    matriz[x][y].clip = &clipsGems_on[ ORANGE ];
             }
         }
 
@@ -348,8 +378,10 @@
             //Load the button sprite sheet
             gems = load_image( "gems.png" );
 
+            gems_on = load_image( "gems_on.png" );
+
             //If there was a problem in loading the button sprite sheet
-            if( gems == NULL )
+            if( (gems == NULL) || (gems_on == NULL))
             {
                 return false;
             }
@@ -383,7 +415,7 @@
             return true;
         }
 
-        void Tela::set_clips() {
+        void Tela::set_clips(SDL_Rect *clips) {
 
             //Clip the sprite sheet
             clips[ RED ].x = 0;
@@ -450,14 +482,23 @@
 			                if(p1.x < 0) {
 			                    p1.x = tmp.y; //Precisa ser invertido
 			                    p1.y = tmp.x;
+			                    contrastItem(p1.x, p1.y, matriz[p1.x][p1.y].elemento);
+			                    apply_surface(p1.x, p1.y, gems_on, screen);
+                				SDL_UpdateRect(screen, matriz[p1.x][p1.y].celula.x, matriz[p1.x][p1.y].celula.y, matriz[p1.x][p1.y].celula.w, matriz[p1.x][p1.y].celula.h);
 			                } else if(p2.x < 0) {
 			                	if(saoAdjacentes(p1.x, p1.y, tmp.y, tmp.x)) {
 				                    p2.x = tmp.y; //Precisa ser invertido
 				                    p2.y = tmp.x;
 			                	} else {
 			                		//Ignora selecao
+			                		contrastItem(p1.x, p1.y, matriz[p1.x][p1.y].elemento);
+			        				apply_surface(p1.x, p1.y, gems, screen);
+                					SDL_UpdateRect(screen, matriz[p1.x][p1.y].celula.x, matriz[p1.x][p1.y].celula.y, matriz[p1.x][p1.y].celula.w, matriz[p1.x][p1.y].celula.h);
 			                		p1.x = tmp.y;
 					                p1.y = tmp.x;
+					                contrastItem(p1.x, p1.y, matriz[p1.x][p1.y].elemento);
+			                    	apply_surface(p1.x, p1.y, gems_on, screen);
+                					SDL_UpdateRect(screen, matriz[p1.x][p1.y].celula.x, matriz[p1.x][p1.y].celula.y, matriz[p1.x][p1.y].celula.w, matriz[p1.x][p1.y].celula.h);
 			                	}
 			                }
 	                    }
@@ -473,6 +514,9 @@
 		            } else {
 		            	cout << "Movimento inválido\n";
 		            }
+		            contrastItem(p1.x, p1.y, matriz[p1.x][p1.y].elemento);
+			        apply_surface(p1.x, p1.y, gems, screen);
+                	SDL_UpdateRect(screen, matriz[p1.x][p1.y].celula.x, matriz[p1.x][p1.y].celula.y, matriz[p1.x][p1.y].celula.w, matriz[p1.x][p1.y].celula.h);
 	                p1.x = -1;
 	                p1.y = -1;
 	                p2.x = -1;

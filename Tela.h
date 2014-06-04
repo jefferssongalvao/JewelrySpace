@@ -55,10 +55,12 @@
 
             //Superficies
             SDL_Surface *gems;
+            SDL_Surface *gems_on;
             SDL_Surface *screen;
 
             //Cortes da figura (teremos oito joias)
-            SDL_Rect clips[8];
+            SDL_Rect clipsGems[8];
+            SDL_Rect clipsGems_on[8];
 
             SDL_Event event;
 
@@ -95,13 +97,15 @@
 
                 void setClip(int x, int y, int cod);
 
+                void contrastItem(int x, int y, int cod);
+
                 SDL_Surface* load_image(string filename);
 
                 bool load_files();
 
                 void clean_up();
 
-                void set_clips();
+                void set_clips(SDL_Rect *clips);
 
                 bool init();
 
