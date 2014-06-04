@@ -482,6 +482,7 @@
 			                if(p1.x < 0) {
 			                    p1.x = tmp.y; //Precisa ser invertido
 			                    p1.y = tmp.x;
+			                    //Destaca a nova joia selecionada
 			                    contrastItem(p1.x, p1.y, matriz[p1.x][p1.y].elemento);
 			                    apply_surface(p1.x, p1.y, gems_on, screen);
                 				SDL_UpdateRect(screen, matriz[p1.x][p1.y].celula.x, matriz[p1.x][p1.y].celula.y, matriz[p1.x][p1.y].celula.w, matriz[p1.x][p1.y].celula.h);
