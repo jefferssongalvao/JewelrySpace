@@ -95,7 +95,7 @@
 			return;
 		}
 
-		setElement(ponto.x, ponto.y, 9);
+		/*setElement(ponto.x, ponto.y, 9);
 		apply_surface(ponto.x, ponto.y, gems, screen);
         SDL_UpdateRect(screen, matriz[ponto.x][ponto.y].celula.x, matriz[ponto.x][ponto.y].celula.y, matriz[ponto.x][ponto.y].celula.w, matriz[ponto.x][ponto.y].celula.h);
 		switchElements(ponto.x-1, ponto.y, ponto.x, ponto.y);
@@ -105,7 +105,7 @@
 		apply_surface(ponto.x-1, ponto.y, gems, screen);
         SDL_UpdateRect(screen, matriz[ponto.x-1][ponto.y].celula.x, matriz[ponto.x-1][ponto.y].celula.y, matriz[ponto.x-1][ponto.y].celula.w, matriz[ponto.x-1][ponto.y].celula.h);
         
-        SDL_Delay(1000);
+        SDL_Delay(1000);*/
 
         ponto.x--;
 		moveElement(ponto);
@@ -131,11 +131,15 @@
 					if(cols[j] == ponto.y) dif = false;
 				}
 				if(dif) cols[i++] = ponto.y;
-				moveElement(ponto);
-			}
+                setElement(ponto.x, ponto.y, 9);
+                apply_surface(ponto.x, ponto.y, gems, screen);
+                SDL_UpdateRect(screen, matriz[ponto.x][ponto.y].celula.x, matriz[ponto.x][ponto.y].celula.y, matriz[ponto.x][ponto.y].celula.w, matriz[ponto.x][ponto.y].celula.h);
+            }
+//				moveElement(ponto);
 			// showScreen();
 			// SDL_Delay(1000);
-			check = checkAfter(maiorX, cols, i);
+			//check = checkAfter(maiorX, cols, i);
+            check = false;
 		}
 		return pontuacao;
 
@@ -481,18 +485,19 @@
             clips[ YELLOW ].w = CELULA_WIDHT;
             clips[ YELLOW ].h = CELULA_HEIGHT;
 
-            clips[ ORANGE ].x = 135;
+            clips[ ORANGE ].x = 67;
             clips[ ORANGE ].y = 120;
             clips[ ORANGE ].w = CELULA_WIDHT;
             clips[ ORANGE ].h = CELULA_HEIGHT;
 
-            clips[ BLANK ].x = 195;
+            clips[ BLANK ].x = 135;
             clips[ BLANK ].y = 120;
             clips[ BLANK ].w = CELULA_WIDHT;
             clips[ BLANK ].h = CELULA_HEIGHT;
         }
 
         void Tela::handle_events() {
+            //print();
 		    Ponto p1 = {-1, -1}, p2 = {-1, -1};
 		    bool quit = false;
 		    showGame();
@@ -696,3 +701,11 @@
 				changedLevel = true;
 			}
 		}
+
+        void Tela::print() {
+            for (int i = 0; i < linhasMatriz; i++) {
+                for(int j = 0; j < colunasMatriz; j++)
+                    std::cout << matriz[i][j].elemento << ' ';
+                std::cout << std::endl;
+            }
+        }

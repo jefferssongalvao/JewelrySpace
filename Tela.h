@@ -129,6 +129,7 @@
 
                 bool testMove(); // Algoritmos que buscará as possível jogadas
                 bool changeLevel(); //  para mudança das fases
+                void print();
 		};
 
 #endif
