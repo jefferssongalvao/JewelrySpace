@@ -86,17 +86,41 @@
 	}
 
 // Movimento de elementos após pontuar
-	void Tela::moveElement(int maxX, int * v, int n) {
+	void Tela::moveElement(Ponto * p, int n) {
+		SDL_Rect my_rects[64];
+		int elemento, cont, qtd = 0;
+		for (int i = 0; i < n; ++i) {
+			cont = p[i].x;
+			while(cont >= 0) {
+				if(cont == 0)
+					elemento = (rand() % qtdElementos) + 1;
+				else
+					elemento = getElement(cont-1, p[i].y);
+				setElement(cont, p[i].y, elemento);
+                apply_surface(cont, p[i].y, gems, screen);
+                my_rects[qtd].x = matriz[cont][p[i].y].celula.x;
+                my_rects[qtd].y = matriz[cont][p[i].y].celula.y;
+                my_rects[qtd].w = matriz[cont][p[i].y].celula.w;
+                my_rects[qtd].h = matriz[cont][p[i].y].celula.h;
+                qtd++;
+                cont--;
+			}
+			SDL_UpdateRects(screen, qtd, my_rects);
+            SDL_Delay(80);
+		}
 	}
 
 // Sistema de pontuação
 	int Tela::point() {
-		int maiorX = 0, cols[8], i = 0, pontuacao = 0, elemento, qtd = 0, tam = pontos->getSize();
+		int maiorX = 0, cols[8], i = 0, pontuacao = 0, elemento, qtd, tam;
 		bool dif, check = true;
 		Ponto ponto;
-		SDL_Rect my_rects[tam];
 
 		while(check){
+			qtd = 0;
+			tam = pontos->getSize();
+			SDL_Rect my_rects[tam];
+			Ponto coord[tam];
 			while(pontos->getSize()) {
 				ponto = pontos->pop();
 				elemento = getElement(ponto.x, ponto.y);
@@ -112,15 +136,17 @@
 				if(dif) cols[i++] = ponto.y;
                 setElement(ponto.x, ponto.y, 9);
                 apply_surface(ponto.x, ponto.y, gems, screen);
+                coord[qtd] = ponto;
                 my_rects[qtd].x = matriz[ponto.x][ponto.y].celula.x;
                 my_rects[qtd].y = matriz[ponto.x][ponto.y].celula.y;
                 my_rects[qtd].w = matriz[ponto.x][ponto.y].celula.w;
                 my_rects[qtd++].h = matriz[ponto.x][ponto.y].celula.h;
             }
+            SDL_Delay(100);
             SDL_UpdateRects(screen, tam, my_rects);
-			// moveElement(maiorX, cols, i);
-			// check = checkAfter(maiorX, cols, i);
-			check = false;
+            SDL_Delay(200);
+			moveElement(coord, tam);
+			check = checkAfter(maiorX, cols, i);
 		}
 		return pontuacao;
 
@@ -258,7 +284,7 @@
 	// Verifica após a troca
 		bool Tela::checkAfter(int maxX, int * v, int n) {
 			bool flag = false;
-			for (int i = 0; i <= maxX; ++i)
+			for (int i = 0; i <= maxX; ++i) 
 				if(checkLine(i)) flag = true;
 			for (int i = 0; i < n; ++i)
 				if(checkColumn(v[i])) flag = true;
