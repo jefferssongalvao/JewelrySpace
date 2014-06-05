@@ -87,25 +87,14 @@
 
 // Movimento de elementos após pontuar
 	void Tela::moveElement(int maxX, int * v, int n) {
-		int elemento;
-		for(int i = maxX; i >= 0; i--) {
-			for(int j = 0; j < n; j++){
-				if(i == 0)
-					elemento = (rand() % qtdElementos) + 1;
-				else
-					elemento = getElement(i-1, v[j]);
-				setElement(i, v[j], elemento);
-                apply_surface(i, v[j], gems, screen);
-                SDL_UpdateRect(screen, matriz[i][v[j]].celula.x, matriz[i][v[j]].celula.y, matriz[i][v[j]].celula.w, matriz[i][v[j]].celula.h);
-			}
-		}
 	}
 
 // Sistema de pontuação
 	int Tela::point() {
-		int maiorX = 0, cols[8], i = 0, pontuacao = 0, elemento;
+		int maiorX = 0, cols[8], i = 0, pontuacao = 0, elemento, qtd = 0, tam = pontos->getSize();
 		bool dif, check = true;
 		Ponto ponto;
+		SDL_Rect my_rects[tam];
 
 		while(check){
 			while(pontos->getSize()) {
@@ -123,13 +112,15 @@
 				if(dif) cols[i++] = ponto.y;
                 setElement(ponto.x, ponto.y, 9);
                 apply_surface(ponto.x, ponto.y, gems, screen);
-                SDL_UpdateRect(screen, matriz[ponto.x][ponto.y].celula.x, matriz[ponto.x][ponto.y].celula.y, matriz[ponto.x][ponto.y].celula.w, matriz[ponto.x][ponto.y].celula.h);
+                my_rects[qtd].x = matriz[ponto.x][ponto.y].celula.x;
+                my_rects[qtd].y = matriz[ponto.x][ponto.y].celula.y;
+                my_rects[qtd].w = matriz[ponto.x][ponto.y].celula.w;
+                my_rects[qtd++].h = matriz[ponto.x][ponto.y].celula.h;
             }
-			moveElement(maiorX, cols, i);
-			// showScreen();
-			// SDL_Delay(1000);
-			//check = checkAfter(maiorX, cols, i);
-            check = false;
+            SDL_UpdateRects(screen, tam, my_rects);
+			// moveElement(maiorX, cols, i);
+			// check = checkAfter(maiorX, cols, i);
+			check = false;
 		}
 		return pontuacao;
 
