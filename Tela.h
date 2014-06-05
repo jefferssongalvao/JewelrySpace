@@ -38,7 +38,7 @@
   		const int AUDIO_BUFFERS = 1024;
 
         //Enumeração para representar joias
-        enum { RED, WHITE, GREEN, BLUE, GRAY, PURPLE, YELLOW, ORANGE, BLANK };
+        enum { YELLOW, WHITE, BLUE, RED, PURPLE, ORANGE, GREEN, BLANK };
 
 		using std::cout; // inclusão do metódo cout do namespace std
 		using std::string; // inclusão da classe string da STL
@@ -46,6 +46,7 @@
 		class Tela {
 
             Gems matriz[linhasMatriz][colunasMatriz]; //Matriz de joias
+
 			int qtdElementos;
 			int bonus; // peça que será considerada ponto dobrado.
 			int level; // qual a fase o jogador está no momento
@@ -88,7 +89,7 @@
 					void setUsuario(string str);
 
 				void switchElements(int x1, int y1, int x2, int y2); // troca elementos de posição
-				void moveElement(Ponto * p, int n); // Movimento de elementos após pontuar
+				void moveElement(int * cols, int n); // Movimento de elementos após pontuar
 				int point(); // Sistema de pontuação
 
 				// Verifica se tem combinações (3 ou mais peças) possíveis

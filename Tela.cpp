@@ -1,4 +1,5 @@
 #include "Tela.h" // Inclusão da Biblioteca da Classe
+#include "quickSort.h" // Inclusão da Biblioteca da Classe
 
 // Construtor Padrão
 	Tela::Tela() {
@@ -8,9 +9,18 @@
 		pontos = new Pilha();
 		level = 1;
 		changedLevel = true;
-		fillMatriz(5);
+		fillMatriz(7);
 	}
 
+	// void setrects(SDL_Rect* clip) {
+	//         for(int i = 0; i < 7; i++) {
+	//                 //Basicamente a cada iteração do ciclo é incrementado 132px na imagem para obter o frame seguinte
+	//                 clip[i].x = 0 + i*132; 
+	//                 clip[i].y = 0;
+	//                 clip[i].w = 125;
+	//                 clip[i].h = 145;
+	//         }
+	// }
 	void Tela::fillMatriz(int n) {
 		int elemento, rep;
 		srand(time(NULL));
@@ -59,9 +69,6 @@
     		case BLUE:
 	            cout << "O bonus é a peça Azul.\n";
     			break;
-    		case GRAY:
-	            cout << "O bonus é a peça Cinza.\n";
-    			break;
     		case PURPLE:
 	            cout << "O bonus é a peça Roxa.\n";
     			break;
@@ -86,27 +93,40 @@
 	}
 
 // Movimento de elementos após pontuar
-	void Tela::moveElement(Ponto * p, int n) {
+	void Tela::moveElement(int * cols, int n) {
 		SDL_Rect my_rects[64];
-		int elemento, cont, qtd = 0;
+		int elemento, cont, qtd = 0, j, lin;
+		quickSort(cols, 0, n-1);
 		for (int i = 0; i < n; ++i) {
-			cont = p[i].x;
-			while(cont >= 0) {
-				if(cont == 0)
+			j = 0;
+			while(j < linhasMatriz) {
+				elemento = getElement(j, cols[i]);
+				if(elemento == 8) {
+					lin = j;
+					while(lin > 0) {
+						elemento = getElement(lin-1, cols[i]);
+						setElement(lin, cols[i], elemento);
+		                apply_surface(lin, cols[i], gems, screen);
+		                my_rects[qtd].x = matriz[lin][cols[i]].celula.x;
+		                my_rects[qtd].y = matriz[lin][cols[i]].celula.y;
+		                my_rects[qtd].w = matriz[lin][cols[i]].celula.w;
+		                my_rects[qtd].h = matriz[lin][cols[i]].celula.h;
+		                lin--;
+		                qtd++;
+					}
 					elemento = (rand() % qtdElementos) + 1;
-				else
-					elemento = getElement(cont-1, p[i].y);
-				setElement(cont, p[i].y, elemento);
-                apply_surface(cont, p[i].y, gems, screen);
-                my_rects[qtd].x = matriz[cont][p[i].y].celula.x;
-                my_rects[qtd].y = matriz[cont][p[i].y].celula.y;
-                my_rects[qtd].w = matriz[cont][p[i].y].celula.w;
-                my_rects[qtd].h = matriz[cont][p[i].y].celula.h;
-                qtd++;
-                cont--;
+					setElement(lin, cols[i], elemento);
+	                apply_surface(lin, cols[i], gems, screen);
+	                my_rects[qtd].x = matriz[lin][cols[i]].celula.x;
+	                my_rects[qtd].y = matriz[lin][cols[i]].celula.y;
+	                my_rects[qtd].w = matriz[lin][cols[i]].celula.w;
+	                my_rects[qtd].h = matriz[lin][cols[i]].celula.h;
+	                qtd++;
+				}
+				j++;
+				SDL_UpdateRects(screen, qtd, my_rects);
+		        SDL_Delay(10);
 			}
-			SDL_UpdateRects(screen, qtd, my_rects);
-            SDL_Delay(80);
 		}
 	}
 
@@ -134,18 +154,17 @@
 					if(cols[j] == ponto.y) dif = false;
 				}
 				if(dif) cols[i++] = ponto.y;
-                setElement(ponto.x, ponto.y, 9);
+                setElement(ponto.x, ponto.y, 8);
                 apply_surface(ponto.x, ponto.y, gems, screen);
-                coord[qtd] = ponto;
                 my_rects[qtd].x = matriz[ponto.x][ponto.y].celula.x;
                 my_rects[qtd].y = matriz[ponto.x][ponto.y].celula.y;
                 my_rects[qtd].w = matriz[ponto.x][ponto.y].celula.w;
                 my_rects[qtd++].h = matriz[ponto.x][ponto.y].celula.h;
             }
-            SDL_Delay(100);
+            SDL_Delay(300);
             SDL_UpdateRects(screen, tam, my_rects);
-            SDL_Delay(200);
-			moveElement(coord, tam);
+            SDL_Delay(300);
+			moveElement(cols, i);
 			check = checkAfter(maiorX, cols, i);
 		}
 		return pontuacao;
@@ -304,7 +323,7 @@
         void Tela::setClip(int x, int y, int cod) {
             switch(cod) {
                 case 1:
-                    matriz[x][y].clip = &clipsGems[ RED ];
+                    matriz[x][y].clip = &clipsGems[ YELLOW ];
                     matriz[x][y].elemento = cod;
                     break;
                 case 2:
@@ -312,30 +331,26 @@
                     matriz[x][y].elemento = cod;
                     break;
                 case 3:
-                    matriz[x][y].clip = &clipsGems[ GREEN ];
-                    matriz[x][y].elemento = cod;
-                    break;
-                case 4:
                     matriz[x][y].clip = &clipsGems[ BLUE ];
                     matriz[x][y].elemento = cod;
                     break;
-                case 5:
-                    matriz[x][y].clip = &clipsGems[ GRAY ];
+                case 4:
+                    matriz[x][y].clip = &clipsGems[ RED ];
                     matriz[x][y].elemento = cod;
                     break;
-                case 6:
+                case 5:
                     matriz[x][y].clip = &clipsGems[ PURPLE ];
                     matriz[x][y].elemento = cod;
                     break;
-                case 7:
-                    matriz[x][y].clip = &clipsGems[ YELLOW ];
-                    matriz[x][y].elemento = cod;
-                    break;
-                case 8:
+                case 6:
                     matriz[x][y].clip = &clipsGems[ ORANGE ];
                     matriz[x][y].elemento = cod;
                     break;
-                case 9:
+                case 7:
+                    matriz[x][y].clip = &clipsGems[ GREEN ];
+                    matriz[x][y].elemento = cod;
+                    break;
+                case 8:
                     matriz[x][y].clip = &clipsGems[ BLANK ];
                     matriz[x][y].elemento = cod;
             }
@@ -344,28 +359,25 @@
         void Tela::contrastItem(int x, int y, int cod) {
             switch(cod) {
                 case 1:
-                    matriz[x][y].clip = &clipsGems_on[ RED ];
+                    matriz[x][y].clip = &clipsGems_on[ YELLOW ];
                     break;
                 case 2:
                     matriz[x][y].clip = &clipsGems_on[ WHITE ];
                     break;
                 case 3:
-                    matriz[x][y].clip = &clipsGems_on[ GREEN ];
-                    break;
-                case 4:
                     matriz[x][y].clip = &clipsGems_on[ BLUE ];
                     break;
-                case 5:
-                    matriz[x][y].clip = &clipsGems_on[ GRAY ];
+                case 4:
+                    matriz[x][y].clip = &clipsGems_on[ RED ];
                     break;
-                case 6:
+                case 5:
                     matriz[x][y].clip = &clipsGems_on[ PURPLE ];
                     break;
-                case 7:
-                    matriz[x][y].clip = &clipsGems_on[ YELLOW ];
-                    break;
-                case 8:
+                case 6:
                     matriz[x][y].clip = &clipsGems_on[ ORANGE ];
+                    break;
+                case 7:
+                    matriz[x][y].clip = &clipsGems_on[ GREEN ];
                     break;
                 case 9:
                     matriz[x][y].clip = &clipsGems_on[ BLANK ];
@@ -405,9 +417,9 @@
 
         bool Tela::load_files() {
             //Load the button sprite sheet
-            gems = load_image( "Images/gems.png" );
+            gems = load_image( "Images/new_gems.png" );
 
-            gems_on = load_image( "Images/gems_on.png" );
+            gems_on = load_image( "Images/new_gems.png" );
 
             //If there was a problem in loading the button sprite sheet
             if( (gems == NULL) || (gems_on == NULL))
@@ -457,48 +469,43 @@
         void Tela::set_clips(SDL_Rect *clips) {
 
             //Clip the sprite sheet
-            clips[ RED ].x = 2;
-            clips[ RED ].y = 0;
-            clips[ RED ].w = CELULA_WIDHT;
-            clips[ RED ].h = CELULA_HEIGHT;
-
-            clips[ WHITE ].x = 70;
-            clips[ WHITE ].y = 0;
-            clips[ WHITE ].w = CELULA_WIDHT;
-            clips[ WHITE ].h = CELULA_HEIGHT;
-
-            clips[ GREEN ].x = 135;
-            clips[ GREEN ].y = 0;
-            clips[ GREEN ].w = CELULA_WIDHT;
-            clips[ GREEN ].h = CELULA_HEIGHT;
-
-            clips[ BLUE ].x = 0;
-            clips[ BLUE ].y = 60;
-            clips[ BLUE ].w = CELULA_WIDHT;
-            clips[ BLUE ].h = CELULA_HEIGHT;
-
-            clips[ GRAY ].x = 67;
-            clips[ GRAY ].y = 60;
-            clips[ GRAY ].w = CELULA_WIDHT;
-            clips[ GRAY ].h = CELULA_HEIGHT;
-
-            clips[ PURPLE ].x = 135;
-            clips[ PURPLE ].y = 60;
-            clips[ PURPLE ].w = CELULA_WIDHT;
-            clips[ PURPLE ].h = CELULA_HEIGHT;
-
-            clips[ YELLOW ].x = 2;
-            clips[ YELLOW ].y = 120;
+            clips[ YELLOW ].x = 0;
+            clips[ YELLOW ].y = 0;
             clips[ YELLOW ].w = CELULA_WIDHT;
             clips[ YELLOW ].h = CELULA_HEIGHT;
 
-            clips[ ORANGE ].x = 67;
-            clips[ ORANGE ].y = 120;
+            clips[ WHITE ].x = 0;
+            clips[ WHITE ].y = 70;
+            clips[ WHITE ].w = CELULA_WIDHT;
+            clips[ WHITE ].h = CELULA_HEIGHT;
+
+            clips[ BLUE ].x = 0;
+            clips[ BLUE ].y = 140;
+            clips[ BLUE ].w = CELULA_WIDHT;
+            clips[ BLUE ].h = CELULA_HEIGHT;
+
+            clips[ RED ].x = 0;
+            clips[ RED ].y = 210;
+            clips[ RED ].w = CELULA_WIDHT;
+            clips[ RED ].h = CELULA_HEIGHT;
+
+            clips[ PURPLE ].x = 0;
+            clips[ PURPLE ].y = 280;
+            clips[ PURPLE ].w = CELULA_WIDHT;
+            clips[ PURPLE ].h = CELULA_HEIGHT;
+
+            clips[ ORANGE ].x = 0;
+            clips[ ORANGE ].y = 350;
             clips[ ORANGE ].w = CELULA_WIDHT;
             clips[ ORANGE ].h = CELULA_HEIGHT;
 
-            clips[ BLANK ].x = 135;
-            clips[ BLANK ].y = 120;
+            clips[ GREEN ].x = 0;
+            clips[ GREEN ].y = 420;
+            clips[ GREEN ].w = CELULA_WIDHT;
+            clips[ GREEN ].h = CELULA_HEIGHT;
+
+            clips[ BLANK ].x = 0;
+            clips[ BLANK ].y = 490;
             clips[ BLANK ].w = CELULA_WIDHT;
             clips[ BLANK ].h = CELULA_HEIGHT;
         }
@@ -564,6 +571,13 @@
 							Mix_ResumeMusic();
 	            			audio = true;
 	            		}
+	            	} else if(event.type == SDL_MOUSEMOTION) {
+	                    tmp.x = event.motion.x;
+						tmp.y = event.motion.y;
+						if((tmp.x >= MAT_INITIAL_POINT_X && tmp.x <= MAT_INITIAL_POINT_X + 480) && (tmp.y >= MAT_INITIAL_POINT_Y && tmp.y <= MAT_INITIAL_POINT_Y + 480)) {
+		                    tmp.x = (tmp.x - MAT_INITIAL_POINT_X) / 60;
+		                    tmp.y = (tmp.y - MAT_INITIAL_POINT_Y) / 60;
+						}
 	            	}
 		    	}
             	if((p1.x >= 0) && (p2.x >= 0)) {
@@ -686,24 +700,24 @@
 			return false;
 		}
 		bool Tela::changeLevel() {
-			if(changedLevel && user->getPontuacao() > 5000 && user->getPontuacao() < 15000) {
+			if(changedLevel && user->getPontuacao() > 1000 && user->getPontuacao() < 3000) {
 				level = 2;
+				fillMatriz(5);
+				showGame();
+				changedLevel = false;
+			} else if(!changedLevel && user->getPontuacao() >= 3000 && user->getPontuacao() < 6000) {
+				level = 3;
 				fillMatriz(6);
 				showGame();
-				changedLevel = false;
-			} else if(!changedLevel && user->getPontuacao() >= 15000 && user->getPontuacao() < 30000) {
-				level = 3;
+				changedLevel = true;
+			} else if(changedLevel && user->getPontuacao() >= 6000 && user->getPontuacao() < 10000) {
+				level = 4;
 				fillMatriz(7);
 				showGame();
-				changedLevel = true;
-			} else if(changedLevel && user->getPontuacao() >= 30000 && user->getPontuacao() < 50000) {
-				level = 4;
-				fillMatriz(8);
-				showGame();
 				changedLevel = false;
-			} else if(!changedLevel && user->getPontuacao() >= 50000) { // esse é o zerar do jogo
+			} else if(!changedLevel && user->getPontuacao() >= 10000) { // esse é o zerar do jogo
 				level = 5;
-				fillMatriz(8);
+				fillMatriz(7);
 				showGame();
 				changedLevel = true;
 			}
