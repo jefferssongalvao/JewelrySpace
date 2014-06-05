@@ -9,7 +9,7 @@
 		pontos = new Pilha();
 		level = 1;
 		changedLevel = true;
-		fillMatriz(7);
+		fillMatriz(4);
 	}
 
 	// void setrects(SDL_Rect* clip) {
