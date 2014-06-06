@@ -12,15 +12,14 @@
 		fillMatriz(4);
 	}
 
-	// void setrects(SDL_Rect* clip) {
-	//         for(int i = 0; i < 7; i++) {
-	//                 //Basicamente a cada iteração do ciclo é incrementado 132px na imagem para obter o frame seguinte
-	//                 clip[i].x = 0 + i*132; 
-	//                 clip[i].y = 0;
-	//                 clip[i].w = 125;
-	//                 clip[i].h = 145;
-	//         }
-	// }
+	void Tela::setrects(SDL_Rect * rects) {
+    	for (int i = 0; i < 20; ++i) {
+            rects[ i ].x = i*60;
+            rects[ i ].y = 0;
+            rects[ i ].w = CELULA_WIDHT;
+            rects[ i ].h = CELULA_HEIGHT;
+        }
+	}
 	void Tela::fillMatriz(int n) {
 		int elemento, rep;
 		srand(time(NULL));
@@ -125,7 +124,7 @@
 				}
 				j++;
 				SDL_UpdateRects(screen, qtd, my_rects);
-		        SDL_Delay(10);
+		        SDL_Delay(20);
 			}
 		}
 	}
@@ -511,12 +510,17 @@
         }
 
         void Tela::handle_events() {
-            //print();
 		    Ponto p1 = {-1, -1}, p2 = {-1, -1};
 		    bool quit = false;
 		    showGame();
             if(testMove() == false) quit = true;
-		    while( (quit == false) ) {
+				float frame = 0;
+			    SDL_Rect rects[20];
+				SDL_Rect my_rect;
+			    setrects(rects);
+	    		Uint32 start;
+	    		int aux;
+			    while( (quit == false) ) {
 		    	if(changeLevel())
 		    		cout << "Você acabou de mudar para a fase " << getLevel() << ".\n";
 		        if( SDL_PollEvent( &event ) ) {
@@ -572,12 +576,31 @@
 	            			audio = true;
 	            		}
 	            	} else if(event.type == SDL_MOUSEMOTION) {
-	                    tmp.x = event.motion.x;
-						tmp.y = event.motion.y;
-						if((tmp.x >= MAT_INITIAL_POINT_X && tmp.x <= MAT_INITIAL_POINT_X + 480) && (tmp.y >= MAT_INITIAL_POINT_Y && tmp.y <= MAT_INITIAL_POINT_Y + 480)) {
-		                    tmp.x = (tmp.x - MAT_INITIAL_POINT_X) / 60;
-		                    tmp.y = (tmp.y - MAT_INITIAL_POINT_Y) / 60;
-						}
+	     //                tmp.x = event.motion.x;
+						// tmp.y = event.motion.y;
+						// if((tmp.x >= MAT_INITIAL_POINT_X && tmp.x <= MAT_INITIAL_POINT_X + 480) && (tmp.y >= MAT_INITIAL_POINT_Y && tmp.y <= MAT_INITIAL_POINT_Y + 480)) {
+		    //                 tmp.x = (tmp.x - MAT_INITIAL_POINT_X) / 60;
+		    //                 tmp.y = (tmp.y - MAT_INITIAL_POINT_Y) / 60;
+		    //                 aux = tmp.x;
+		    //                 tmp.x = tmp.y;
+		    //                 tmp.y = aux;
+				  //           SDL_Rect offset;
+				  //           offset.x = matriz[tmp.x][tmp.y].celula.x;
+				  //           offset.y = matriz[tmp.x][tmp.y].celula.y;
+				  //           SDL_BlitSurface( gems, &rects[static_cast<int>(frame)], screen, &offset );
+      //   					SDL_UpdateRect(screen, matriz[tmp.x][tmp.y].celula.x, matriz[tmp.x][tmp.y].celula.y, matriz[tmp.x][tmp.y].celula.w, matriz[tmp.x][tmp.y].celula.h);
+						// 	//Velocidade de transição entre frames
+						// 	frame += 0.5;
+					 
+					 //        if(frame > 7) {
+					 //        	frame = 0;
+					 //        }
+					 
+						// 	if(1000/FPS > SDL_GetTicks()-start) 
+						// 	{
+						// 		SDL_Delay(1000/FPS-(SDL_GetTicks()-start));
+						// 	}
+						// }
 	            	}
 		    	}
             	if((p1.x >= 0) && (p2.x >= 0)) {
