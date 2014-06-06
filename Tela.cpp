@@ -278,6 +278,7 @@
 		bool Tela::checkSwitch(int x1, int y1, int x2, int y2) {
                 fillUndo(); // guarda as telas em um pilha para uso da função Undo
 				bool flag = false;
+                char pontVetor[6];
 
 				switchElements(x1, y1, x2, y2);
 				apply_surface(x1, y1, gems, screen);
@@ -297,6 +298,28 @@
 					cout << "Marcou " << novosPontos << " pontos.\n"; // Monta a pontuação
 
 					user->setPontuacao(user->getPontuacao()+novosPontos);
+
+                    sprintf(pontVetor,"%d",user->getPontuacao());
+                    pontosJogador = TTF_RenderText_Solid( font, pontVetor, textColor );
+                    
+                    switch(level) {
+                    case 1:
+                        applySurface( 57.938, 184.812, fase1, screen );
+                        applySurface( 115, 254.812, pontosJogador, screen );
+                        break;                  
+                    case 2:
+                        applySurface( 57.938, 184.812, fase2, screen );
+                        applySurface( 115, 254.812, pontosJogador, screen );
+                        break;                  
+                    case 3:
+                        applySurface( 57.938, 184.812, fase3, screen );
+                        applySurface( 115, 254.812, pontosJogador, screen );
+                        break;                  
+                    case 4:
+                        applySurface( 57.938, 184.812, fase4, screen );
+                        applySurface( 115, 254.812, pontosJogador, screen );
+                        break;                  
+                    }   
 
 					return true;
 				}
@@ -705,12 +728,18 @@
 						break;                	
                 	case 2:
 						applySurface( 57.938, 184.812, fase2, screen );
+                        nomeJogador = TTF_RenderText_Solid( font, c, textColor );
+                        applySurface( 20, 120, nomeJogador, screen );
 						break;                	
                 	case 3:
 						applySurface( 57.938, 184.812, fase3, screen );
+                        nomeJogador = TTF_RenderText_Solid( font, c, textColor );
+                        applySurface( 20, 120, nomeJogador, screen );
 						break;                	
                 	case 4:
 						applySurface( 57.938, 184.812, fase4, screen );
+                        nomeJogador = TTF_RenderText_Solid( font, c, textColor );
+                        applySurface( 20, 120, nomeJogador, screen );
 						break;                	
                 }
 				if( SDL_Flip( screen ) == -1 ) return;

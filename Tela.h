@@ -3,6 +3,7 @@
 
 		#include <iostream> // biblioteca padrão i/o do c++
 		#include <cstdlib> // para uso da função rand()
+        #include <cstdio>
 		#include <ctime> // para uso da função rand()
 		#include <string> // para o nome do usuário do jogo
 		#include <cmath> //para calcular módulo
