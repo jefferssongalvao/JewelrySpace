@@ -1,7 +1,7 @@
 #ifndef _PILHA_H_
 	#define _PILHA_H_
 		#include "Ponto.h"
-		#define max 64
+		#define max 1000
 
 		class Pilha{
 			Ponto ponto[max];

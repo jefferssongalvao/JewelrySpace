@@ -263,7 +263,8 @@
 		}
 
 	// Verifica a troca
-		bool Tela::checkSwitch(int x1, int y1, int x2, int y2) {	
+		bool Tela::checkSwitch(int x1, int y1, int x2, int y2) {
+                fillUndo(); // guarda as telas em um pilha para uso da função Undo
 				bool flag = false;
 
 				switchElements(x1, y1, x2, y2);
@@ -435,6 +436,8 @@
             fase3 = load_image( "Images/fase3.png" );
             fase4 = load_image( "Images/fase4.png" );
 
+            hint = load_image( "Images/hint.png" );
+
             //If there was a problem in loading the button sprite sheet
             if( (gems == NULL) || (gems_dica == NULL))
             {
@@ -526,21 +529,21 @@
 
         void Tela::handle_events() {
 		    Ponto p1 = {-1, -1}, p2 = {-1, -1}, pDica = {-1, -1};
-		    bool quit = false;
+		    bool quit = false, hintFlag = false;
 		    showGame();
             if(testMove() == false) quit = true;
-				float frame = 0;
-	    		Uint32 start;
-				SDL_Rect rect0[20], rect1[20], rect2[20], rect3[20], rect4[20], rect5[20], rect6[20];
-			    setrects(rect0, 60, 0);
-			    setrects(rect1, 62, 70);
-			    setrects(rect2, 58, 140);
-			    setrects(rect3, 58, 210);
-			    setrects(rect4, 60, 280);
-			    setrects(rect5, 64, 350);
-			    setrects(rect6, 64, 420);
+			float frame = 0;
+    		Uint32 start;
+			SDL_Rect rect0[20], rect1[20], rect2[20], rect3[20], rect4[20], rect5[20], rect6[20];
+		    setrects(rect0, 60, 0);
+		    setrects(rect1, 62, 70);
+		    setrects(rect2, 58, 140);
+		    setrects(rect3, 58, 210);
+		    setrects(rect4, 60, 280);
+		    setrects(rect5, 64, 350);
+		    setrects(rect6, 64, 420);
 
-			    while( (quit == false) ) {
+		    while( (quit == false) ) {
 		    	changeLevel();
 		        if( SDL_PollEvent( &event ) ) {
 
@@ -818,4 +821,14 @@
 				SDL_FreeSurface( imagemcarregada );
 			}
 			return imagemotimizada;
-		}	   
+		}
+        void Tela::fillUndo() {
+            Undo telaInicial;
+            for(int i = 0; i < linhasMatriz; i++) {
+                for(int j = 0; j < colunasMatriz; j++) {
+                    telaInicial.mat[i][j] = matriz[i][j];
+                }
+            }
+            telaInicial.pontosAnterior = user->getPontuacao();
+            telasAnt.push(telaInicial);
+        }

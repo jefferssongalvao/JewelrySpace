@@ -31,8 +31,3 @@ void Pilha::setSize(int n) {
 }
 
 int Pilha::getSize() { return size; }
-
-void Pilha::imprimir() {
-	for(int i = 0; i < size; i++)
-		cout << ponto[i].x << "-" << ponto[i].y << "\n";
-}
