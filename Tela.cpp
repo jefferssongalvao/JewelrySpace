@@ -12,10 +12,10 @@
 		fillMatriz(4);
 	}
 
-	void Tela::setrects(SDL_Rect * rects) {
-    	for (int i = 0; i < 20; ++i) {
-            rects[ i ].x = i*60;
-            rects[ i ].y = 0;
+	void Tela::setrects(SDL_Rect * rects, int x, int y) {
+    	for (int i = 0; i < 8; ++i) {
+            rects[ i ].x = i*x;
+            rects[ i ].y = y;
             rects[ i ].w = CELULA_WIDHT;
             rects[ i ].h = CELULA_HEIGHT;
         }
@@ -515,11 +515,16 @@
 		    showGame();
             if(testMove() == false) quit = true;
 				float frame = 0;
-			    SDL_Rect rects[20];
-				SDL_Rect my_rect;
-			    setrects(rects);
 	    		Uint32 start;
-	    		int aux;
+				SDL_Rect rect0[20], rect1[20], rect2[20], rect3[20], rect4[20], rect5[20], rect6[20];
+			    setrects(rect0, 60, 0);
+			    setrects(rect1, 62, 70);
+			    setrects(rect2, 58, 140);
+			    setrects(rect3, 58, 210);
+			    setrects(rect4, 60, 280);
+			    setrects(rect5, 64, 350);
+			    setrects(rect6, 64, 420);
+
 			    while( (quit == false) ) {
 		    	if(changeLevel())
 		    		cout << "Você acabou de mudar para a fase " << getLevel() << ".\n";
@@ -532,16 +537,13 @@
 	                    //Get the mouse offsets
 	                    tmp.x = event.button.x;
 	                    tmp.y = event.button.y;
-	                    if((tmp.x >= MAT_INITIAL_POINT_X && tmp.x <= MAT_INITIAL_POINT_X + 480) && (tmp.y >= MAT_INITIAL_POINT_Y && tmp.y <= MAT_INITIAL_POINT_Y + 480)) {
+	                    while((tmp.x >= MAT_INITIAL_POINT_X && tmp.x <= MAT_INITIAL_POINT_X + 480) && (tmp.y >= MAT_INITIAL_POINT_Y && tmp.y <= MAT_INITIAL_POINT_Y + 480)) {
 		                    tmp.x = (tmp.x - MAT_INITIAL_POINT_X) / 60;
 		                    tmp.y = (tmp.y - MAT_INITIAL_POINT_Y) / 60;
 			                if(p1.x < 0) {
 			                    p1.x = tmp.y; //Precisa ser invertido
 			                    p1.y = tmp.x;
 			                    //Destaca a nova joia selecionada
-			                    contrastItem(p1.x, p1.y, matriz[p1.x][p1.y].elemento);
-			                    apply_surface(p1.x, p1.y, gems_on, screen);
-                				SDL_UpdateRect(screen, matriz[p1.x][p1.y].celula.x, matriz[p1.x][p1.y].celula.y, matriz[p1.x][p1.y].celula.w, matriz[p1.x][p1.y].celula.h);
 			                } else if(p2.x < 0) {
 			                	if(saoAdjacentes(p1.x, p1.y, tmp.y, tmp.x)) {
 				                    p2.x = tmp.y; //Precisa ser invertido
@@ -549,15 +551,8 @@
 			                	} else {
 			                		//Ignora selecao
 			                		//Tira o destaque da joia que tinha sido selecionada
-			                		contrastItem(p1.x, p1.y, matriz[p1.x][p1.y].elemento);
-			        				apply_surface(p1.x, p1.y, gems, screen);
-                					SDL_UpdateRect(screen, matriz[p1.x][p1.y].celula.x, matriz[p1.x][p1.y].celula.y, matriz[p1.x][p1.y].celula.w, matriz[p1.x][p1.y].celula.h);
 			                		p1.x = tmp.y;
 					                p1.y = tmp.x;
-					                //Destaca a nova joia selecionada
-					                contrastItem(p1.x, p1.y, matriz[p1.x][p1.y].elemento);
-			                    	apply_surface(p1.x, p1.y, gems_on, screen);
-                					SDL_UpdateRect(screen, matriz[p1.x][p1.y].celula.x, matriz[p1.x][p1.y].celula.y, matriz[p1.x][p1.y].celula.w, matriz[p1.x][p1.y].celula.h);
 			                	}
 			                }
 	                    }
@@ -575,34 +570,46 @@
 							Mix_ResumeMusic();
 	            			audio = true;
 	            		}
-	            	} else if(event.type == SDL_MOUSEMOTION) {
-	     //                tmp.x = event.motion.x;
-						// tmp.y = event.motion.y;
-						// if((tmp.x >= MAT_INITIAL_POINT_X && tmp.x <= MAT_INITIAL_POINT_X + 480) && (tmp.y >= MAT_INITIAL_POINT_Y && tmp.y <= MAT_INITIAL_POINT_Y + 480)) {
-		    //                 tmp.x = (tmp.x - MAT_INITIAL_POINT_X) / 60;
-		    //                 tmp.y = (tmp.y - MAT_INITIAL_POINT_Y) / 60;
-		    //                 aux = tmp.x;
-		    //                 tmp.x = tmp.y;
-		    //                 tmp.y = aux;
-				  //           SDL_Rect offset;
-				  //           offset.x = matriz[tmp.x][tmp.y].celula.x;
-				  //           offset.y = matriz[tmp.x][tmp.y].celula.y;
-				  //           SDL_BlitSurface( gems, &rects[static_cast<int>(frame)], screen, &offset );
-      //   					SDL_UpdateRect(screen, matriz[tmp.x][tmp.y].celula.x, matriz[tmp.x][tmp.y].celula.y, matriz[tmp.x][tmp.y].celula.w, matriz[tmp.x][tmp.y].celula.h);
-						// 	//Velocidade de transição entre frames
-						// 	frame += 0.5;
-					 
-					 //        if(frame > 7) {
-					 //        	frame = 0;
-					 //        }
-					 
-						// 	if(1000/FPS > SDL_GetTicks()-start) 
-						// 	{
-						// 		SDL_Delay(1000/FPS-(SDL_GetTicks()-start));
-						// 	}
-						// }
 	            	}
 		    	}
+	            SDL_Rect offset;
+	            offset.x = matriz[p1.x][p1.y].celula.x;
+	            offset.y = matriz[p1.x][p1.y].celula.y;
+	            switch(getElement(p1.x, p1.y)) {
+	            	case 1:
+						SDL_BlitSurface( gems, &rect0[static_cast<int>(frame)], screen, &offset );
+	            		break;
+	            	case 2:
+						SDL_BlitSurface( gems, &rect1[static_cast<int>(frame)], screen, &offset );
+	            		break;
+	            	case 3:
+						SDL_BlitSurface( gems, &rect2[static_cast<int>(frame)], screen, &offset );
+	            		break;
+	            	case 4:
+						SDL_BlitSurface( gems, &rect3[static_cast<int>(frame)], screen, &offset );
+	            		break;
+	            	case 5:
+						SDL_BlitSurface( gems, &rect4[static_cast<int>(frame)], screen, &offset );
+	            		break;
+	            	case 6:
+						SDL_BlitSurface( gems, &rect5[static_cast<int>(frame)], screen, &offset );
+	            		break;
+	            	case 7:
+						SDL_BlitSurface( gems, &rect6[static_cast<int>(frame)], screen, &offset );
+	            		break;
+	            }
+				SDL_UpdateRect(screen, matriz[p1.x][p1.y].celula.x, matriz[p1.x][p1.y].celula.y, matriz[p1.x][p1.y].celula.w, matriz[p1.x][p1.y].celula.h);
+				//Velocidade de transição entre frames
+				frame += 0.5;
+		 
+		        if(frame > 7) {
+		        	frame = 0;
+		        }
+		 
+				if(1000/FPS > SDL_GetTicks()-start) 
+				{
+					SDL_Delay(1000/FPS-(SDL_GetTicks()-start));
+				}
             	if((p1.x >= 0) && (p2.x >= 0)) {
 		            if(checkSwitch(p1.x, p1.y, p2.x, p2.y)) {
 		                cout << "Pontos marcados!\n";

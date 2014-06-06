@@ -37,7 +37,7 @@
   		const int AUDIO_CHANNELS = 2;
   		const int AUDIO_BUFFERS = 1024;
 
-		const int FPS = 30;
+		const int FPS = 60;
 
         //Enumeração para representar joias
         enum { YELLOW, WHITE, BLUE, RED, PURPLE, ORANGE, GREEN, BLANK };
@@ -79,7 +79,7 @@
 
 				Tela(); // Construtor Padrão
 				void fillMatriz(int n);
-				void setrects(SDL_Rect * rects);
+				void setrects(SDL_Rect * rects, int x, int y);
 				// metódo GET
 					int getElement(int x, int y) const;
 					int getPontuacao() const;
