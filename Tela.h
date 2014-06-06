@@ -159,6 +159,8 @@
                 SDL_Surface * carregar_imagem( std::string filename );
 
                 void fillUndo();
+                void undoPlay();
+
 		};
 
 #endif

@@ -284,7 +284,7 @@
 					
 					cout << "Marcou " << novosPontos << " pontos.\n"; // Monta a pontuação
 
-					user->setPontuacao(novosPontos);
+					user->setPontuacao(user->getPontuacao()+novosPontos);
 
 					return true;
 				}
@@ -554,7 +554,10 @@
 	                    //Get the mouse offsets
 	                    tmp.x = event.button.x;
 	                    tmp.y = event.button.y;
-	                    if((tmp.x >= 35 && tmp.x <= 140) && (tmp.y >= 380 && tmp.y <= 490)){
+                        if((tmp.x >= 150 && tmp.x <= 235) && (tmp.y >= 490 && tmp.y <= 580)) {
+                            undoPlay();
+                            if( SDL_Flip( screen ) == -1 ) return;
+	                    } else if((tmp.x >= 35 && tmp.x <= 140) && (tmp.y >= 380 && tmp.y <= 490)){
 	                    	pDica = getDica();
 	        				apply_surface(pDica.x, pDica.y, gems_dica, screen);
         					SDL_UpdateRect(screen, matriz[pDica.x][pDica.y].celula.x, matriz[pDica.x][pDica.y].celula.y, matriz[pDica.x][pDica.y].celula.w, matriz[pDica.x][pDica.y].celula.h);
@@ -670,6 +673,7 @@
 		}
         // Função para começar o jogo
             void Tela::showGame() {
+                fillUndo(); // guarda as telas em um pilha para uso da função Undo
     		    applySurface( 0, 0, fundo, screen );
                 if( SDL_Flip( screen ) == -1 )
                     return;
@@ -831,4 +835,23 @@
             }
             telaInicial.pontosAnterior = user->getPontuacao();
             telasAnt.push(telaInicial);
+        }
+        void Tela::undoPlay() {
+            SDL_Rect my_rects[8];
+            int qtd;
+            for(int i = 0; i < linhasMatriz; i++) {
+                qtd = 0;
+                for(int j = 0; j < colunasMatriz; j++) {
+                    matriz[i][j] = telasAnt.top().mat[i][j];
+                    apply_surface(i, j, gems, screen);
+                    my_rects[qtd].x = matriz[i][j].celula.x;
+                    my_rects[qtd].y = matriz[i][j].celula.y;
+                    my_rects[qtd].w = matriz[i][j].celula.w;
+                    my_rects[qtd++].h = matriz[i][j].celula.h;
+                }
+                SDL_UpdateRects(screen, 8, my_rects);
+                SDL_Delay(100);
+            }
+            user->setPontuacao(telasAnt.top().pontosAnterior);
+            if(telasAnt.size() > 1) telasAnt.pop();
         }
