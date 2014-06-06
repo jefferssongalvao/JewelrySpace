@@ -720,11 +720,17 @@
                     return;
                 std::string str = user->getNome();
                 const char *c = str.c_str(); //Transforma a string em um vetor de char
+                char pontVetor[6];
+
+                sprintf(pontVetor,"%d",user->getPontuacao());
+                pontosJogador = TTF_RenderText_Solid( font, pontVetor, textColor );
+                    
                 switch(level) {
                 	case 1:
 						applySurface( 57.938, 184.812, fase1, screen );
                         nomeJogador = TTF_RenderText_Solid( font, c, textColor );
                         applySurface( 20, 120, nomeJogador, screen );
+                        applySurface( 115, 254.812, pontosJogador, screen );
 						break;                	
                 	case 2:
 						applySurface( 57.938, 184.812, fase2, screen );
