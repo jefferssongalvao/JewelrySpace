@@ -551,6 +551,9 @@
 			                	} else {
 			                		//Ignora selecao
 			                		//Tira o destaque da joia que tinha sido selecionada
+			                		contrastItem(p1.x, p1.y, matriz[p1.x][p1.y].elemento);
+			        				apply_surface(p1.x, p1.y, gems, screen);
+                					SDL_UpdateRect(screen, matriz[p1.x][p1.y].celula.x, matriz[p1.x][p1.y].celula.y, matriz[p1.x][p1.y].celula.w, matriz[p1.x][p1.y].celula.h);
 			                		p1.x = tmp.y;
 					                p1.y = tmp.x;
 			                	}
