@@ -10,6 +10,18 @@
 		level = 1;
 		changedLevel = true;
 		fillMatriz(4);
+        string str; // para o nome do usuario
+        do {
+            std::cout << "Digite o seu nome: ";
+            getline(std::cin, str);
+            if(str.length() > 16) {
+                std::cout << "ERRO!\nO seu nome deve conter NO MAXIMO 16 caracteres!\n";
+                continue;
+            }
+            else
+                break;
+        } while(true);
+        setUsuario(str);
 	}
 
 	void Tela::setrects(SDL_Rect * rects, int x, int y) {
@@ -438,6 +450,9 @@
 
             hint = load_image( "Images/hint.png" );
 
+            //Open the font
+            font = TTF_OpenFont( "Fonts/ARDARLING.ttf", 30 );
+
             //If there was a problem in loading the button sprite sheet
             if( (gems == NULL) || (gems_dica == NULL))
             {
@@ -468,6 +483,9 @@
 
             //If there was an error in setting up the screen
             if( screen == NULL ) return false;
+
+            //Initialize SDL_ttf
+            if( TTF_Init() == -1 ) return false;
 
             //Set the window caption
             SDL_WM_SetCaption( "Bejeweled", NULL );
@@ -677,9 +695,13 @@
     		    applySurface( 0, 0, fundo, screen );
                 if( SDL_Flip( screen ) == -1 )
                     return;
+                std::string str = user->getNome();
+                const char *c = str.c_str(); //Transforma a string em um vetor de char
                 switch(level) {
                 	case 1:
 						applySurface( 57.938, 184.812, fase1, screen );
+                        nomeJogador = TTF_RenderText_Solid( font, c, textColor );
+                        applySurface( 20, 120, nomeJogador, screen );
 						break;                	
                 	case 2:
 						applySurface( 57.938, 184.812, fase2, screen );

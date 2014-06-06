@@ -15,12 +15,6 @@ int main() {
 
     Tela * jogo = new Tela();
 
-    string str; // para o nome do usuario
-    cout << "Digite o seu nome: ";
-    getline(cin, str);
-
-    jogo->setUsuario(str);
-
     system("clear");
 
     //Quit flag
