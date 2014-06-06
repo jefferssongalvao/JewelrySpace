@@ -8,4 +8,5 @@ Usuario::Usuario(string str) {
 
 string Usuario::getNome() const { return nome; }
 int Usuario::getPontuacao() const { return pontuacao; }
-void Usuario::setPontuacao(int p) { pontuacao += p; }
+void Usuario::setPontuacao(int p) { pontuacao = p; }
+
