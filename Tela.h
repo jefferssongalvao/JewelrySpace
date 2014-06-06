@@ -9,6 +9,7 @@
         #include <SDL/SDL.h> //para manipulação de eventos e interface
         #include <SDL/SDL_image.h> //para manipulação de imagens
 		#include <SDL/SDL_mixer.h> //para manipulação de audio
+        #include <SDL/SDL_ttf.h> //para mostrar textos
         #include <stack>
 
 		#include "Usuario.h" // Inclusão da Biblioteca da Classe
@@ -73,6 +74,9 @@
             SDL_Surface *gems_dica;
             SDL_Surface *screen;
             SDL_Surface *fundo;
+            //Mensagens
+            SDL_Surface *nomeJogador;
+            SDL_Surface *pontosJogador;
             //bonus
             SDL_Surface *gemYellow;
             SDL_Surface *gemWhite;
@@ -81,7 +85,6 @@
             SDL_Surface *gemPurple;
             SDL_Surface *gemOrange;
             SDL_Surface *gemGreen;
-
             // fases
             SDL_Surface *fase1;
             SDL_Surface *fase2;
@@ -99,6 +102,11 @@
 			Mix_Music *music;
 
             SDL_Event event;
+
+            //Fonte a ser usada
+            TTF_Font *font;
+            //Cor da fonte (branco)
+            SDL_Color textColor = { 255, 255, 255 };
 
 				Tela(); // Construtor Padrão
 				void fillMatriz(int n);
