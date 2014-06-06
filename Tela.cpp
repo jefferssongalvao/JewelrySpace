@@ -685,13 +685,20 @@
 						break;                	
                 }
 				if( SDL_Flip( screen ) == -1 ) return;
-                for(int i = 0; i < linhasMatriz; i++)
+                SDL_Rect my_rects[8];
+                int qtd;
+                for(int i = 0; i < linhasMatriz; i++) {
+                    qtd = 0;
                     for(int j = 0; j < colunasMatriz; j++) {
                         apply_surface(i, j, gems, screen);
-                        if( SDL_Flip( screen ) == -1 )
-                            return;
-                        SDL_Delay(25);
+                        my_rects[qtd].x = matriz[i][j].celula.x;
+                        my_rects[qtd].y = matriz[i][j].celula.y;
+                        my_rects[qtd].w = matriz[i][j].celula.w;
+                        my_rects[qtd++].h = matriz[i][j].celula.h;
                     }
+                    SDL_UpdateRects(screen, 8, my_rects);
+                    SDL_Delay(100);
+                }
 	            getBonus();
                 if( SDL_Flip( screen ) == -1 )
                     return;
