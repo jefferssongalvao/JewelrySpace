@@ -107,7 +107,7 @@
             //Fonte a ser usada
             TTF_Font *font;
             //Cor da fonte (branco)
-            SDL_Color textColor = { 255, 255, 255 };
+            SDL_Color textColor;
 
 				Tela(); // Construtor Padrão
 				void fillMatriz(int n);

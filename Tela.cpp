@@ -4,6 +4,7 @@
 // Construtor Padrão
 	Tela::Tela() {
         audio = true;
+        textColor = { 255, 255, 255 };
         set_clips(clipsGems);
         set_clips(clipsGems_dica);
 		pontos = new Pilha();
