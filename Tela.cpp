@@ -302,24 +302,7 @@
                     sprintf(pontVetor,"%d",user->getPontuacao());
                     pontosJogador = TTF_RenderText_Solid( font, pontVetor, textColor );
                     
-                    switch(level) {
-                    case 1:
-                        applySurface( 57.938, 184.812, fase1, screen );
-                        applySurface( 115, 254.812, pontosJogador, screen );
-                        break;                  
-                    case 2:
-                        applySurface( 57.938, 184.812, fase2, screen );
-                        applySurface( 115, 254.812, pontosJogador, screen );
-                        break;                  
-                    case 3:
-                        applySurface( 57.938, 184.812, fase3, screen );
-                        applySurface( 115, 254.812, pontosJogador, screen );
-                        break;                  
-                    case 4:
-                        applySurface( 57.938, 184.812, fase4, screen );
-                        applySurface( 115, 254.812, pontosJogador, screen );
-                        break;                  
-                    }   
+                    showPontuacao(); 
 
 					return true;
 				}
@@ -712,6 +695,32 @@
 		   offset.y = y; 
 		   SDL_BlitSurface( source, NULL, destination, &offset );
 		}
+
+        void Tela::showPontuacao() {
+            char pontVetor[6];
+
+            sprintf(pontVetor,"%d",user->getPontuacao());
+            pontosJogador = TTF_RenderText_Solid( font, pontVetor, textColor );
+                
+            switch(level) {
+                case 1:
+                    applySurface( 57.938, 184.812, fase1, screen );
+                    applySurface( 115, 254.812, pontosJogador, screen );
+                    break;                  
+                case 2:
+                    applySurface( 57.938, 184.812, fase2, screen );
+                    applySurface( 115, 254.812, pontosJogador, screen );
+                    break;                  
+                case 3:
+                    applySurface( 57.938, 184.812, fase3, screen );
+                    applySurface( 115, 254.812, pontosJogador, screen );
+                    break;                  
+                case 4:
+                    applySurface( 57.938, 184.812, fase4, screen );
+                    applySurface( 115, 254.812, pontosJogador, screen );
+            }
+        }
+
         // Função para começar o jogo
             void Tela::showGame() {
                 fillUndo(); // guarda as telas em um pilha para uso da função Undo
@@ -720,33 +729,31 @@
                     return;
                 std::string str = user->getNome();
                 const char *c = str.c_str(); //Transforma a string em um vetor de char
-                char pontVetor[6];
 
-                sprintf(pontVetor,"%d",user->getPontuacao());
-                pontosJogador = TTF_RenderText_Solid( font, pontVetor, textColor );
-                    
                 switch(level) {
                 	case 1:
 						applySurface( 57.938, 184.812, fase1, screen );
                         nomeJogador = TTF_RenderText_Solid( font, c, textColor );
                         applySurface( 20, 120, nomeJogador, screen );
-                        applySurface( 115, 254.812, pontosJogador, screen );
+                        showPontuacao();
 						break;                	
                 	case 2:
 						applySurface( 57.938, 184.812, fase2, screen );
                         nomeJogador = TTF_RenderText_Solid( font, c, textColor );
                         applySurface( 20, 120, nomeJogador, screen );
+                        showPontuacao();
 						break;                	
                 	case 3:
 						applySurface( 57.938, 184.812, fase3, screen );
                         nomeJogador = TTF_RenderText_Solid( font, c, textColor );
                         applySurface( 20, 120, nomeJogador, screen );
+                        showPontuacao();
 						break;                	
                 	case 4:
 						applySurface( 57.938, 184.812, fase4, screen );
                         nomeJogador = TTF_RenderText_Solid( font, c, textColor );
                         applySurface( 20, 120, nomeJogador, screen );
-						break;                	
+                        showPontuacao();
                 }
 				if( SDL_Flip( screen ) == -1 ) return;
                 SDL_Rect my_rects[8];
@@ -910,5 +917,6 @@
                 SDL_Delay(100);
             }
             user->setPontuacao(telasAnt.top().pontosAnterior);
+            showPontuacao();
             if(telasAnt.size() > 1) telasAnt.pop();
         }
