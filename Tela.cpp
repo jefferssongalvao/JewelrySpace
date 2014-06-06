@@ -5,7 +5,7 @@
 	Tela::Tela() {
         audio = true;
         set_clips(clipsGems);
-        set_clips(clipsGems_on);
+        set_clips(clipsGems_dica);
 		pontos = new Pilha();
 		level = 1;
 		changedLevel = true;
@@ -54,30 +54,29 @@
     int Tela::getElement(int x, int y) const { return matriz[x][y].elemento; }
     int Tela::getPontuacao() const { return user->getPontuacao(); }
     Ponto Tela::getDica() const { return dica; }
-    void Tela::getBonus() const {
+    void Tela::getBonus() {
     	switch(bonus) {
-    		case RED:
-	            cout << "O bonus é a peça Vermelha.\n";
+    		case YELLOW:
+    			applySurface( 720, 30, gemYellow, screen );
     			break;
     		case WHITE:
-	            cout << "O bonus é a peça Branca.\n";
-    			break;
-    		case GREEN:
-	            cout << "O bonus é a peça Verde.\n";
+    			applySurface( 720, 30, gemWhite, screen );
     			break;
     		case BLUE:
-	            cout << "O bonus é a peça Azul.\n";
+    			applySurface( 720, 30, gemBlue, screen );
+    			break;
+    		case RED:
+    			applySurface( 720, 30, gemRed, screen );
     			break;
     		case PURPLE:
-	            cout << "O bonus é a peça Roxa.\n";
-    			break;
-    		case YELLOW:
-	            cout << "O bonus é a peça Amarela.\n";
+    			applySurface( 720, 30, gemPurple, screen );
     			break;
     		case ORANGE:
-	            cout << "O bonus é a peça Laranja.\n";
+    			applySurface( 720, 30, gemOrange, screen );
     			break;
-    	}
+    		case GREEN:
+    			applySurface( 720, 30, gemGreen, screen );
+    	}    	
     }
     int Tela::getLevel() const { return level; }
 // metódo SET
@@ -358,28 +357,28 @@
         void Tela::contrastItem(int x, int y, int cod) {
             switch(cod) {
                 case 1:
-                    matriz[x][y].clip = &clipsGems_on[ YELLOW ];
+                    matriz[x][y].clip = &clipsGems_dica[ YELLOW ];
                     break;
                 case 2:
-                    matriz[x][y].clip = &clipsGems_on[ WHITE ];
+                    matriz[x][y].clip = &clipsGems_dica[ WHITE ];
                     break;
                 case 3:
-                    matriz[x][y].clip = &clipsGems_on[ BLUE ];
+                    matriz[x][y].clip = &clipsGems_dica[ BLUE ];
                     break;
                 case 4:
-                    matriz[x][y].clip = &clipsGems_on[ RED ];
+                    matriz[x][y].clip = &clipsGems_dica[ RED ];
                     break;
                 case 5:
-                    matriz[x][y].clip = &clipsGems_on[ PURPLE ];
+                    matriz[x][y].clip = &clipsGems_dica[ PURPLE ];
                     break;
                 case 6:
-                    matriz[x][y].clip = &clipsGems_on[ ORANGE ];
+                    matriz[x][y].clip = &clipsGems_dica[ ORANGE ];
                     break;
                 case 7:
-                    matriz[x][y].clip = &clipsGems_on[ GREEN ];
+                    matriz[x][y].clip = &clipsGems_dica[ GREEN ];
                     break;
                 case 9:
-                    matriz[x][y].clip = &clipsGems_on[ BLANK ];
+                    matriz[x][y].clip = &clipsGems_dica[ BLANK ];
             }
         }
 
@@ -418,10 +417,26 @@
             //Load the button sprite sheet
             gems = load_image( "Images/new_gems.png" );
 
-            gems_on = load_image( "Images/new_gems.png" );
+            gems_dica = load_image( "Images/dica.png" );
+
+            fundo = load_image( "Images/bg.png" );
+
+            // Bonus
+            gemYellow = load_image( "Images/yellow.png" );
+            gemWhite = load_image( "Images/white.png" );
+            gemBlue = load_image( "Images/blue.png" );
+            gemRed = load_image( "Images/red.png" );
+            gemPurple = load_image( "Images/purple.png" );
+            gemOrange = load_image( "Images/orange.png" );
+            gemGreen = load_image( "Images/green.png" );
+
+            fase1 = load_image( "Images/fase1.png" );
+            fase2 = load_image( "Images/fase2.png" );
+            fase3 = load_image( "Images/fase3.png" );
+            fase4 = load_image( "Images/fase4.png" );
 
             //If there was a problem in loading the button sprite sheet
-            if( (gems == NULL) || (gems_on == NULL))
+            if( (gems == NULL) || (gems_dica == NULL))
             {
                 return false;
             }
@@ -510,7 +525,7 @@
         }
 
         void Tela::handle_events() {
-		    Ponto p1 = {-1, -1}, p2 = {-1, -1};
+		    Ponto p1 = {-1, -1}, p2 = {-1, -1}, pDica = {-1, -1};
 		    bool quit = false;
 		    showGame();
             if(testMove() == false) quit = true;
@@ -526,8 +541,7 @@
 			    setrects(rect6, 64, 420);
 
 			    while( (quit == false) ) {
-		    	if(changeLevel())
-		    		cout << "Você acabou de mudar para a fase " << getLevel() << ".\n";
+		    	changeLevel();
 		        if( SDL_PollEvent( &event ) ) {
 
 		            Ponto tmp;
@@ -537,7 +551,15 @@
 	                    //Get the mouse offsets
 	                    tmp.x = event.button.x;
 	                    tmp.y = event.button.y;
-	                    while((tmp.x >= MAT_INITIAL_POINT_X && tmp.x <= MAT_INITIAL_POINT_X + 480) && (tmp.y >= MAT_INITIAL_POINT_Y && tmp.y <= MAT_INITIAL_POINT_Y + 480)) {
+	                    if((tmp.x >= 35 && tmp.x <= 140) && (tmp.y >= 380 && tmp.y <= 490)){
+	                    	pDica = getDica();
+	        				apply_surface(pDica.x, pDica.y, gems_dica, screen);
+        					SDL_UpdateRect(screen, matriz[pDica.x][pDica.y].celula.x, matriz[pDica.x][pDica.y].celula.y, matriz[pDica.x][pDica.y].celula.w, matriz[pDica.x][pDica.y].celula.h);
+	                    } else if((tmp.x >= MAT_INITIAL_POINT_X && tmp.x <= MAT_INITIAL_POINT_X + 480) && (tmp.y >= MAT_INITIAL_POINT_Y && tmp.y <= MAT_INITIAL_POINT_Y + 480)) {
+	                    	if(pDica.x >= 0) {
+		        				apply_surface(pDica.x, pDica.y, gems, screen);
+	        					SDL_UpdateRect(screen, matriz[pDica.x][pDica.y].celula.x, matriz[pDica.x][pDica.y].celula.y, matriz[pDica.x][pDica.y].celula.w, matriz[pDica.x][pDica.y].celula.h);
+	                    	}
 		                    tmp.x = (tmp.x - MAT_INITIAL_POINT_X) / 60;
 		                    tmp.y = (tmp.y - MAT_INITIAL_POINT_Y) / 60;
 			                if(p1.x < 0) {
@@ -551,7 +573,6 @@
 			                	} else {
 			                		//Ignora selecao
 			                		//Tira o destaque da joia que tinha sido selecionada
-			                		contrastItem(p1.x, p1.y, matriz[p1.x][p1.y].elemento);
 			        				apply_surface(p1.x, p1.y, gems, screen);
                 					SDL_UpdateRect(screen, matriz[p1.x][p1.y].celula.x, matriz[p1.x][p1.y].celula.y, matriz[p1.x][p1.y].celula.w, matriz[p1.x][p1.y].celula.h);
 			                		p1.x = tmp.y;
@@ -628,11 +649,6 @@
 	                p2.y = -1;
 		            if(testMove() == false) 
 		            	cout << "Sem mais movimentos possíveis!\n";
-		            else {
-		            	Ponto p = getDica();
-		            	// mostra uma dica temporário no código, será acionado ao apertar um botão
-		            		cout << "Dica: (" << p.x << "," << p.y << ")\n";
-		            }
 		        }
 			}
 		}
@@ -643,11 +659,32 @@
             offset.y = matriz[x][y].celula.y;
             SDL_BlitSurface( source, matriz[x][y].clip, destination, &offset ); //Blitagem
         }
-
+		void Tela::applySurface( int x, int y, SDL_Surface* source, SDL_Surface* destination ) {
+		   SDL_Rect offset;
+		   offset.x = x;
+		   offset.y = y; 
+		   SDL_BlitSurface( source, NULL, destination, &offset );
+		}
         // Função para começar o jogo
             void Tela::showGame() {
-                SDL_FillRect( screen, &screen->clip_rect, SDL_MapRGB( screen->format, 0xFF, 0xFF, 0xFF ) );
-                //Mostra a tela do jogo
+    		    applySurface( 0, 0, fundo, screen );
+                if( SDL_Flip( screen ) == -1 )
+                    return;
+                switch(level) {
+                	case 1:
+						applySurface( 57.938, 184.812, fase1, screen );
+						break;                	
+                	case 2:
+						applySurface( 57.938, 184.812, fase2, screen );
+						break;                	
+                	case 3:
+						applySurface( 57.938, 184.812, fase3, screen );
+						break;                	
+                	case 4:
+						applySurface( 57.938, 184.812, fase4, screen );
+						break;                	
+                }
+				if( SDL_Flip( screen ) == -1 ) return;
                 for(int i = 0; i < linhasMatriz; i++)
                     for(int j = 0; j < colunasMatriz; j++) {
                         apply_surface(i, j, gems, screen);
@@ -656,10 +693,12 @@
                         SDL_Delay(25);
                     }
 	            getBonus();
+                if( SDL_Flip( screen ) == -1 )
+                    return;
             }
 
             void Tela::showScreen() {
-                SDL_FillRect( screen, &screen->clip_rect, SDL_MapRGB( screen->format, 0xFF, 0xFF, 0xFF ) );
+                // SDL_FillRect( screen, &screen->clip_rect, SDL_MapRGB( screen->format, 0xFF, 0xFF, 0xFF ) );
                 //Mostra a tela do jogo
                 for(int i = 0; i < linhasMatriz; i++)
                     for(int j = 0; j < colunasMatriz; j++) {
@@ -763,3 +802,13 @@
                 std::cout << std::endl;
             }
         }
+		SDL_Surface * Tela::carregar_imagem( std::string filename ) {
+			SDL_Surface* imagemcarregada = NULL;
+			SDL_Surface* imagemotimizada = NULL;
+			imagemcarregada = SDL_LoadBMP( filename.c_str() );
+			if( imagemcarregada != NULL ) {
+				imagemotimizada = SDL_DisplayFormat( imagemcarregada );
+				SDL_FreeSurface( imagemcarregada );
+			}
+			return imagemotimizada;
+		}	   

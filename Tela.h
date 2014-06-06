@@ -20,8 +20,8 @@
         const int colunasMatriz = 8;
 
         //Atributos da tela
-        const int SCREEN_WIDTH = 1000;
-        const int SCREEN_HEIGHT = 700;
+        const int SCREEN_WIDTH = 820;
+        const int SCREEN_HEIGHT = 630;
         const int SCREEN_BPP = 32;
 
         //Atributos de uma celula (tamanho de uma célula)
@@ -30,7 +30,7 @@
 
         //Atributos da matriz (posição da tela onde colocar a matriz)
         const int MAT_INITIAL_POINT_X = 300;
-        const int MAT_INITIAL_POINT_Y = 120;
+        const int MAT_INITIAL_POINT_Y = 100;
 
         //Constantes para mixagem do audio
         const int AUDIO_RATE = 44100;
@@ -65,12 +65,27 @@
 
             //Superficies
             SDL_Surface *gems;
-            SDL_Surface *gems_on;
+            SDL_Surface *gems_dica;
             SDL_Surface *screen;
+            SDL_Surface *fundo;
+            //bonus
+            SDL_Surface *gemYellow;
+            SDL_Surface *gemWhite;
+            SDL_Surface *gemBlue;
+            SDL_Surface *gemRed;
+            SDL_Surface *gemPurple;
+            SDL_Surface *gemOrange;
+            SDL_Surface *gemGreen;
+
+            // fases
+            SDL_Surface *fase1;
+            SDL_Surface *fase2;
+            SDL_Surface *fase3;
+            SDL_Surface *fase4;
 
             //Cortes da figura (teremos oito joias)
-            SDL_Rect clipsGems[9];
-            SDL_Rect clipsGems_on[9];
+            SDL_Rect clipsGems[8];
+            SDL_Rect clipsGems_dica[8];
 
 			/* Mix_Music actually holds the music information.  */
 			Mix_Music *music;
@@ -84,7 +99,7 @@
 					int getElement(int x, int y) const;
 					int getPontuacao() const;
 					Ponto getDica() const;
-					void getBonus() const;
+					void getBonus();
 					int getLevel() const;
 				// metódo SET
 					void setElement(int x, int y, int element);
@@ -125,7 +140,7 @@
                 void handle_events();
 
                 void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination);//, SDL_Rect* clip);
-
+				void applySurface( int x, int y, SDL_Surface* source, SDL_Surface* destination );
                 void showGame(); // Função para começar o jogo
 
                 void showScreen();
@@ -133,6 +148,7 @@
                 bool testMove(); // Algoritmos que buscará as possível jogadas
                 bool changeLevel(); //  para mudança das fases
                 void print();
+                SDL_Surface * carregar_imagem( std::string filename );
 		};
 
 #endif
