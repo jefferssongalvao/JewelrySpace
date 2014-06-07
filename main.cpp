@@ -17,22 +17,26 @@ int main() {
 
     system("clear");
 
-    //Quit flag
-    bool quit = false;
-
     //Initialize
-    if( jogo->init() == false )
-    {
-        return 1;
-    }
+    if( jogo->init() == false ) return 1;
 
     //Load the files
-    if( jogo->load_files() == false )
-    {
-        return 1;
-    }
+    if( jogo->load_files() == false ) return 1;
 
-    jogo->showTelaInicial();
+    while(!jogo->showTelaInicial()) {
+        if(jogo->showGameOver() == false) {
+            jogo->clean_up();
+            delete jogo;
+            Tela * jogo = new Tela();
+            //Initialize
+            if( jogo->init() == false ) return 1;
+            //Load the files
+            if( jogo->load_files() == false ) return 1;
+            continue;
+        } else {
+            jogo->clean_up();
+        }
+    }
 
     //Inicia o jogo
     //jogo->handle_events();
@@ -40,7 +44,7 @@ int main() {
     //Clean up
     //jogo->clean_up();
 
-    std::cout << "Sua pontuacao foi: " << jogo->getPontuacao() << std::endl;
+    //std::cout << "Sua pontuacao foi: " << jogo->getPontuacao() << std::endl;
 
     delete jogo;
 

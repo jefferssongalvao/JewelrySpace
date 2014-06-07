@@ -120,11 +120,12 @@
             SDL_Color textColor;
 
 				Tela(); // Construtor Padrão
-                void showTelaInicial();
+                bool showTelaInicial();
                 bool showConfScreen();
                 bool showInstrucoes();
                 bool showIDscreen();
                 void showLevelUp();
+                bool showGameOver();
 				void fillMatriz(int n);
 				void setrects(SDL_Rect * rects, int x, int y);
 				// metódo GET
@@ -179,7 +180,7 @@
                 void showScreen();
 
                 bool testMove(); // Algoritmos que buscará as possível jogadas
-                bool changeLevel(); //  para mudança das fases
+                void changeLevel(); //  para mudança das fases
 
                 SDL_Surface * carregar_imagem( std::string filename );
 

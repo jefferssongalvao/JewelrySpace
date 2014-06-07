@@ -29,13 +29,13 @@
         setUsuario("str");
     }
 
-    void Tela::showTelaInicial() {
-        bool quit = false;
+    bool Tela::showTelaInicial() {
+        bool quit = false, execute = true;
 
-        while( (quit == false) ) {
+        while( execute && (quit == false) ) {
 
         applySurface( 0, 0, telaInicial, screen );
-        if( SDL_Flip( screen ) == -1 ) return;
+        SDL_Flip( screen );
 
             if( SDL_PollEvent( &event ) ) {
 
@@ -52,7 +52,8 @@
                         else
                             if(playGame())
                                 quit = true;
-
+                            else
+                                execute = false;
                     } else if((tmp.x >= 50 && tmp.x <= 180) && (tmp.y >= 115 && tmp.y <= 355)) {
                         if(showInstrucoes())
                             quit = true;
@@ -66,7 +67,12 @@
                 }
             }
         }
-    clean_up();
+    if(quit) {
+        clean_up();
+        return execute;
+    } else {
+        return quit;
+    }
 }
 
     bool Tela::showConfScreen() {
@@ -177,6 +183,42 @@
         applySurface( 0, 0, telaLevelUp, screen );
         SDL_Flip( screen );
         SDL_Delay(3000);
+    }
+
+    bool Tela::showGameOver() {
+        bool quit = false, execute = true;
+        char pontVetor[6];
+
+        applySurface( 0, 0, telaGameOver, screen );
+        sprintf(pontVetor,"%d",user->getPontuacao());
+        pontosJogador = TTF_RenderText_Solid( font, pontVetor, textColor );
+        applySurface( 330, 260, pontosJogador, screen );
+        SDL_Flip( screen );
+
+        while( execute ) {
+
+            if( SDL_PollEvent( &event ) ) {
+                Ponto tmp;
+
+                //If the left mouse button was pressed
+                if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+                    //Get the mouse offsets
+                    tmp.x = event.button.x;
+                    tmp.y = event.button.y;
+                    if((tmp.x >= 660 && tmp.x <= 730) && (tmp.y >= 520 && tmp.y <= 600)) {
+                        execute = false; //Play again
+                    } else if((tmp.x >= 90 && tmp.x <= 175) && (tmp.y >= 490 && tmp.y <= 575)) {
+                        quit = true;
+                        return quit;
+                    }
+                } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
+                    //Quit the program
+                    quit = true;
+                    return quit;
+                }
+            }
+        }
+        return execute;
     }
 
 	void Tela::setrects(SDL_Rect * rects, int x, int y) {
@@ -457,7 +499,7 @@
                     sprintf(pontVetor,"%d",user->getPontuacao());
                     pontosJogador = TTF_RenderText_Solid( font, pontVetor, textColor );
                     
-                    showPontuacao(); 
+                    showPontuacao();
 
 					return true;
 				}
@@ -740,6 +782,11 @@
 
 		    while( execute ) {
 		    	changeLevel();
+                if( level == 5 ) {
+                    execute = false;
+                    return execute;
+                }
+
 		        if( SDL_PollEvent( &event ) ) {
 
 		            Ponto tmp;
@@ -1036,35 +1083,34 @@
 			}
 			return false;
 		}
-		bool Tela::changeLevel() {
+
+		void Tela::changeLevel() {
+
 			//if(changedLevel && user->getPontuacao() > 1000 && user->getPontuacao() < 3000) {
-            if(changedLevel && user->getPontuacao() > 100 && user->getPontuacao() < 300) {
+            if(changedLevel && user->getPontuacao() > 100 && user->getPontuacao() < 150) {
 				level = 2;
 				fillMatriz(5);
                 changedLevel = false;
 				showLevelUp();
                 showGame();
 			//} else if(!changedLevel && user->getPontuacao() >= 3000 && user->getPontuacao() < 6000) {
-            } else if(!changedLevel && user->getPontuacao() >= 300 && user->getPontuacao() < 600) {
+            } else if(!changedLevel && user->getPontuacao() >= 150 && user->getPontuacao() < 200) {
 				level = 3;
 				fillMatriz(6);
                 changedLevel = true;
 				showLevelUp();
                 showGame();
 			//} else if(changedLevel && user->getPontuacao() >= 6000 && user->getPontuacao() < 10000) {
-            } else if(changedLevel && user->getPontuacao() >= 600 && user->getPontuacao() < 800) {
+            } else if(changedLevel && user->getPontuacao() >= 250 && user->getPontuacao() < 300) {
 				level = 4;
 				fillMatriz(7);
                 changedLevel = false;
 				showLevelUp();
                 showGame();
 			//} else if(!changedLevel && user->getPontuacao() >= 10000) { // esse é o zerar do jogo
-            } else if(!changedLevel && user->getPontuacao() >= 1000) { // esse é o zerar do jogo
-				level = 5;
-				fillMatriz(7);
-				showGame();
-				changedLevel = true;
+            } else if(!changedLevel && user->getPontuacao() >= 300) { // esse é o zerar do jogo
                 /*SHOW GAME OVER*/
+                level = 5;
 			}
 		}
 
