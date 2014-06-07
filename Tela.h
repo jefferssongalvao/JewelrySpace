@@ -120,6 +120,7 @@
 
 				Tela(); // Construtor Padrão
                 void showTelaInicial();
+                void showConfScreen();
 				void fillMatriz(int n);
 				void setrects(SDL_Rect * rects, int x, int y);
 				// metódo GET
@@ -165,7 +166,7 @@
 
                 bool init();
 
-                void handle_events();
+                bool playGame();
 
                 void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination);//, SDL_Rect* clip);
 				void applySurface( int x, int y, SDL_Surface* source, SDL_Surface* destination );

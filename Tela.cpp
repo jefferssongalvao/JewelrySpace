@@ -7,10 +7,10 @@
         textColor = { 255, 255, 255 };
         set_clips(clipsGems);
         set_clips(clipsGems_dica);
-		pontos = new Pilha();
-		level = 1;
-		changedLevel = true;
-		fillMatriz(4);
+        pontos = new Pilha();
+        level = 1;
+        changedLevel = true;
+        fillMatriz(4);
         /*
         ISSO VAI PARA USUARIO
         string str; // para o nome do usuario
@@ -27,9 +27,10 @@
         setUsuario(str);
         */
         setUsuario("str");
-	}
+    }
 
     void Tela::showTelaInicial() {
+        Mix_PauseMusic();
         bool quit = false;
 
         applySurface( 0, 0, telaInicial, screen );
@@ -42,37 +43,74 @@
                 Ponto tmp;
 
                 //If the left mouse button was pressed
-                /*if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+                if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
                     //Get the mouse offsets
                     tmp.x = event.button.x;
                     tmp.y = event.button.y;
-                    if((tmp.x >= 150 && tmp.x <= 235) && (tmp.y >= 490 && tmp.y <= 580)) {
-                        undoPlay();
-                        if( SDL_Flip( screen ) == -1 ) return;
-                    } else if((tmp.x >= 35 && tmp.x <= 140) && (tmp.y >= 380 && tmp.y <= 490)){
-                        //pDica = getDica();
-                        //apply_surface(pDica.x, pDica.y, gems_dica, screen);
-                        //SDL_UpdateRect(screen, matriz[pDica.x][pDica.y].celula.x, matriz[pDica.x][pDica.y].celula.y, matriz[pDica.x][pDica.y].celula.w, matriz[pDica.x][pDica.y].celula.h);
-                    } 
-                    //Se o usuario fechar a janela ou apertar a tecla ESC
-                else*/ if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
+                    if((tmp.x >= 50 && tmp.x <= 175) && (tmp.y >= 400 && tmp.y <= 530)) {
+                        if(playGame())
+                            quit = true;
+                        else
+                            quit = false;
+                    } else if((tmp.x >= 65 && tmp.x <= 150) && (tmp.y >= 545 && tmp.y <= 623)) {
+                        //showConfScreen();
+                        showConfScreen();
+                    }
+                /*} else if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+                    //Get the mouse offsets
+                    tmp.x = event.button.x;
+                    tmp.y = event.button.y;
+                */} else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
                     //Quit the program
                     quit = true;
-                } else if( (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) ) {
-                    if(audio == true) {
-                        // pause music playback
-                        Mix_PauseMusic();
-                        audio = false;
-                    } else {
-                        // resume music playback
-                        Mix_ResumeMusic();
-                        audio = true;
-                    }
                 }
             }
         }
     clean_up();
 }
+
+    void Tela::showConfScreen() {
+        bool quit = false;
+
+        if(audio) {
+            applySurface( 0, 0, telaConfigSound_ON, screen );
+            if( SDL_Flip( screen ) == -1 ) return;
+        } else {
+            applySurface( 0, 0, telaConfigSound_OFF, screen );
+            if( SDL_Flip( screen ) == -1 ) return;
+        }
+
+        while( (quit == false) ) {
+
+            if( SDL_PollEvent( &event ) ) {
+
+                Ponto tmp;
+
+                //If the left mouse button was pressed
+                /*if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+                    //Get the mouse offsets
+                    tmp.x = event.button.x;
+                    tmp.y = event.button.y;
+                    if((tmp.x >= 50 && tmp.x <= 175) && (tmp.y >= 110 && tmp.y <= 530)) {
+                        if(playGame())
+                            quit = true;
+                        else
+                            quit = false;
+                    }
+                } else if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+                    //Get the mouse offsets
+                    tmp.x = event.button.x;
+                    tmp.y = event.button.y;
+                    if((tmp.x >= 65 && tmp.x <= 150) && (tmp.y >= 545 && tmp.y <= 623)) {
+                        showConfScreen();
+                    }
+                } else*/ if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
+                    //Quit the program
+                    quit = true;
+                }
+            }
+        }
+    }
 
 	void Tela::setrects(SDL_Rect * rects, int x, int y) {
     	for (int i = 0; i < 8; ++i) {
@@ -610,7 +648,7 @@
             clips[ BLANK ].h = CELULA_HEIGHT;
         }
 
-        void Tela::handle_events() {
+        bool Tela::playGame() {
 		    Ponto p1 = {-1, -1}, p2 = {-1, -1}, pDica = {-1, -1};
 		    bool quit = false, hintFlag = false;
 		    showGame();
@@ -639,7 +677,7 @@
 	                    tmp.y = event.button.y;
                         if((tmp.x >= 150 && tmp.x <= 235) && (tmp.y >= 490 && tmp.y <= 580)) {
                             undoPlay();
-                            if( SDL_Flip( screen ) == -1 ) return;
+                            SDL_Flip( screen );
 	                    } else if((tmp.x >= 35 && tmp.x <= 140) && (tmp.y >= 380 && tmp.y <= 490)){
 	                    	pDica = getDica();
 	        				apply_surface(pDica.x, pDica.y, gems_dica, screen);
@@ -740,6 +778,7 @@
 		            	cout << "Sem mais movimentos possíveis!\n";
 		        }
 			}
+            return quit;
 		}
 
         void Tela::apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination) {
@@ -796,7 +835,7 @@
                         applySurface( 20, 120, nomeJogador, screen );
                         showPontuacao();
 						break;                	
-                	case 2:
+                	/*case 2:
 						applySurface( 57.938, 184.812, fase2, screen );
                         nomeJogador = TTF_RenderText_Solid( font, c, textColor );
                         applySurface( 20, 120, nomeJogador, screen );
@@ -812,7 +851,7 @@
 						applySurface( 57.938, 184.812, fase4, screen );
                         nomeJogador = TTF_RenderText_Solid( font, c, textColor );
                         applySurface( 20, 120, nomeJogador, screen );
-                        showPontuacao();
+                        showPontuacao();*/
                 }
 				if( SDL_Flip( screen ) == -1 ) return;
                 SDL_Rect my_rects[8];
