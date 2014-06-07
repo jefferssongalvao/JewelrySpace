@@ -30,13 +30,12 @@
     }
 
     void Tela::showTelaInicial() {
-        Mix_PauseMusic();
         bool quit = false;
+
+        while( (quit == false) ) {
 
         applySurface( 0, 0, telaInicial, screen );
         if( SDL_Flip( screen ) == -1 ) return;
-
-        while( (quit == false) ) {
 
             if( SDL_PollEvent( &event ) ) {
 
@@ -52,8 +51,10 @@
                             quit = true;
                         else
                             quit = false;
+                    } else if((tmp.x >= 50 && tmp.x <= 180) && (tmp.y >= 115 && tmp.y <= 355)) {
+                        if(showInstrucoes())
+                            quit = true;
                     } else if((tmp.x >= 65 && tmp.x <= 150) && (tmp.y >= 545 && tmp.y <= 623)) {
-                        //showConfScreen();
                         showConfScreen();
                     }
                 /*} else if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
@@ -110,6 +111,35 @@
                 }
             }
         }
+    }
+
+    bool Tela::showInstrucoes() {
+        bool quit = false, execute = true;
+
+        applySurface( 0, 0, telaInstrucoes, screen );
+        SDL_Flip( screen );
+
+        while( execute ) {
+
+            if( SDL_PollEvent( &event ) ) {
+                Ponto tmp;
+
+                //If the left mouse button was pressed
+                if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+                    //Get the mouse offsets
+                    tmp.x = event.button.x;
+                    tmp.y = event.button.y;
+                    if((tmp.x >= 590 && tmp.x <= 645) && (tmp.y >= 100 && tmp.y <= 160)) {
+                        execute = false;
+                    }
+                } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
+                    //Quit the program
+                    quit = true;
+                    return quit;
+                }
+            }
+        }
+        return execute;
     }
 
 	void Tela::setrects(SDL_Rect * rects, int x, int y) {
@@ -524,7 +554,8 @@
 
             //Telas
             telaInicial = load_image( "Images/tela_inicial.png" );
-            //SDL_Surface *telaInstrucoes;
+            telaIdentificacao = load_image( "Images/tela_identificacao.png" );
+            telaInstrucoes = load_image( "Images/tela_instrucoes.png" );
             telaConfigSound_ON = load_image( "Images/tela_conf_som_on.png" );
             telaConfigSound_OFF = load_image( "Images/tela_conf_som_off.png" );;
             telaLevelUp = load_image( "Images/tela_levelup.png" );
@@ -566,7 +597,7 @@
             return true;
         }
 
-        void Tela::clean_up() {
+        void Tela::clean_up() { //LIBERAR TUDO!!
             //Free the surface
             SDL_FreeSurface( gems );
 
@@ -598,7 +629,7 @@
             music = Mix_LoadMUS("Sounds/music.mp3");
             if( music == NULL )	return false;
 			//Toca musica (-1 para indefinidamente)
-            Mix_PlayMusic(music, -1);
+            //Mix_PlayMusic(music, -1);
 
             //If everything initialized fine
             return true;
@@ -835,7 +866,7 @@
                         applySurface( 20, 120, nomeJogador, screen );
                         showPontuacao();
 						break;                	
-                	/*case 2:
+                	case 2:
 						applySurface( 57.938, 184.812, fase2, screen );
                         nomeJogador = TTF_RenderText_Solid( font, c, textColor );
                         applySurface( 20, 120, nomeJogador, screen );
@@ -851,7 +882,7 @@
 						applySurface( 57.938, 184.812, fase4, screen );
                         nomeJogador = TTF_RenderText_Solid( font, c, textColor );
                         applySurface( 20, 120, nomeJogador, screen );
-                        showPontuacao();*/
+                        showPontuacao();
                 }
 				if( SDL_Flip( screen ) == -1 ) return;
                 SDL_Rect my_rects[8];
@@ -948,22 +979,26 @@
 			return false;
 		}
 		bool Tela::changeLevel() {
-			if(changedLevel && user->getPontuacao() > 1000 && user->getPontuacao() < 3000) {
+			//if(changedLevel && user->getPontuacao() > 1000 && user->getPontuacao() < 3000) {
+            if(changedLevel && user->getPontuacao() > 100 && user->getPontuacao() < 300) {
 				level = 2;
 				fillMatriz(5);
 				showGame();
 				changedLevel = false;
-			} else if(!changedLevel && user->getPontuacao() >= 3000 && user->getPontuacao() < 6000) {
+			//} else if(!changedLevel && user->getPontuacao() >= 3000 && user->getPontuacao() < 6000) {
+            } else if(!changedLevel && user->getPontuacao() >= 300 && user->getPontuacao() < 600) {
 				level = 3;
 				fillMatriz(6);
 				showGame();
 				changedLevel = true;
-			} else if(changedLevel && user->getPontuacao() >= 6000 && user->getPontuacao() < 10000) {
+			//} else if(changedLevel && user->getPontuacao() >= 6000 && user->getPontuacao() < 10000) {
+            } else if(changedLevel && user->getPontuacao() >= 600 && user->getPontuacao() < 800) {
 				level = 4;
 				fillMatriz(7);
 				showGame();
 				changedLevel = false;
-			} else if(!changedLevel && user->getPontuacao() >= 10000) { // esse é o zerar do jogo
+			//} else if(!changedLevel && user->getPontuacao() >= 10000) { // esse é o zerar do jogo
+            } else if(!changedLevel && user->getPontuacao() >= 1000) { // esse é o zerar do jogo
 				level = 5;
 				fillMatriz(7);
 				showGame();

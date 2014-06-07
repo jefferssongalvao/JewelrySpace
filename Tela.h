@@ -72,6 +72,7 @@
 
             //Telas
             SDL_Surface *telaInicial;
+            SDL_Surface *telaIdentificacao;
             SDL_Surface *telaInstrucoes;
             SDL_Surface *telaConfigSound_ON;
             SDL_Surface *telaConfigSound_OFF;
@@ -121,6 +122,7 @@
 				Tela(); // Construtor Padrão
                 void showTelaInicial();
                 void showConfScreen();
+                bool showInstrucoes();
 				void fillMatriz(int n);
 				void setrects(SDL_Rect * rects, int x, int y);
 				// metódo GET
