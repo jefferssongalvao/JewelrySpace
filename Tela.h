@@ -123,6 +123,7 @@
                 void showTelaInicial();
                 bool showConfScreen();
                 bool showInstrucoes();
+                bool showIDscreen();
 				void fillMatriz(int n);
 				void setrects(SDL_Rect * rects, int x, int y);
 				// metódo GET

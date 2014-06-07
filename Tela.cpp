@@ -47,10 +47,12 @@
                     tmp.x = event.button.x;
                     tmp.y = event.button.y;
                     if((tmp.x >= 50 && tmp.x <= 175) && (tmp.y >= 400 && tmp.y <= 530)) {
-                        if(playGame())
+                        if(showIDscreen())
                             quit = true;
                         else
-                            quit = false;
+                            if(playGame())
+                                quit = true;
+
                     } else if((tmp.x >= 50 && tmp.x <= 180) && (tmp.y >= 115 && tmp.y <= 355)) {
                         if(showInstrucoes())
                             quit = true;
@@ -130,6 +132,35 @@
                     tmp.x = event.button.x;
                     tmp.y = event.button.y;
                     if((tmp.x >= 590 && tmp.x <= 645) && (tmp.y >= 100 && tmp.y <= 160)) {
+                        execute = false;
+                    }
+                } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
+                    //Quit the program
+                    quit = true;
+                    return quit;
+                }
+            }
+        }
+        return execute;
+    }
+
+    bool Tela::showIDscreen() {
+        bool quit = false, execute = true;
+
+        applySurface( 0, 0, telaIdentificacao, screen );
+        SDL_Flip( screen );
+
+        while( execute ) {
+
+            if( SDL_PollEvent( &event ) ) {
+                Ponto tmp;
+
+                //If the left mouse button was pressed
+                if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+                    //Get the mouse offsets
+                    tmp.x = event.button.x;
+                    tmp.y = event.button.y;
+                    if((tmp.x >= 660 && tmp.x <= 730) && (tmp.y >= 520 && tmp.y <= 600)) {
                         execute = false;
                     }
                 } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
@@ -603,6 +634,12 @@
 
             //Libera ficheiro de audio da memoria
             Mix_FreeMusic(music);
+
+            //Close the font that was used
+            TTF_CloseFont( font );
+
+            //Quit SDL_ttf
+            TTF_Quit();
 
             //Quit SDL
             SDL_Quit();
