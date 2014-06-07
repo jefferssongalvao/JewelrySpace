@@ -70,6 +70,15 @@
 
 			public:
 
+            //Telas
+            SDL_Surface *telaInicial;
+            SDL_Surface *telaInstrucoes;
+            SDL_Surface *telaConfigSound_ON;
+            SDL_Surface *telaConfigSound_OFF;
+            SDL_Surface *telaLevelUp;
+            SDL_Surface *telaGameOver;
+
+
             //Superficies
             SDL_Surface *gems;
             SDL_Surface *gems_dica;
@@ -110,6 +119,7 @@
             SDL_Color textColor;
 
 				Tela(); // Construtor Padrão
+                void showTelaInicial();
 				void fillMatriz(int n);
 				void setrects(SDL_Rect * rects, int x, int y);
 				// metódo GET
@@ -165,7 +175,7 @@
 
                 bool testMove(); // Algoritmos que buscará as possível jogadas
                 bool changeLevel(); //  para mudança das fases
-                void print();
+
                 SDL_Surface * carregar_imagem( std::string filename );
 
                 void fillUndo();

@@ -11,6 +11,8 @@
 		level = 1;
 		changedLevel = true;
 		fillMatriz(4);
+        /*
+        ISSO VAI PARA USUARIO
         string str; // para o nome do usuario
         do {
             std::cout << "Digite o seu nome: ";
@@ -23,7 +25,54 @@
                 break;
         } while(true);
         setUsuario(str);
+        */
+        setUsuario("str");
 	}
+
+    void Tela::showTelaInicial() {
+        bool quit = false;
+
+        applySurface( 0, 0, telaInicial, screen );
+        if( SDL_Flip( screen ) == -1 ) return;
+
+        while( (quit == false) ) {
+
+            if( SDL_PollEvent( &event ) ) {
+
+                Ponto tmp;
+
+                //If the left mouse button was pressed
+                /*if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+                    //Get the mouse offsets
+                    tmp.x = event.button.x;
+                    tmp.y = event.button.y;
+                    if((tmp.x >= 150 && tmp.x <= 235) && (tmp.y >= 490 && tmp.y <= 580)) {
+                        undoPlay();
+                        if( SDL_Flip( screen ) == -1 ) return;
+                    } else if((tmp.x >= 35 && tmp.x <= 140) && (tmp.y >= 380 && tmp.y <= 490)){
+                        //pDica = getDica();
+                        //apply_surface(pDica.x, pDica.y, gems_dica, screen);
+                        //SDL_UpdateRect(screen, matriz[pDica.x][pDica.y].celula.x, matriz[pDica.x][pDica.y].celula.y, matriz[pDica.x][pDica.y].celula.w, matriz[pDica.x][pDica.y].celula.h);
+                    } 
+                    //Se o usuario fechar a janela ou apertar a tecla ESC
+                else*/ if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
+                    //Quit the program
+                    quit = true;
+                } else if( (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) ) {
+                    if(audio == true) {
+                        // pause music playback
+                        Mix_PauseMusic();
+                        audio = false;
+                    } else {
+                        // resume music playback
+                        Mix_ResumeMusic();
+                        audio = true;
+                    }
+                }
+            }
+        }
+    clean_up();
+}
 
 	void Tela::setrects(SDL_Rect * rects, int x, int y) {
     	for (int i = 0; i < 8; ++i) {
@@ -434,6 +483,15 @@
         }
 
         bool Tela::load_files() {
+
+            //Telas
+            telaInicial = load_image( "Images/tela_inicial.png" );
+            //SDL_Surface *telaInstrucoes;
+            telaConfigSound_ON = load_image( "Images/tela_conf_som_on.png" );
+            telaConfigSound_OFF = load_image( "Images/tela_conf_som_off.png" );;
+            telaLevelUp = load_image( "Images/tela_levelup.png" );
+            telaGameOver = load_image( "Images/tela_gameover.png" );
+
             //Load the button sprite sheet
             gems = load_image( "Images/new_gems.png" );
 
@@ -874,13 +932,6 @@
 			}
 		}
 
-        void Tela::print() {
-            for (int i = 0; i < linhasMatriz; i++) {
-                for(int j = 0; j < colunasMatriz; j++)
-                    std::cout << matriz[i][j].elemento << ' ';
-                std::cout << std::endl;
-            }
-        }
 		SDL_Surface * Tela::carregar_imagem( std::string filename ) {
 			SDL_Surface* imagemcarregada = NULL;
 			SDL_Surface* imagemotimizada = NULL;

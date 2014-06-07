@@ -32,11 +32,13 @@ int main() {
         return 1;
     }
 
+    jogo->showTelaInicial();
+
     //Inicia o jogo
-    jogo->handle_events();
+    //jogo->handle_events();
     
     //Clean up
-    jogo->clean_up();
+    //jogo->clean_up();
 
     std::cout << "Sua pontuacao foi: " << jogo->getPontuacao() << std::endl;
 
