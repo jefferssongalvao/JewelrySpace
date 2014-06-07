@@ -55,13 +55,10 @@
                         if(showInstrucoes())
                             quit = true;
                     } else if((tmp.x >= 65 && tmp.x <= 150) && (tmp.y >= 545 && tmp.y <= 623)) {
-                        showConfScreen();
+                        if(showConfScreen())
+                            quit = true;
                     }
-                /*} else if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-                    //Get the mouse offsets
-                    tmp.x = event.button.x;
-                    tmp.y = event.button.y;
-                */} else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
+                } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
                     //Quit the program
                     quit = true;
                 }
@@ -70,47 +67,50 @@
     clean_up();
 }
 
-    void Tela::showConfScreen() {
-        bool quit = false;
+    bool Tela::showConfScreen() {
+        bool quit = false, execute = true;
 
         if(audio) {
             applySurface( 0, 0, telaConfigSound_ON, screen );
-            if( SDL_Flip( screen ) == -1 ) return;
+            SDL_Flip( screen );
         } else {
             applySurface( 0, 0, telaConfigSound_OFF, screen );
-            if( SDL_Flip( screen ) == -1 ) return;
+            SDL_Flip( screen );
         }
 
-        while( (quit == false) ) {
+        while( execute ) {
 
             if( SDL_PollEvent( &event ) ) {
-
                 Ponto tmp;
 
                 //If the left mouse button was pressed
-                /*if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+                if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
                     //Get the mouse offsets
                     tmp.x = event.button.x;
                     tmp.y = event.button.y;
-                    if((tmp.x >= 50 && tmp.x <= 175) && (tmp.y >= 110 && tmp.y <= 530)) {
-                        if(playGame())
-                            quit = true;
-                        else
-                            quit = false;
+                    if((tmp.x >= 590 && tmp.x <= 645) && (tmp.y >= 100 && tmp.y <= 160)) {
+                        execute = false;
+                    } else if((tmp.x >= 140 && tmp.x <= 660) && (tmp.y >= 60 && tmp.y <= 580)) {
+                        if(audio) {
+                            applySurface( 0, 0, telaConfigSound_OFF, screen );
+                            SDL_Flip( screen );
+                            audio = false;
+                            Mix_PauseMusic();
+                        } else {
+                            applySurface( 0, 0, telaConfigSound_ON, screen );
+                            SDL_Flip( screen );
+                            audio = true;
+                            Mix_ResumeMusic();
+                        }
                     }
-                } else if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-                    //Get the mouse offsets
-                    tmp.x = event.button.x;
-                    tmp.y = event.button.y;
-                    if((tmp.x >= 65 && tmp.x <= 150) && (tmp.y >= 545 && tmp.y <= 623)) {
-                        showConfScreen();
-                    }
-                } else*/ if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
+                } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
                     //Quit the program
                     quit = true;
+                    return quit;
                 }
             }
         }
+        return execute;
     }
 
     bool Tela::showInstrucoes() {
@@ -629,7 +629,7 @@
             music = Mix_LoadMUS("Sounds/music.mp3");
             if( music == NULL )	return false;
 			//Toca musica (-1 para indefinidamente)
-            //Mix_PlayMusic(music, -1);
+            Mix_PlayMusic(music, -1);
 
             //If everything initialized fine
             return true;

@@ -121,7 +121,7 @@
 
 				Tela(); // Construtor Padrão
                 void showTelaInicial();
-                void showConfScreen();
+                bool showConfScreen();
                 bool showInstrucoes();
 				void fillMatriz(int n);
 				void setrects(SDL_Rect * rects, int x, int y);
