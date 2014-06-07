@@ -173,6 +173,12 @@
         return execute;
     }
 
+    void Tela::showLevelUp() {
+        applySurface( 0, 0, telaLevelUp, screen );
+        SDL_Flip( screen );
+        SDL_Delay(3000);
+    }
+
 	void Tela::setrects(SDL_Rect * rects, int x, int y) {
     	for (int i = 0; i < 8; ++i) {
             rects[ i ].x = i*x;
@@ -1035,20 +1041,23 @@
             if(changedLevel && user->getPontuacao() > 100 && user->getPontuacao() < 300) {
 				level = 2;
 				fillMatriz(5);
-				showGame();
-				changedLevel = false;
+                changedLevel = false;
+				showLevelUp();
+                showGame();
 			//} else if(!changedLevel && user->getPontuacao() >= 3000 && user->getPontuacao() < 6000) {
             } else if(!changedLevel && user->getPontuacao() >= 300 && user->getPontuacao() < 600) {
 				level = 3;
 				fillMatriz(6);
-				showGame();
-				changedLevel = true;
+                changedLevel = true;
+				showLevelUp();
+                showGame();
 			//} else if(changedLevel && user->getPontuacao() >= 6000 && user->getPontuacao() < 10000) {
             } else if(changedLevel && user->getPontuacao() >= 600 && user->getPontuacao() < 800) {
 				level = 4;
 				fillMatriz(7);
-				showGame();
-				changedLevel = false;
+                changedLevel = false;
+				showLevelUp();
+                showGame();
 			//} else if(!changedLevel && user->getPontuacao() >= 10000) { // esse é o zerar do jogo
             } else if(!changedLevel && user->getPontuacao() >= 1000) { // esse é o zerar do jogo
 				level = 5;
