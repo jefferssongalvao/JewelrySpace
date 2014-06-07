@@ -330,7 +330,7 @@
 
 	}
 
-// Verifica se tem combinações (3 ou mais peças) possíveis
+    // Verifica se tem combinações (3 ou mais peças) possíveis
 	// Verifica Linha
 		bool Tela::checkLine(int x) {
 			
@@ -718,7 +718,7 @@
 
         bool Tela::playGame() {
 		    Ponto p1 = {-1, -1}, p2 = {-1, -1}, pDica = {-1, -1};
-		    bool quit = false, hintFlag = false;
+		    bool quit = false, execute = true, hintFlag = false;
 		    showGame();
             if(testMove() == false) quit = true;
 			float frame = 0;
@@ -732,7 +732,7 @@
 		    setrects(rect5, 64, 350);
 		    setrects(rect6, 64, 420);
 
-		    while( (quit == false) ) {
+		    while( execute ) {
 		    	changeLevel();
 		        if( SDL_PollEvent( &event ) ) {
 
@@ -743,14 +743,28 @@
 	                    //Get the mouse offsets
 	                    tmp.x = event.button.x;
 	                    tmp.y = event.button.y;
-                        if((tmp.x >= 150 && tmp.x <= 235) && (tmp.y >= 490 && tmp.y <= 580)) {
+                        if((tmp.x >= 135 && tmp.x <= 250) && (tmp.y >= 480 && tmp.y <= 595)) {
                             undoPlay();
                             SDL_Flip( screen );
-	                    } else if((tmp.x >= 35 && tmp.x <= 140) && (tmp.y >= 380 && tmp.y <= 490)){
+	                    } else if((tmp.x >= 45 && tmp.x <= 160) && (tmp.y >= 395 && tmp.y <= 505)){
 	                    	pDica = getDica();
 	        				apply_surface(pDica.x, pDica.y, gems_dica, screen);
         					SDL_UpdateRect(screen, matriz[pDica.x][pDica.y].celula.x, matriz[pDica.x][pDica.y].celula.y, matriz[pDica.x][pDica.y].celula.w, matriz[pDica.x][pDica.y].celula.h);
-	                    } else if((tmp.x >= MAT_INITIAL_POINT_X && tmp.x <= MAT_INITIAL_POINT_X + 480) && (tmp.y >= MAT_INITIAL_POINT_Y && tmp.y <= MAT_INITIAL_POINT_Y + 480)) {
+	                    } else if((tmp.x >= 30 && tmp.x <= 115) && (tmp.y >= 525 && tmp.y <= 605)){
+                            if(showConfScreen()) {
+                                quit = true;
+                                return quit;
+                            } else {
+                                showGame();
+                            }
+                        } else if((tmp.x >= 175 && tmp.x <= 265) && (tmp.y >= 380 && tmp.y <= 465)){
+                            if(showInstrucoes()) {
+                                quit = true;
+                                return quit;
+                            } else {
+                                showGame();
+                            }
+                        } else if((tmp.x >= MAT_INITIAL_POINT_X && tmp.x <= MAT_INITIAL_POINT_X + 480) && (tmp.y >= MAT_INITIAL_POINT_Y && tmp.y <= MAT_INITIAL_POINT_Y + 480)) {
 	                    	if(pDica.x >= 0) {
 		        				apply_surface(pDica.x, pDica.y, gems, screen);
 	        					SDL_UpdateRect(screen, matriz[pDica.x][pDica.y].celula.x, matriz[pDica.x][pDica.y].celula.y, matriz[pDica.x][pDica.y].celula.w, matriz[pDica.x][pDica.y].celula.h);
@@ -779,6 +793,7 @@
 		            } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
 		                //Quit the program
 		                quit = true;
+                        return quit;
 	            	} else if( (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) ) {
 	            		if(audio == true) {
 							// pause music playback
@@ -846,7 +861,7 @@
 		            	cout << "Sem mais movimentos possíveis!\n";
 		        }
 			}
-            return quit;
+            return execute;
 		}
 
         void Tela::apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination) {
@@ -1040,6 +1055,7 @@
 				fillMatriz(7);
 				showGame();
 				changedLevel = true;
+                /*SHOW GAME OVER*/
 			}
 		}
 
