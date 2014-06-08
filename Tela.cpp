@@ -700,7 +700,6 @@
         void Tela::clean_up() {
             
             //Libera todas as superficies da memoria
-            SDL_FreeSurface( gems );
             SDL_FreeSurface( telaInicial );
             SDL_FreeSurface( telaIdentificacao );
             SDL_FreeSurface( telaInstrucoes );
