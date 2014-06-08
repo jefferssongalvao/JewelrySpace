@@ -225,7 +225,7 @@
                     //Get the mouse offsets
                     tmp.x = event.button.x;
                     tmp.y = event.button.y;
-                    if((tmp.x >= 660 && tmp.x <= 730) && (tmp.y >= 520 && tmp.y <= 600)) {
+                    if((tmp.x >= 645 && tmp.x <= 725) && (tmp.y >= 490 && tmp.y <= 570)) {
                         execute = false; //Play again
                     } else if((tmp.x >= 90 && tmp.x <= 175) && (tmp.y >= 490 && tmp.y <= 575)) {
                         quit = true;
@@ -266,6 +266,7 @@
                     if(j > 0 && matriz[i][j-1].elemento == elemento) rep++;
 				} else {
 					if(i > 1) {
+                        /* WARNING: SUGESTAO DE USAR PARENTESES */
                         while(matriz[i-1][j].elemento == elemento && matriz[i-2][j].elemento == elemento || matriz[i][j-1].elemento == elemento)
 							elemento = (rand() % qtdElementos) + 1;
 					} else {

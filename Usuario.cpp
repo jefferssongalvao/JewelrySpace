@@ -13,14 +13,6 @@ Usuario::Usuario(string str) {
 	pontuacao = 0;
 }
 
-Usuario::~Usuario() {
-	//Free the old surface
-    SDL_FreeSurface( text );
-
-    //Disable Unicode
-    SDL_EnableUNICODE( SDL_DISABLE );
-}
-
 void Usuario::reload() {
 	pontuacao = 0;
 	//Initialize the string
