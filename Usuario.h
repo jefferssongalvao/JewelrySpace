@@ -16,7 +16,7 @@
             TTF_Font *font;
             //Cor da fonte (branco)
             SDL_Color textColor;
-			SDL_Event event;
+			SDL_Event event; //PERA,QE EU TIRO
 			public:
 				Usuario();
 				Usuario(string str);
@@ -25,7 +25,7 @@
 				string getNome() const;
 				int getPontuacao() const;
 				void setPontuacao(int p);
-				SDL_Surface * handleInput();
+				SDL_Surface * handleInput(SDL_Event &event);
 		};
 
 #endif

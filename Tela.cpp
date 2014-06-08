@@ -160,8 +160,8 @@
                 if( nameEntered == false )
                 {
                     //Get user input
-                    if((nomeJogador = user->handleInput()) != NULL) {
-                        applySurface( 0, 0, telaGameOver, screen );
+                    if((nomeJogador = user->handleInput(event)) != NULL) {
+                        applySurface( 0, 0, telaIdentificacao, screen );
                         applySurface( 20, 120, nomeJogador, screen );
                     }
 

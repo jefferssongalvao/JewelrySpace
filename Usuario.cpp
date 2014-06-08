@@ -37,10 +37,11 @@ int Usuario::getPontuacao() const { return pontuacao; }
 
 void Usuario::setPontuacao(int p) { pontuacao = p; }
 
-SDL_Surface * Usuario::handleInput() {
+SDL_Surface * Usuario::handleInput(SDL_Event &event) {
 	//If a key was pressed
     if( event.type == SDL_KEYDOWN )
     {
+		std::cout << "aqui?" << std::endl;
         //Keep a copy of the current version of the string
         std::string temp = nome;
 
@@ -91,8 +92,9 @@ SDL_Surface * Usuario::handleInput() {
             text = TTF_RenderText_Solid( font, nome.c_str(), textColor );
     		
     		return text;
-        } else {
-        	return NULL;
         }
-	}
+	} else {
+			std::cout << "aqui?2" << std::endl;
+        	return NULL;
+    }
 }
