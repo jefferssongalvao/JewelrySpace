@@ -11,7 +11,7 @@
         level = 1;
         changedLevel = true;
         fillMatriz(4);
-        setUsuario("str");
+        //setUsuario("str");
     }
 
     void Tela::reload() {
@@ -156,6 +156,24 @@
             if( SDL_PollEvent( &event ) ) {
                 Ponto tmp;
 
+                //If the user hasn't entered their name yet
+                if( nameEntered == false )
+                {
+                    //Get user input
+                    if((nomeJogador = user->handleInput()) != NULL) {
+                        applySurface( 0, 0, telaGameOver, screen );
+                        applySurface( 20, 120, nomeJogador, screen );
+                    }
+
+                    //If the enter key was pressed
+                    if( ( event.type == SDL_KEYDOWN ) && ( event.key.keysym.sym == SDLK_RETURN ) )
+                    {
+                        //Change the flag
+                        nameEntered = true;
+
+                    }
+                }
+
                 //If the left mouse button was pressed
                 if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
                     //Get the mouse offsets
@@ -169,17 +187,10 @@
                     quit = true;
                     return quit;
                 }
-                //Render a new text surface
-                nomeJogador = TTF_RenderText_Solid( font, temp.c_str(), textColor );
-                //Show the name
-                SDL_Rect offset;
-                offset.x = 295;
-                offset.y = 350; 
-                SDL_BlitSurface( nomeJogador, NULL, screen, &offset );                  
-                }
             }
-        return execute;
         }
+        return execute;
+    }
 
     void Tela::showLevelUp() {
         applySurface( 0, 0, telaLevelUp, screen );
