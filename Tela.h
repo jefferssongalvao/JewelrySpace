@@ -3,7 +3,6 @@
 
 		#include <iostream> // biblioteca padrão i/o do c++
 		#include <cstdlib> // para uso da função rand()
-        #include <cstdio>
 		#include <ctime> // para uso da função rand()
 		#include <string> // para o nome do usuário do jogo
 		#include <cmath> //para calcular módulo
@@ -17,11 +16,10 @@
 		#include "Pilha.h" // Inclusão da Biblioteca da Classe
 		#include "Ponto.h" // Inclusão da Biblioteca da Classe
         #include "Gems.h" // Inclusão da Biblioteca da Classe
-        #include "Undo.h" // Inclusão da Biblioteca da Classe
-    
+        #include "Undo.h" // Inclusão da Biblioteca da Classe  
 
-		//Tamanho da Tela
-        const int linhasMatriz = 8; //Mexi aqui pra corrigir -|-
+		//Tamanho da Matriz de joias
+        const int linhasMatriz = 8;
         const int colunasMatriz = 8;
 
         //Atributos da tela
@@ -37,37 +35,35 @@
         const int MAT_INITIAL_POINT_X = 300;
         const int MAT_INITIAL_POINT_Y = 100;
 
-        //Constantes para mixagem do audio
+        //Constantes para mixagem da musica
         const int AUDIO_RATE = 44100;
   		const int AUDIO_CHANNELS = 2;
   		const int AUDIO_BUFFERS = 1024;
 
+        //Frames por segundo
 		const int FPS = 30;
 
         //Enumeração para representar joias
         enum { YELLOW, WHITE, BLUE, RED, PURPLE, ORANGE, GREEN, BLANK };
 
-		using std::cout; // inclusão do metódo cout do namespace std
-		using std::string; // inclusão da classe string da STL
         using std::stack;
 
 		class Tela {
 
             Gems matriz[linhasMatriz][colunasMatriz]; //Matriz de joias
 
-			int qtdElementos;
-			int bonus; // peça que será considerada ponto dobrado.
-			int level; // qual a fase o jogador está no momento
-			bool changedLevel; // variavel que determinará que uma fase foi alterada
-			bool audio; //variavel para desligar/ligar a music
-            stack<Undo> telasAnt;
+			int qtdElementos;        //quantidade de joias na fase
+			int bonus;               //peça que será considerada ponto dobrado.
+			int level;               //qual a fase o jogador está no momento
+			bool changedLevel;       //variavel que determinará que uma fase foi alterada
+			bool audio;              //variavel para desligar/ligar a music
+            stack<Undo> telasAnt;    //pilha para guardar telas anteriores
 
-			Pilha * pontos; // pontos que foram marcados após um movimento
+			Pilha * pontos;          //pontos que foram marcados após um movimento
 
-            Usuario * user;
+            Usuario * user;          //usuario
 
-            Ponto dica;
-
+            Ponto dica;              //coordenadas de uma joia para dica
 
             //Telas
             SDL_Surface *telaInicial;
@@ -123,6 +119,7 @@
             SDL_Color textColor;
 
 			public:
+
 				Tela(); // Construtor Padrão
                 void reload();
                 bool showTelaInicial();

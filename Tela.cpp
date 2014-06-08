@@ -323,7 +323,7 @@
 // Movimento de elementos após pontuar
 	void Tela::moveElement(int * cols, int n) {
 		SDL_Rect my_rects[64];
-		int elemento, cont, qtd = 0, j, lin;
+		int elemento, qtd = 0, j, lin;
 		quickSort(cols, 0, n-1);
 		for (int i = 0; i < n; ++i) {
 			j = 0;
@@ -368,7 +368,6 @@
 			qtd = 0;
 			tam = pontos->getSize();
 			SDL_Rect my_rects[tam];
-			Ponto coord[tam];
 			while(pontos->getSize()) {
 				ponto = pontos->pop();
 				elemento = getElement(ponto.x, ponto.y);
@@ -818,11 +817,11 @@
 
         bool Tela::playGame() {
 		    Ponto p1 = {-1, -1}, p2 = {-1, -1}, pDica = {-1, -1};
-		    bool quit = false, execute = true, hintFlag = false;
+		    bool quit = false, execute = true;
 		    showGame();
             if(testMove() == false) quit = true;
 			float frame = 0;
-    		Uint32 start;
+    		Uint32 start = SDL_GetTicks();
 			SDL_Rect rect0[20], rect1[20], rect2[20], rect3[20], rect4[20], rect5[20], rect6[20];
 		    setrects(rect0, 60, 0);
 		    setrects(rect1, 62, 70);
