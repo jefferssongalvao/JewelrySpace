@@ -10,6 +10,8 @@ Usuario::Usuario() {
 	textColor = { 255, 255, 255 };
 	//Open the font
     font = TTF_OpenFont( "Fonts/ARDARLING.ttf", 30 );
+
+    std::cout << "R:" << nome << std::endl;
 }
 
 Usuario::Usuario(string str) {
@@ -41,34 +43,38 @@ SDL_Surface * Usuario::handleInput(SDL_Event &event) {
 	//If a key was pressed
     if( event.type == SDL_KEYDOWN )
     {
-		std::cout << "aqui?" << std::endl;
         //Keep a copy of the current version of the string
         std::string temp = nome;
 
         //If the string less than maximum size
-        if( nome.length() <= 16 )
+        if( temp.length() <= 16 )
         {
+			std::cout << "aqui?" << std::endl;
             //If the key is a space
             if( event.key.keysym.unicode == (Uint16)' ' )
             {
+                std::cout << "aqui?2" << std::endl;
                 //Append the character
                 nome += (char)event.key.keysym.unicode;
             }
             //If the key is a number
             else if( ( event.key.keysym.unicode >= (Uint16)'0' ) && ( event.key.keysym.unicode <= (Uint16)'9' ) )
             {
+                std::cout << "aqui?2" << std::endl;
                 //Append the character
                 nome += (char)event.key.keysym.unicode;
             }
             //If the key is a uppercase letter
             else if( ( event.key.keysym.unicode >= (Uint16)'A' ) && ( event.key.keysym.unicode <= (Uint16)'Z' ) )
             {
+                std::cout << "aqui?2" << std::endl;
                 //Append the character
                 nome += (char)event.key.keysym.unicode;
             }
             //If the key is a lowercase letter
             else if( ( event.key.keysym.unicode >= (Uint16)'a' ) && ( event.key.keysym.unicode <= (Uint16)'z' ) )
             {
+                std::cout << "aqui?2" << std::endl;
                 //Append the character
                 nome += (char)event.key.keysym.unicode;
             }
@@ -93,8 +99,10 @@ SDL_Surface * Usuario::handleInput(SDL_Event &event) {
     		
     		return text;
         }
-	} else {
-			std::cout << "aqui?2" << std::endl;
+	/*} else {
+			std::cout << "aqui?3" << std::endl;
         	return NULL;
-    }
+    }*/
+        }
+    return NULL;
 }

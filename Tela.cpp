@@ -11,6 +11,7 @@
         level = 1;
         changedLevel = true;
         fillMatriz(4);
+        user = new Usuario();
         //setUsuario("str");
     }
 
@@ -156,8 +157,22 @@
             if( SDL_PollEvent( &event ) ) {
                 Ponto tmp;
 
+                //If the left mouse button was pressed
+                if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+                    //Get the mouse offsets
+                    tmp.x = event.button.x;
+                    tmp.y = event.button.y;
+                    if((tmp.x >= 660 && tmp.x <= 730) && (tmp.y >= 520 && tmp.y <= 600)) {
+                        execute = false;
+                    }
+                } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
+                    //Quit the program
+                    quit = true;
+                    return quit;
+                }
+
                 //If the user hasn't entered their name yet
-                if( nameEntered == false )
+                if( event.type == SDL_KEYDOWN && nameEntered == false )
                 {
                     //Get user input
                     if((nomeJogador = user->handleInput(event)) != NULL) {
@@ -174,19 +189,6 @@
                     }
                 }
 
-                //If the left mouse button was pressed
-                if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-                    //Get the mouse offsets
-                    tmp.x = event.button.x;
-                    tmp.y = event.button.y;
-                    if((tmp.x >= 660 && tmp.x <= 730) && (tmp.y >= 520 && tmp.y <= 600)) {
-                        execute = false;
-                    }
-                } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
-                    //Quit the program
-                    quit = true;
-                    return quit;
-                }
             }
         }
         return execute;

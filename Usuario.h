@@ -16,7 +16,7 @@
             TTF_Font *font;
             //Cor da fonte (branco)
             SDL_Color textColor;
-			SDL_Event event; //PERA,QE EU TIRO
+
 			public:
 				Usuario();
 				Usuario(string str);
