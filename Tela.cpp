@@ -12,7 +12,6 @@
         changedLevel = true;
         fillMatriz(4);
         user = new Usuario();
-        //setUsuario("str");
     }
 
     void Tela::reload() {
@@ -893,11 +892,13 @@
 			                }
 	                    }
 	                //Se o usuario fechar a janela ou apertar a tecla ESC
-		            } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
+		            } else if( (event.type == SDL_QUIT) ) {
 		                //Quit the program
 		                quit = true;
                         return quit;
-	            	} else if( (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) ) {
+	            	} else if ( (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) ) {
+                        level = 5; /* Show Game Over */
+                    } else if( (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) ) {
 	            		if(audio == true) {
 							// pause music playback
 							Mix_PauseMusic();
