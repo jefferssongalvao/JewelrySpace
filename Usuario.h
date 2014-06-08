@@ -12,6 +12,8 @@
 			public:
 				Usuario();
 				Usuario(string str);
+				~Usuario();
+				void reload();
 				string getNome() const;
 				int getPontuacao() const;
 				void setPontuacao(int p);

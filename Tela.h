@@ -120,6 +120,7 @@
             SDL_Color textColor;
 
 				Tela(); // Construtor Padrão
+                void reload();
                 bool showTelaInicial();
                 bool showConfScreen();
                 bool showInstrucoes();

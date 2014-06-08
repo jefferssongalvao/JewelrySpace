@@ -11,22 +11,16 @@
         level = 1;
         changedLevel = true;
         fillMatriz(4);
-        /*
-        ISSO VAI PARA USUARIO
-        string str; // para o nome do usuario
-        do {
-            std::cout << "Digite o seu nome: ";
-            getline(std::cin, str);
-            if(str.length() > 16) {
-                std::cout << "ERRO!\nO seu nome deve conter NO MAXIMO 16 caracteres!\n";
-                continue;
-            }
-            else
-                break;
-        } while(true);
-        setUsuario(str);
-        */
         setUsuario("str");
+    }
+
+    void Tela::reload() {
+        pontos = new Pilha();
+        level = 1;
+        changedLevel = true;
+        fillMatriz(4);
+        user->reload();
+        user->setPontuacao(0);
     }
 
     bool Tela::showTelaInicial() {
@@ -151,7 +145,8 @@
     }
 
     bool Tela::showIDscreen() {
-        bool quit = false, execute = true;
+        bool quit = false, execute = true, nameEntered = false;
+        std::string temp = "";
 
         applySurface( 0, 0, telaIdentificacao, screen );
         SDL_Flip( screen );
@@ -174,10 +169,17 @@
                     quit = true;
                     return quit;
                 }
+                //Render a new text surface
+                nomeJogador = TTF_RenderText_Solid( font, temp.c_str(), textColor );
+                //Show the name
+                SDL_Rect offset;
+                offset.x = 295;
+                offset.y = 350; 
+                SDL_BlitSurface( nomeJogador, NULL, screen, &offset );                  
+                }
             }
-        }
         return execute;
-    }
+        }
 
     void Tela::showLevelUp() {
         applySurface( 0, 0, telaLevelUp, screen );
