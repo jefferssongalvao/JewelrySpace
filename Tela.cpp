@@ -698,21 +698,51 @@
             return true;
         }
 
-        void Tela::clean_up() { //LIBERAR TUDO!!
-            //Free the surface
+        void Tela::clean_up() {
+            
+            //Libera todas as superficies da memoria
             SDL_FreeSurface( gems );
+            SDL_FreeSurface( telaInicial );
+            SDL_FreeSurface( telaIdentificacao );
+            SDL_FreeSurface( telaInstrucoes );
+            SDL_FreeSurface( telaConfigSound_ON );
+            SDL_FreeSurface( telaConfigSound_OFF );
+            SDL_FreeSurface( telaLevelUp );
+            SDL_FreeSurface( telaGameOver );
+            SDL_FreeSurface( gems );
+            SDL_FreeSurface( gems_dica );
+            SDL_FreeSurface( screen );
+            SDL_FreeSurface( fundo );
+            SDL_FreeSurface( nomeJogador );
+            SDL_FreeSurface( pontosJogador );
+            SDL_FreeSurface( gemYellow );
+            SDL_FreeSurface( gemWhite );
+            SDL_FreeSurface( gemBlue );
+            SDL_FreeSurface( gemRed );
+            SDL_FreeSurface( gemPurple );
+            SDL_FreeSurface( gemOrange );
+            SDL_FreeSurface( gemGreen );
+            SDL_FreeSurface( fase1 );
+            SDL_FreeSurface( fase2 );
+            SDL_FreeSurface( fase3 );
+            SDL_FreeSurface( fase4 );
+            SDL_FreeSurface( hint );
 
             //Libera ficheiro de audio da memoria
             Mix_FreeMusic(music);
 
-            //Close the font that was used
+            //Fecha a fonte que foi usada
             TTF_CloseFont( font );
 
-            //Quit SDL_ttf
+            //Encerra SDL_ttf
             TTF_Quit();
 
-            //Quit SDL
+            //Encerra SDL
             SDL_Quit();
+
+            //Libera objetos que foram alocados dinamicamente anteriormente
+            delete pontos;
+            delete user;
         }
 
         bool Tela::init() {
@@ -733,7 +763,7 @@
 
             //Inicializa musica
             if( Mix_OpenAudio(AUDIO_RATE, MIX_DEFAULT_FORMAT, AUDIO_CHANNELS, AUDIO_BUFFERS) == -1 ) return false;
-            music = Mix_LoadMUS("Sounds/music.mp3");
+            music = Mix_LoadMUS("Sounds/music2.mp3");
             if( music == NULL )	return false;
 			//Toca musica (-1 para indefinidamente)
             Mix_PlayMusic(music, -1);

@@ -68,7 +68,6 @@
 
             Ponto dica;
 
-			public:
 
             //Telas
             SDL_Surface *telaInicial;
@@ -79,16 +78,17 @@
             SDL_Surface *telaLevelUp;
             SDL_Surface *telaGameOver;
 
-
             //Superficies
             SDL_Surface *gems;
             SDL_Surface *gems_dica;
             SDL_Surface *screen;
             SDL_Surface *fundo;
+
             //Mensagens
             SDL_Surface *nomeJogador;
             SDL_Surface *pontosJogador;
-            //bonus
+
+            //Bonus
             SDL_Surface *gemYellow;
             SDL_Surface *gemWhite;
             SDL_Surface *gemBlue;
@@ -96,29 +96,33 @@
             SDL_Surface *gemPurple;
             SDL_Surface *gemOrange;
             SDL_Surface *gemGreen;
-            // fases
+
+            //Fases
             SDL_Surface *fase1;
             SDL_Surface *fase2;
             SDL_Surface *fase3;
             SDL_Surface *fase4;
 
-            // Botões
+            //Botões
             SDL_Surface *hint;
 
             //Cortes da figura (teremos oito joias)
             SDL_Rect clipsGems[8];
             SDL_Rect clipsGems_dica[8];
 
-			/* Mix_Music actually holds the music information.  */
-			Mix_Music *music;
+            //Musica do jogo
+            Mix_Music *music;
 
+            //Eventos
             SDL_Event event;
 
             //Fonte a ser usada
             TTF_Font *font;
+            
             //Cor da fonte (branco)
             SDL_Color textColor;
 
+			public:
 				Tela(); // Construtor Padrão
                 void reload();
                 bool showTelaInicial();
