@@ -150,7 +150,7 @@
 					// Verifica Coluna
 						bool checkColumn(int y);
 					// Verifica a troca
-						bool checkSwitch(int x1, int y1, int x2, int y2);
+						void checkSwitch(int x1, int y1, int x2, int y2);
 					// Verifica após a troca
 						bool checkAfter(int maxX, int * v, int n);
 

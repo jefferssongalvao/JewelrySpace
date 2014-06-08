@@ -6,12 +6,6 @@ Usuario::Usuario() {
     nome = "";
     //Enable Unicode
     SDL_EnableUNICODE( SDL_ENABLE );
-    //The color of the font
-	textColor = { 255, 255, 255 };
-	//Open the font
-    font = TTF_OpenFont( "Fonts/ARDARLING.ttf", 30 );
-
-    std::cout << "R:" << nome << std::endl;
 }
 
 Usuario::Usuario(string str) {
@@ -39,7 +33,7 @@ int Usuario::getPontuacao() const { return pontuacao; }
 
 void Usuario::setPontuacao(int p) { pontuacao = p; }
 
-SDL_Surface * Usuario::handleInput(SDL_Event &event) {
+SDL_Surface * Usuario::handleInput(SDL_Event &event, TTF_Font *font, SDL_Color textColor) {
 	//If a key was pressed
     if( event.type == SDL_KEYDOWN )
     {
@@ -49,32 +43,27 @@ SDL_Surface * Usuario::handleInput(SDL_Event &event) {
         //If the string less than maximum size
         if( temp.length() <= 16 )
         {
-			std::cout << "aqui?" << std::endl;
             //If the key is a space
             if( event.key.keysym.unicode == (Uint16)' ' )
             {
-                std::cout << "aqui?2" << std::endl;
                 //Append the character
                 nome += (char)event.key.keysym.unicode;
             }
             //If the key is a number
             else if( ( event.key.keysym.unicode >= (Uint16)'0' ) && ( event.key.keysym.unicode <= (Uint16)'9' ) )
             {
-                std::cout << "aqui?2" << std::endl;
                 //Append the character
                 nome += (char)event.key.keysym.unicode;
             }
             //If the key is a uppercase letter
             else if( ( event.key.keysym.unicode >= (Uint16)'A' ) && ( event.key.keysym.unicode <= (Uint16)'Z' ) )
             {
-                std::cout << "aqui?2" << std::endl;
                 //Append the character
                 nome += (char)event.key.keysym.unicode;
             }
             //If the key is a lowercase letter
             else if( ( event.key.keysym.unicode >= (Uint16)'a' ) && ( event.key.keysym.unicode <= (Uint16)'z' ) )
             {
-                std::cout << "aqui?2" << std::endl;
                 //Append the character
                 nome += (char)event.key.keysym.unicode;
             }
@@ -90,7 +79,6 @@ SDL_Surface * Usuario::handleInput(SDL_Event &event) {
         //If the string was changed
         if( nome != temp )
         {
-        	std::cout << nome << std::endl;
             //Free the old surface
             SDL_FreeSurface( text );
 
@@ -99,10 +87,6 @@ SDL_Surface * Usuario::handleInput(SDL_Event &event) {
     		
     		return text;
         }
-	/*} else {
-			std::cout << "aqui?3" << std::endl;
-        	return NULL;
-    }*/
-        }
+    }
     return NULL;
 }

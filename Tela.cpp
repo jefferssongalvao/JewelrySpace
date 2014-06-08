@@ -149,6 +149,8 @@
         bool quit = false, execute = true, nameEntered = false;
         std::string temp = "";
 
+        SDL_EnableUNICODE( SDL_ENABLE );
+
         applySurface( 0, 0, telaIdentificacao, screen );
         SDL_Flip( screen );
 
@@ -175,9 +177,10 @@
                 if( event.type == SDL_KEYDOWN && nameEntered == false )
                 {
                     //Get user input
-                    if((nomeJogador = user->handleInput(event)) != NULL) {
+                    if((nomeJogador = user->handleInput(event, font, textColor)) != NULL) {
                         applySurface( 0, 0, telaIdentificacao, screen );
-                        applySurface( 20, 120, nomeJogador, screen );
+                        applySurface( 295, 350, nomeJogador, screen );
+                        SDL_Flip( screen );
                     }
 
                     //If the enter key was pressed
@@ -185,12 +188,15 @@
                     {
                         //Change the flag
                         nameEntered = true;
-
+                        execute = false;
                     }
                 }
 
             }
         }
+
+        SDL_EnableUNICODE( SDL_DISABLE );
+        
         return execute;
     }
 
@@ -487,7 +493,7 @@
 		}
 
 	// Verifica a troca
-		bool Tela::checkSwitch(int x1, int y1, int x2, int y2) {
+		void Tela::checkSwitch(int x1, int y1, int x2, int y2) {
                 fillUndo(); // guarda as telas em um pilha para uso da função Undo
 				bool flag = false;
                 char pontVetor[6];
@@ -507,7 +513,7 @@
 				if(flag) {
 					int novosPontos = point();
 					
-					cout << "Marcou " << novosPontos << " pontos.\n"; // Monta a pontuação
+					//cout << "Marcou " << novosPontos << " pontos.\n"; // Monta a pontuação
 
 					user->setPontuacao(user->getPontuacao()+novosPontos);
 
@@ -516,7 +522,8 @@
                     
                     showPontuacao();
 
-					return true;
+					//return true;
+                    return;
 				}
 
 				switchElements(x2, y2, x1, y1);
@@ -527,7 +534,7 @@
                 SDL_UpdateRect(screen, matriz[x1][y1].celula.x, matriz[x1][y1].celula.y, matriz[x1][y1].celula.w, matriz[x1][y1].celula.h);
 				SDL_Delay(250);
 
-				return false;
+				//return false;
 		}
 	// Verifica após a troca
 		bool Tela::checkAfter(int maxX, int * v, int n) {
@@ -913,11 +920,12 @@
 					SDL_Delay(1000/FPS-(SDL_GetTicks()-start));
 				}
             	if((p1.x >= 0) && (p2.x >= 0)) {
-		            if(checkSwitch(p1.x, p1.y, p2.x, p2.y)) {
+		            checkSwitch(p1.x, p1.y, p2.x, p2.y);
+                    /*if(checkSwitch(p1.x, p1.y, p2.x, p2.y)) {
 		                cout << "Pontos marcados!\n";
 		            } else {
 		            	cout << "Movimento inválido\n";
-		            }
+		            }*/
 		            contrastItem(p1.x, p1.y, matriz[p1.x][p1.y].elemento);
 			        apply_surface(p1.x, p1.y, gems, screen);
                 	SDL_UpdateRect(screen, matriz[p1.x][p1.y].celula.x, matriz[p1.x][p1.y].celula.y, matriz[p1.x][p1.y].celula.w, matriz[p1.x][p1.y].celula.h);
@@ -926,7 +934,9 @@
 	                p2.x = -1;
 	                p2.y = -1;
 		            if(testMove() == false) 
-		            	cout << "Sem mais movimentos possíveis!\n";
+		            	//cout << "Sem mais movimentos possíveis!\n";
+                        level = 5;
+
 		        }
 			}
             return execute;

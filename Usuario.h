@@ -12,10 +12,6 @@
 			string nome;
 			int pontuacao;
 			SDL_Surface *text;
-			//Fonte a ser usada
-            TTF_Font *font;
-            //Cor da fonte (branco)
-            SDL_Color textColor;
 
 			public:
 				Usuario();
@@ -25,7 +21,7 @@
 				string getNome() const;
 				int getPontuacao() const;
 				void setPontuacao(int p);
-				SDL_Surface * handleInput(SDL_Event &event);
+				SDL_Surface * handleInput(SDL_Event &event, TTF_Font *font, SDL_Color textColor);
 		};
 
 #endif
