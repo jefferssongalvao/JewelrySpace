@@ -13,10 +13,11 @@ Ponto Pilha::pop() {
 	if (size) {
 		size--;
 		return ponto[size];
-	} else
+	} else {
 		cout <<  "Pilha esta vazia!\n";
-		/* WARNING: ESTA FUNÇÃO DEVE RETORNAR ALGO NESSA SITUAÇÃO!!! */
+	}
 }
+
 void Pilha::push(Ponto element) {
 	if (size < max) {
 		ponto[size] = element;

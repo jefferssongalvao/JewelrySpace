@@ -1,7 +1,7 @@
+//Estrutura que armazena informações relacionadas com o jogador
 #ifndef _USUARIO_H_
 	#define _USUARIO_H_
 		
-		#include <iostream>
 		#include <string>
 		#include <SDL/SDL.h> //para manipulação de eventos e interface
 		#include <SDL/SDL_ttf.h> //para mostrar textos
@@ -20,7 +20,7 @@
 				string getNome() const;
 				int getPontuacao() const;
 				void setPontuacao(int p);
-				SDL_Surface * handleInput(SDL_Event &event, TTF_Font *font, SDL_Color textColor);
+				SDL_Surface * handleInput(SDL_Event &event, TTF_Font *font, SDL_Color textColor); //método responsável pela leitura do nome
 		};
 
 #endif

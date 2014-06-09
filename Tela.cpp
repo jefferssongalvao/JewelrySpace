@@ -35,9 +35,7 @@
 
                 Ponto tmp;
 
-                //If the left mouse button was pressed
                 if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-                    //Get the mouse offsets
                     tmp.x = event.button.x;
                     tmp.y = event.button.y;
                     if((tmp.x >= 50 && tmp.x <= 175) && (tmp.y >= 400 && tmp.y <= 530)) {
@@ -56,7 +54,7 @@
                             quit = true;
                     }
                 } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
-                    //Quit the program
+                    //Encerra programa
                     quit = true;
                 }
             }
@@ -85,9 +83,7 @@
             if( SDL_PollEvent( &event ) ) {
                 Ponto tmp;
 
-                //If the left mouse button was pressed
                 if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-                    //Get the mouse offsets
                     tmp.x = event.button.x;
                     tmp.y = event.button.y;
                     if((tmp.x >= 590 && tmp.x <= 645) && (tmp.y >= 100 && tmp.y <= 160)) {
@@ -106,7 +102,7 @@
                         }
                     }
                 } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
-                    //Quit the program
+                    //Encerra programa
                     quit = true;
                     return quit;
                 }
@@ -126,16 +122,14 @@
             if( SDL_PollEvent( &event ) ) {
                 Ponto tmp;
 
-                //If the left mouse button was pressed
                 if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-                    //Get the mouse offsets
                     tmp.x = event.button.x;
                     tmp.y = event.button.y;
                     if((tmp.x >= 590 && tmp.x <= 645) && (tmp.y >= 100 && tmp.y <= 160)) {
                         execute = false;
                     }
                 } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
-                    //Quit the program
+                    //Encerra programa
                     quit = true;
                     return quit;
                 }
@@ -158,34 +152,30 @@
             if( SDL_PollEvent( &event ) ) {
                 Ponto tmp;
 
-                //If the left mouse button was pressed
                 if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-                    //Get the mouse offsets
                     tmp.x = event.button.x;
                     tmp.y = event.button.y;
                     if((tmp.x >= 660 && tmp.x <= 730) && (tmp.y >= 520 && tmp.y <= 600)) {
                         execute = false;
                     }
                 } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
-                    //Quit the program
+                    //Encerra programa
                     quit = true;
                     return quit;
                 }
 
-                //If the user hasn't entered their name yet
                 if( event.type == SDL_KEYDOWN && nameEntered == false )
                 {
-                    //Get user input
+                    //Recebe info do usuario
                     if((nomeJogador = user->handleInput(event, font, textColor)) != NULL) {
                         applySurface( 0, 0, telaIdentificacao, screen );
                         applySurface( 295, 350, nomeJogador, screen );
                         SDL_Flip( screen );
                     }
 
-                    //If the enter key was pressed
+                    //Tecla ENTER
                     if( ( event.type == SDL_KEYDOWN ) && ( event.key.keysym.sym == SDLK_RETURN ) )
                     {
-                        //Change the flag
                         nameEntered = true;
                         execute = false;
                     }
@@ -220,9 +210,7 @@
             if( SDL_PollEvent( &event ) ) {
                 Ponto tmp;
 
-                //If the left mouse button was pressed
                 if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-                    //Get the mouse offsets
                     tmp.x = event.button.x;
                     tmp.y = event.button.y;
                     if((tmp.x >= 645 && tmp.x <= 725) && (tmp.y >= 490 && tmp.y <= 570)) {
@@ -232,7 +220,7 @@
                         return quit;
                     }
                 } else if( (event.type == SDL_QUIT)  || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)) {
-                    //Quit the program
+                    //Encerra o programa
                     quit = true;
                     return quit;
                 }
@@ -266,7 +254,6 @@
                     if(j > 0 && matriz[i][j-1].elemento == elemento) rep++;
 				} else {
 					if(i > 1) {
-                        /* WARNING: SUGESTAO DE USAR PARENTESES */
                         while(matriz[i-1][j].elemento == elemento && matriz[i-2][j].elemento == elemento || matriz[i][j-1].elemento == elemento)
 							elemento = (rand() % qtdElementos) + 1;
 					} else {
@@ -512,8 +499,6 @@
 				if(flag) {
 					int novosPontos = point();
 					
-					//cout << "Marcou " << novosPontos << " pontos.\n"; // Monta a pontuação
-
 					user->setPontuacao(user->getPontuacao()+novosPontos);
 
                     sprintf(pontVetor,"%d",user->getPontuacao());
@@ -521,7 +506,6 @@
                     
                     showPontuacao();
 
-					//return true;
                     return;
 				}
 
@@ -532,9 +516,8 @@
 				apply_surface(x1, y1, gems, screen);
                 SDL_UpdateRect(screen, matriz[x1][y1].celula.x, matriz[x1][y1].celula.y, matriz[x1][y1].celula.w, matriz[x1][y1].celula.h);
 				SDL_Delay(250);
-
-				//return false;
 		}
+
 	// Verifica após a troca
 		bool Tela::checkAfter(int maxX, int * v, int n) {
 			bool flag = false;
@@ -620,33 +603,25 @@
         }
 
         SDL_Surface* Tela::load_image(string filename) {
-            //The image that's loaded
+
             SDL_Surface* loadedImage = NULL;
 
-            //The optimized surface that will be used
             SDL_Surface* optimizedImage = NULL;
 
-            //Load the image
             loadedImage = IMG_Load( filename.c_str() );
 
-            //If the image loaded
             if( loadedImage != NULL )
             {
-                //Create an optimized surface
                 optimizedImage = SDL_DisplayFormat( loadedImage );
 
-                //Free the old surface
                 SDL_FreeSurface( loadedImage );
 
-                //If the surface was optimized
                 if( optimizedImage != NULL )
                 {
-                    //Color key surface
                     SDL_SetColorKey( optimizedImage, SDL_SRCCOLORKEY, SDL_MapRGB( optimizedImage->format, 0, 0xFF, 0xFF ) );
                 }
             }
 
-            //Return the optimized surface
             return optimizedImage;
         }
 
@@ -661,14 +636,11 @@
             telaLevelUp = load_image( "Images/tela_levelup.png" );
             telaGameOver = load_image( "Images/tela_gameover.png" );
 
-            //Load the button sprite sheet
             gems = load_image( "Images/new_gems.png" );
-
             gems_dica = load_image( "Images/dica.png" );
-
             fundo = load_image( "Images/bg.png" );
 
-            // Bonus
+            //Bonus
             gemYellow = load_image( "Images/yellow.png" );
             gemWhite = load_image( "Images/white.png" );
             gemBlue = load_image( "Images/blue.png" );
@@ -684,16 +656,14 @@
 
             hint = load_image( "Images/hint.png" );
 
-            //Open the font
+            //Carrega a fonte
             font = TTF_OpenFont( "Fonts/ARDARLING.ttf", 30 );
 
-            //If there was a problem in loading the button sprite sheet
             if( (gems == NULL) || (gems_dica == NULL))
             {
                 return false;
             }
 
-            //If everything loaded fine
             return true;
         }
 
@@ -729,6 +699,9 @@
             //Libera ficheiro de audio da memoria
             Mix_FreeMusic(music);
 
+            //Encerra SDL_mixer
+            Mix_CloseAudio();
+
             //Fecha a fonte que foi usada
             TTF_CloseFont( font );
 
@@ -744,19 +717,15 @@
         }
 
         bool Tela::init() {
-            //Initialize all SDL subsystems
+
             if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 ) return false;
 
-            //Set up the screen
             screen = SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE );
 
-            //If there was an error in setting up the screen
             if( screen == NULL ) return false;
 
-            //Initialize SDL_ttf
             if( TTF_Init() == -1 ) return false;
 
-            //Set the window caption
             SDL_WM_SetCaption( "Bejeweled", NULL );
 
             //Inicializa musica
@@ -766,13 +735,11 @@
 			//Toca musica (-1 para indefinidamente)
             Mix_PlayMusic(music, -1);
 
-            //If everything initialized fine
             return true;
         }
 
         void Tela::set_clips(SDL_Rect *clips) {
 
-            //Clip the sprite sheet
             clips[ YELLOW ].x = 0;
             clips[ YELLOW ].y = 0;
             clips[ YELLOW ].w = CELULA_WIDHT;
@@ -841,9 +808,8 @@
 
 		            Ponto tmp;
 
-		            //If the left mouse button was pressed
+		            //Botão esquerdo do mouse pressionado
 		            if( event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-	                    //Get the mouse offsets
 	                    tmp.x = event.button.x;
 	                    tmp.y = event.button.y;
                         if((tmp.x >= 135 && tmp.x <= 250) && (tmp.y >= 480 && tmp.y <= 595)) {
@@ -875,12 +841,12 @@
 		                    tmp.x = (tmp.x - MAT_INITIAL_POINT_X) / 60;
 		                    tmp.y = (tmp.y - MAT_INITIAL_POINT_Y) / 60;
 			                if(p1.x < 0) {
-			                    p1.x = tmp.y; //Precisa ser invertido
+			                    p1.x = tmp.y;
 			                    p1.y = tmp.x;
 			                    //Destaca a nova joia selecionada
 			                } else if(p2.x < 0) {
 			                	if(saoAdjacentes(p1.x, p1.y, tmp.y, tmp.x)) {
-				                    p2.x = tmp.y; //Precisa ser invertido
+				                    p2.x = tmp.y;
 				                    p2.y = tmp.x;
 			                	} else {
 			                		//Ignora selecao
@@ -892,20 +858,21 @@
 			                	}
 			                }
 	                    }
-	                //Se o usuario fechar a janela ou apertar a tecla ESC
+	                //Se o usuario fechar a janela
 		            } else if( (event.type == SDL_QUIT) ) {
-		                //Quit the program
+		                //Encerra o programa
 		                quit = true;
                         return quit;
+                    //Se o usuario teclar ESC
 	            	} else if ( (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) ) {
                         level = 5; /* Show Game Over */
                     } else if( (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) ) {
 	            		if(audio == true) {
-							// pause music playback
+							//Pausa a musica
 							Mix_PauseMusic();
 	            			audio = false;
 	            		} else {
-							// resume music playback
+							//Toca a musica novamente
 							Mix_ResumeMusic();
 	            			audio = true;
 	            		}
@@ -951,11 +918,6 @@
 				}
             	if((p1.x >= 0) && (p2.x >= 0)) {
 		            checkSwitch(p1.x, p1.y, p2.x, p2.y);
-                    /*if(checkSwitch(p1.x, p1.y, p2.x, p2.y)) {
-		                cout << "Pontos marcados!\n";
-		            } else {
-		            	cout << "Movimento inválido\n";
-		            }*/
 		            contrastItem(p1.x, p1.y, matriz[p1.x][p1.y].elemento);
 			        apply_surface(p1.x, p1.y, gems, screen);
                 	SDL_UpdateRect(screen, matriz[p1.x][p1.y].celula.x, matriz[p1.x][p1.y].celula.y, matriz[p1.x][p1.y].celula.w, matriz[p1.x][p1.y].celula.h);
@@ -964,9 +926,7 @@
 	                p2.x = -1;
 	                p2.y = -1;
 		            if(testMove() == false) 
-		            	//cout << "Sem mais movimentos possíveis!\n";
                         level = 5;
-
 		        }
 			}
             return execute;
@@ -1065,7 +1025,6 @@
             }
 
             void Tela::showScreen() {
-                // SDL_FillRect( screen, &screen->clip_rect, SDL_MapRGB( screen->format, 0xFF, 0xFF, 0xFF ) );
                 //Mostra a tela do jogo
                 for(int i = 0; i < linhasMatriz; i++)
                     for(int j = 0; j < colunasMatriz; j++) {
@@ -1074,6 +1033,7 @@
                             return;
                     }
             }
+
     // Algoritmos que buscará as possível jogadas, ele também guarda uma coordenada de dica de ponto.
 		bool Tela::testMove() {
 			for(int i = 0; i < linhasMatriz; i++) {
@@ -1141,30 +1101,30 @@
 
 		void Tela::changeLevel() {
 
-			//if(changedLevel && user->getPontuacao() > 1000 && user->getPontuacao() < 3000) {
-            if(changedLevel && user->getPontuacao() > 100 && user->getPontuacao() < 150) {
+			if(changedLevel && user->getPontuacao() > 1000 && user->getPontuacao() < 3000) {
+            //if(changedLevel && user->getPontuacao() > 100 && user->getPontuacao() < 150) { Para testes
 				level = 2;
 				fillMatriz(5);
                 changedLevel = false;
 				showLevelUp();
                 showGame();
-			//} else if(!changedLevel && user->getPontuacao() >= 3000 && user->getPontuacao() < 6000) {
-            } else if(!changedLevel && user->getPontuacao() >= 150 && user->getPontuacao() < 200) {
+			} else if(!changedLevel && user->getPontuacao() >= 3000 && user->getPontuacao() < 6000) {
+            //} else if(!changedLevel && user->getPontuacao() >= 150 && user->getPontuacao() < 200) { Para testes
 				level = 3;
 				fillMatriz(6);
                 changedLevel = true;
 				showLevelUp();
                 showGame();
-			//} else if(changedLevel && user->getPontuacao() >= 6000 && user->getPontuacao() < 10000) {
-            } else if(changedLevel && user->getPontuacao() >= 250 && user->getPontuacao() < 300) {
+			} else if(changedLevel && user->getPontuacao() >= 6000 && user->getPontuacao() < 10000) {
+            //} else if(changedLevel && user->getPontuacao() >= 250 && user->getPontuacao() < 300) { Para testes
 				level = 4;
 				fillMatriz(7);
                 changedLevel = false;
 				showLevelUp();
                 showGame();
-			//} else if(!changedLevel && user->getPontuacao() >= 10000) { // esse é o zerar do jogo
-            } else if(!changedLevel && user->getPontuacao() >= 300) { // esse é o zerar do jogo
-                /*SHOW GAME OVER*/
+			} else if(!changedLevel && user->getPontuacao() >= 10000) { // esse é o zerar do jogo
+            //} else if(!changedLevel && user->getPontuacao() >= 300) {  Para testes
+                /* SHOW GAME OVER */
                 level = 5;
 			}
 		}
@@ -1179,6 +1139,7 @@
 			}
 			return imagemotimizada;
 		}
+
         void Tela::fillUndo() {
             Undo telaInicial;
             for(int i = 0; i < linhasMatriz; i++) {
@@ -1189,6 +1150,7 @@
             telaInicial.pontosAnterior = user->getPontuacao();
             telasAnt.push(telaInicial);
         }
+
         void Tela::undoPlay() {
             SDL_Rect my_rects[8];
             int qtd;

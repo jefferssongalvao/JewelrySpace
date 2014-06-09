@@ -2,9 +2,7 @@
 
 Usuario::Usuario() { 
 	pontuacao = 0;
-	//Initialize the string
     nome = "";
-    //Enable Unicode
     SDL_EnableUNICODE( SDL_ENABLE );
 }
 
@@ -15,7 +13,6 @@ Usuario::Usuario(string str) {
 
 void Usuario::reload() {
 	pontuacao = 0;
-	//Initialize the string
     nome = "";
 }
 
@@ -25,56 +22,57 @@ int Usuario::getPontuacao() const { return pontuacao; }
 
 void Usuario::setPontuacao(int p) { pontuacao = p; }
 
+/* Método responsável pela leitura do nome do jogador. Retorna uma surface temporária que será usada pela exibir o nome que está sendo digitado */
 SDL_Surface * Usuario::handleInput(SDL_Event &event, TTF_Font *font, SDL_Color textColor) {
-	//If a key was pressed
+
     if( event.type == SDL_KEYDOWN )
     {
-        //Keep a copy of the current version of the string
+        //Cria uma cópia da string
         std::string temp = nome;
 
-        //If the string less than maximum size
+        //O maximo de caracteres é 16
         if( temp.length() <= 16 )
         {
-            //If the key is a space
+            //Espaço
             if( event.key.keysym.unicode == (Uint16)' ' )
             {
-                //Append the character
+                //Inclui este caractere
                 nome += (char)event.key.keysym.unicode;
             }
-            //If the key is a number
+            //Numero
             else if( ( event.key.keysym.unicode >= (Uint16)'0' ) && ( event.key.keysym.unicode <= (Uint16)'9' ) )
             {
-                //Append the character
+                //Inclui este caractere
                 nome += (char)event.key.keysym.unicode;
             }
-            //If the key is a uppercase letter
+            //Letra maiuscula
             else if( ( event.key.keysym.unicode >= (Uint16)'A' ) && ( event.key.keysym.unicode <= (Uint16)'Z' ) )
             {
-                //Append the character
+                //Inclui este caractere
                 nome += (char)event.key.keysym.unicode;
             }
-            //If the key is a lowercase letter
+            //Letra minuscula
             else if( ( event.key.keysym.unicode >= (Uint16)'a' ) && ( event.key.keysym.unicode <= (Uint16)'z' ) )
             {
-                //Append the character
+                //Inclui este caractere
                 nome += (char)event.key.keysym.unicode;
             }
         }
 
-        //If backspace was pressed and the nomeing isn't blank
+        //Se o backspace foi pressionado e a string não está vazia
         if( ( event.key.keysym.sym == SDLK_BACKSPACE ) && ( nome.length() != 0 ) )
         {
-            //Remove a character from the end
+            //Remove o caractere do final
             nome.erase( nome.length() - 1 );
         }
 
-        //If the string was changed
+        //Se a string foi alterada
         if( nome != temp )
         {
-            //Free the old surface
+            //Libera superficie antiga
             SDL_FreeSurface( text );
 
-            //Render a new text surface
+            //Cria uma nova superficie com o nome atual
             text = TTF_RenderText_Solid( font, nome.c_str(), textColor );
     		
     		return text;
