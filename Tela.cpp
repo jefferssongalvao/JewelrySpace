@@ -659,8 +659,14 @@
             //Carrega a fonte
             font = TTF_OpenFont( "Fonts/ARDARLING.ttf", 30 );
 
-            if( (gems == NULL) || (gems_dica == NULL))
+            if(font == NULL) {
+                cout << "Falha ao carregar fonte!\n";
+                return false;
+            }
+
+            if( (gems == NULL) || (gems_dica == NULL) || (fundo == NULL))
             {
+                cout << "Falha ao carregar arquivos!\n";
                 return false;
             }
 
@@ -718,20 +724,32 @@
 
         bool Tela::init() {
 
-            if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 ) return false;
+            if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 ) {
+                cout << "Falha ao iniciar sistemas SDL!\n";
+                return false;
+            }
 
             screen = SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE );
 
-            if( screen == NULL ) return false;
+            if( screen == NULL ) {
+                cout << "Falha ao iniciar tela principal!\n";
+                return false;
+            }
 
-            if( TTF_Init() == -1 ) return false;
+            if( TTF_Init() == -1 ) {
+                cout << "Falha ao iniciar SDL_TTF!\n";
+                return false;
+            }
 
             SDL_WM_SetCaption( "Bejeweled", NULL );
 
             //Inicializa musica
             if( Mix_OpenAudio(AUDIO_RATE, MIX_DEFAULT_FORMAT, AUDIO_CHANNELS, AUDIO_BUFFERS) == -1 ) return false;
             music = Mix_LoadMUS("Sounds/music.mp3");
-            if( music == NULL )	return false;
+            if( music == NULL ) {
+                cout << "Falha ao carregar ficheiro de áudio!\n";
+                return false;
+            }
 			//Toca musica (-1 para indefinidamente)
             Mix_PlayMusic(music, -1);
 

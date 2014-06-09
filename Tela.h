@@ -47,6 +47,7 @@
         enum { YELLOW, WHITE, BLUE, RED, PURPLE, ORANGE, GREEN, BLANK };
 
         using std::stack;
+        using std::cout;
 
 		class Tela {
 

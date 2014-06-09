@@ -1,14 +1,23 @@
+#include <iostream>
 #include "Tela.h" // Inclusão da Biblioteca da Classe
+
+using std::cout;
 
 int main() {
 
     Tela * jogo = new Tela();
 
     //Inicializa tudo, encerra a execução do programa se algo der errado
-    if( jogo->init() == false ) return 1;
+    if( jogo->init() == false ) {
+        cout << "Falha na inicialização!\n";
+        return 1;
+    }
 
     //Carrega arquivos necessários, encerra a execução do programa se algo der errado
-    if( jogo->load_files() == false ) return 1;
+    if( jogo->load_files() == false ) {
+        cout << "Falha no carregamento de arquivos!\n";
+        return 1;
+    }
 
     //Loop do jogo
     while(!jogo->showTelaInicial()) {
