@@ -1,12 +1,15 @@
 #ifndef _TELA_H_
 	#define _TELA_H_
 
-		#include <cstdlib> // para uso da função rand()
-		#include <ctime> // para uso da função rand()
+        #include <iostream> // biblioteca padrão i/o do c++
+        #include <cstdlib> // para uso da função rand()
+        #include <ctime> // para uso da função rand()
+        #include <string> // para o nome do usuário do jogo
+        #include <cmath> //para calcular módulo
         #include <SDL/SDL.h> //para manipulação de eventos e interface
         #include <SDL/SDL_image.h> //para manipulação de imagens
-		#include <SDL/SDL_mixer.h> //para manipulação de audio
-        #include <SDL/SDL_ttf.h> //para mostrar textos
+        #include <SDL/SDL_mixer.h> //para manipulação de audio
+	    #include <SDL/SDL_ttf.h> //para mostrar textos
         #include <stack>
 
 		#include "Usuario.h" // Inclusão da Biblioteca da Classe
