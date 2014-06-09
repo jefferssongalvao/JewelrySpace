@@ -730,7 +730,7 @@
 
             //Inicializa musica
             if( Mix_OpenAudio(AUDIO_RATE, MIX_DEFAULT_FORMAT, AUDIO_CHANNELS, AUDIO_BUFFERS) == -1 ) return false;
-            music = Mix_LoadMUS("Sounds/music2.mp3");
+            music = Mix_LoadMUS("Sounds/music.mp3");
             if( music == NULL )	return false;
 			//Toca musica (-1 para indefinidamente)
             Mix_PlayMusic(music, -1);
