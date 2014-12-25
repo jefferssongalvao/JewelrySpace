@@ -5,7 +5,7 @@ using std::cout;
 
 int main() {
 
-    Tela * jogo = new Tela();
+    Tela* jogo = new Tela();
 
     //Inicializa tudo, encerra a execução do programa se algo der errado
     if( jogo->init() == false ) {

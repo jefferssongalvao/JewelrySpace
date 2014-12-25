@@ -16,13 +16,21 @@ void Usuario::reload() {
     nome = "";
 }
 
-string Usuario::getNome() const { return nome; }
+string Usuario::getNome() const { 
+    return nome;
+}
 
-int Usuario::getPontuacao() const { return pontuacao; }
+int Usuario::getPontuacao() const { 
+    return pontuacao; 
+}
 
-void Usuario::setPontuacao(int p) { pontuacao = p; }
+void Usuario::setPontuacao(int p) { 
+    pontuacao = p; 
+}
 
-/* Método responsável pela leitura do nome do jogador. Retorna uma surface temporária que será usada pela exibir o nome que está sendo digitado */
+/* Método responsável pela leitura do nome do jogador. 
+ * Retorna uma surface temporária que será usada pela exibir o nome que está sendo digitado 
+ */
 SDL_Surface * Usuario::handleInput(SDL_Event &event, TTF_Font *font, SDL_Color textColor) {
 
     if( event.type == SDL_KEYDOWN )

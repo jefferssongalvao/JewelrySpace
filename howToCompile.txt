@@ -1,1 +1,0 @@
-g++ *.cpp -o main -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf -std=c++11

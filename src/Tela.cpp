@@ -1,5 +1,5 @@
-#include "Tela.h" // Inclusão da Biblioteca da Classe
-#include "quickSort.h" // Inclusão da Biblioteca da Classe
+#include "Tela.h"       // Inclusão da Biblioteca da Classe
+#include "quickSort.h"  // Inclusão da Biblioteca da Classe
 
 // Construtor Padrão
 	Tela::Tela() {
@@ -628,36 +628,36 @@
         bool Tela::load_files() {
 
             //Telas
-            telaInicial = load_image( "Images/tela_inicial.png" );
-            telaIdentificacao = load_image( "Images/tela_identificacao.png" );
-            telaInstrucoes = load_image( "Images/tela_instrucoes.png" );
-            telaConfigSound_ON = load_image( "Images/tela_conf_som_on.png" );
-            telaConfigSound_OFF = load_image( "Images/tela_conf_som_off.png" );;
-            telaLevelUp = load_image( "Images/tela_levelup.png" );
-            telaGameOver = load_image( "Images/tela_gameover.png" );
+            telaInicial = load_image( "resources/Images/tela_inicial.png" );
+            telaIdentificacao = load_image( "resources/Images/tela_identificacao.png" );
+            telaInstrucoes = load_image( "resources/Images/tela_instrucoes.png" );
+            telaConfigSound_ON = load_image( "resources/Images/tela_conf_som_on.png" );
+            telaConfigSound_OFF = load_image( "resources/Images/tela_conf_som_off.png" );;
+            telaLevelUp = load_image( "resources/Images/tela_levelup.png" );
+            telaGameOver = load_image( "resources/Images/tela_gameover.png" );
 
-            gems = load_image( "Images/new_gems.png" );
-            gems_dica = load_image( "Images/dica.png" );
-            fundo = load_image( "Images/bg.png" );
+            gems = load_image( "resources/Images/new_gems.png" );
+            gems_dica = load_image( "resources/Images/dica.png" );
+            fundo = load_image( "resources/Images/bg.png" );
 
             //Bonus
-            gemYellow = load_image( "Images/yellow.png" );
-            gemWhite = load_image( "Images/white.png" );
-            gemBlue = load_image( "Images/blue.png" );
-            gemRed = load_image( "Images/red.png" );
-            gemPurple = load_image( "Images/purple.png" );
-            gemOrange = load_image( "Images/orange.png" );
-            gemGreen = load_image( "Images/green.png" );
+            gemYellow = load_image( "resources/Images/yellow.png" );
+            gemWhite = load_image( "resources/Images/white.png" );
+            gemBlue = load_image( "resources/Images/blue.png" );
+            gemRed = load_image( "resources/Images/red.png" );
+            gemPurple = load_image( "resources/Images/purple.png" );
+            gemOrange = load_image( "resources/Images/orange.png" );
+            gemGreen = load_image( "resources/Images/green.png" );
 
-            fase1 = load_image( "Images/fase1.png" );
-            fase2 = load_image( "Images/fase2.png" );
-            fase3 = load_image( "Images/fase3.png" );
-            fase4 = load_image( "Images/fase4.png" );
+            fase1 = load_image( "resources/Images/fase1.png" );
+            fase2 = load_image( "resources/Images/fase2.png" );
+            fase3 = load_image( "resources/Images/fase3.png" );
+            fase4 = load_image( "resources/Images/fase4.png" );
 
-            hint = load_image( "Images/hint.png" );
+            hint = load_image( "resources/Images/hint.png" );
 
             //Carrega a fonte
-            font = TTF_OpenFont( "Fonts/ARDARLING.ttf", 30 );
+            font = TTF_OpenFont( "resources/Fonts/ARDARLING.ttf", 30 );
 
             if(font == NULL) {
                 cout << "Falha ao carregar fonte!\n";
@@ -745,9 +745,10 @@
 
             //Inicializa musica
             if( Mix_OpenAudio(AUDIO_RATE, MIX_DEFAULT_FORMAT, AUDIO_CHANNELS, AUDIO_BUFFERS) == -1 ) return false;
-            music = Mix_LoadMUS("Sounds/music.mp3");
+            music = Mix_LoadMUS("resources/Sounds/music.mp3");
             if( music == NULL ) {
                 cout << "Falha ao carregar ficheiro de áudio!\n";
+                cout << Mix_GetError() << std::endl;
                 return false;
             }
 			//Toca musica (-1 para indefinidamente)
