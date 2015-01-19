@@ -1,4 +1,4 @@
-							# Makefile para compilação e linkedição do projeto
+		# Makefile para compilação e linkedição do projeto
 
 # define o compilador a ser utilizado
 CP=g++
@@ -38,3 +38,6 @@ Usuario.o:
 
 Pilha.o:
 	$(CP) $(COPT) -I $(INC) $(SRC)Pilha.cpp -o $(OBJ)Pilha.o
+
+Ranking.o:
+	$(CP) $(COPT) -I $(INC) $(SRC)Ranking.cpp -o $(OBJ)Ranking.o
